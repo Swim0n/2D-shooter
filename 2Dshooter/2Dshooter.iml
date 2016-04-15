@@ -9,7 +9,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.jme3:jme3-core:3.0.10" level="project" />
+    <orderEntry type="library" name="Maven: com.jme3:jme3-desktop:3.0.10" level="project" />
+    <orderEntry type="library" name="Maven: com.jme3:jme3-lwjgl:3.0.10" level="project" />
+    <orderEntry type="library" name="Maven: com.jme3-lib:lwjgl:2.9.0" level="project" />
+    <orderEntry type="library" name="Maven: com.jme3-lib:jinput:2.0.0-b01" level="project" />
+    <orderEntry type="library" name="Maven: com.jme3-lib:lwjgl-natives:2.9.0" level="project" />
   </component>
 </module>
