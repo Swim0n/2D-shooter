@@ -1,4 +1,6 @@
-package game;
+package game.game.core;
+
+import game.game.view.View;
 
 /**
  * Created by David on 2016-04-18.
