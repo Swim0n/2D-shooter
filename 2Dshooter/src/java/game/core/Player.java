@@ -1,6 +1,4 @@
-package game.game.core;
-
-import com.jme3.math.Vector2f;
+package game.core;
 
 /**
  * Created by David on 2016-04-15.

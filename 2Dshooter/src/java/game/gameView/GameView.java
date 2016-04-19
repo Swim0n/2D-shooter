@@ -1,9 +1,8 @@
-package game.game.view;
+package game.gameView;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -11,16 +10,17 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
-import game.game.core.World;
-import game.game.ctrl.PlayerController;
+import game.core.World;
 
 /**
  * Created by David on 2016-04-18.
  */
-public class View extends SimpleApplication implements ActionListener {
+public class GameView extends SimpleApplication implements ActionListener {
 
-    private Geometry blue;
-    private World world = new World();
+    private Geometry player1;
+    private Geometry player2;
+    private float speed = 150;
+    //private World world = new World();
     public void simpleInitApp() {
 
         //        setup camera for 2D games
@@ -28,10 +28,12 @@ public class View extends SimpleApplication implements ActionListener {
         cam.setLocation(new Vector3f(0,0,70f));
         getFlyByCamera().setEnabled(false);
 
-//        turn off stats view (you can leave it on, if you want)
+//        turn off stats gameView (you can leave it on, if you want)
         setDisplayStatView(true);
         setDisplayFps(true);
 
+
+        //creating inputmappings and adding listeners
         inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_LEFT));
         inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
         inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_UP));
@@ -41,7 +43,7 @@ public class View extends SimpleApplication implements ActionListener {
         inputManager.addListener(this, "up");
         inputManager.addListener(this, "down");
 
-
+        //creating a "ground floor" for levels
         Quad groundShape = new Quad(50f, 50f); //quad to represent ground in game
         Geometry groundGeom = new Geometry("Ground",groundShape); //geometry to represent ground
         Material groundMat = new Material(assetManager,
@@ -52,34 +54,36 @@ public class View extends SimpleApplication implements ActionListener {
         groundGeom.setLocalTranslation(groundShape.getWidth()/-2, groundShape.getHeight()/-2, 0);
         rootNode.attachChild(groundGeom);
 
-        Box box1 = new Box(1,1,1);
-        blue = new Geometry("Box", box1);
-        Material mat1 = new Material(assetManager,
+        //spawning player1
+        Box playerShape = new Box(1,1,1);
+        player1 = new Geometry("Box", playerShape);
+        Material playerMaterial = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
-        blue.setLocalTranslation(0,0,0.5f);
-        mat1.setColor("Color", ColorRGBA.Red);
-        blue.setMaterial(mat1);
-        rootNode.attachChild(blue);
+        player1.setLocalTranslation(0,0,0.5f);
+        playerMaterial.setColor("Color", ColorRGBA.Red);
+        player1.setMaterial(playerMaterial);
+        rootNode.attachChild(player1);
 
 
     }
 
     public void simpleUpdate(float tpf){
 
-            world.getPlayer1().up();
-            blue.setLocalTranslation(world.getPlayer1().getPositionX(),world.getPlayer1().getPositionY(), 0);
-
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
         if(name.equals("left")){
-            PlayerController.setLeft(isPressed);
+            player1.move(tpf*-speed,0,0);
+           // PlayerController.setLeft(isPressed);
         }else if(name.equals("right")){
-            PlayerController.setRight(isPressed);
+            player1.move(tpf*speed,0,0);
+           // PlayerController.setRight(isPressed);
         }else if(name.equals("up")){
-            PlayerController.setUp(isPressed);
+            player1.move(0,tpf*speed,0);
+           // PlayerController.setUp(isPressed);
         }else if(name.equals("down")){
-            PlayerController.setDown(isPressed);
+            player1.move(0,tpf*-speed,0);
+          //  PlayerController.setDown(isPressed);
         }
     }
 }

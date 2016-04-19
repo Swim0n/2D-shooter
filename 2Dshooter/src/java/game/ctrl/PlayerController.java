@@ -1,4 +1,4 @@
-package game.game.ctrl;
+package game.ctrl;
 
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
@@ -9,7 +9,6 @@ import com.jme3.scene.control.AbstractControl;
  */
 public class PlayerController extends AbstractControl{
     private boolean left,right,up,down;
-
     public void setLeft(boolean isPressed){
         left=isPressed;
     }

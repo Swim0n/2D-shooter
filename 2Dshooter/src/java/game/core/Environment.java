@@ -1,4 +1,4 @@
-package game.game.core;
+package game.core;
 
 /**
  * Created by David on 2016-04-15.

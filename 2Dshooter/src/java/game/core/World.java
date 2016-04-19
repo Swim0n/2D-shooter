@@ -1,4 +1,4 @@
-package game.game.core;
+package game.core;
 
 
 /**

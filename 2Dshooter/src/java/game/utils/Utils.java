@@ -1,4 +1,4 @@
-package game.game.utils;
+package game.utils;
 
 
 
