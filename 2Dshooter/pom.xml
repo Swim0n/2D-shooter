@@ -28,6 +28,16 @@
             <artifactId>jme3-lwjgl</artifactId>
             <version>${jme3.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.jme3</groupId>
+            <artifactId>jme3-jbullet</artifactId>
+            <version>${jme3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jme3</groupId>
+            <artifactId>jme3-terrain</artifactId>
+            <version>${jme3.version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>
