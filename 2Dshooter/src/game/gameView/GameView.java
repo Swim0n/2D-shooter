@@ -19,6 +19,11 @@ public class GameView extends SimpleApplication implements ActionListener {
 
     private Geometry player1;
     private Geometry player2;
+    private Geometry westWall;
+    private Geometry eastWall;
+    private Geometry northWall;
+    private Geometry southWall;
+
     //private World world = new World();
     public void simpleInitApp() {
 
@@ -53,11 +58,39 @@ public class GameView extends SimpleApplication implements ActionListener {
         groundGeom.setLocalTranslation(groundShape.getWidth()/-2, groundShape.getHeight()/-2, 0);
         rootNode.attachChild(groundGeom);
 
+        //adding walls for the surface
+        Box verticalWallShape = new Box(0.5f,25f,1);
+        Box horizontalWallShape = new Box(25f, 0.5f,1);
+
+        Material wallMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        wallMaterial.setColor("Color", ColorRGBA.Blue);
+
+        westWall = new Geometry("westWall", verticalWallShape);
+        eastWall = new Geometry("eastWall", verticalWallShape);
+        northWall = new Geometry("northWall", horizontalWallShape);
+        southWall = new Geometry("southWall", horizontalWallShape);
+
+        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x,0,0.5f);
+        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x,0,0.5f);
+        northWall.setLocalTranslation(0,groundGeom.getLocalTranslation().y,0.5f);
+        southWall.setLocalTranslation(0,-groundGeom.getLocalTranslation().y,0.5f);
+
+        westWall.setMaterial(wallMaterial);
+        eastWall.setMaterial(wallMaterial);
+        northWall.setMaterial(wallMaterial);
+        southWall.setMaterial(wallMaterial);
+
+        rootNode.attachChild(westWall);
+        rootNode.attachChild(eastWall);
+        rootNode.attachChild(northWall);
+        rootNode.attachChild(southWall);
+
         //spawning player1
         Box playerShape = new Box(1,1,1);
         player1 = new Geometry("Box", playerShape);
-        Material playerMaterial = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
+
+        Material playerMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+
         player1.setLocalTranslation(0,0,0.5f);
         playerMaterial.setColor("Color", ColorRGBA.Red);
         player1.setMaterial(playerMaterial);

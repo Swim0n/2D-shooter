@@ -12,6 +12,8 @@ public class PlayerController extends AbstractControl{
     //movement speed for players
     private float speed = 100;
 
+    public PlayerController(){}
+
     public void setLeft(boolean isPressed){
         left=isPressed;
     }
@@ -24,9 +26,7 @@ public class PlayerController extends AbstractControl{
     }
 
 
-    public PlayerController(){
 
-    }
     protected void controlUpdate(float tpf) {
         if(left){
             spatial.move(tpf*-speed,0,0);
