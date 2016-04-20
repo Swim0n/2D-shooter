@@ -10,7 +10,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
-import game.core.World;
+import game.ctrl.PlayerController;
 
 /**
  * Created by David on 2016-04-18.
@@ -19,7 +19,6 @@ public class GameView extends SimpleApplication implements ActionListener {
 
     private Geometry player1;
     private Geometry player2;
-    private float speed = 150;
     //private World world = new World();
     public void simpleInitApp() {
 
@@ -28,7 +27,7 @@ public class GameView extends SimpleApplication implements ActionListener {
         cam.setLocation(new Vector3f(0,0,70f));
         getFlyByCamera().setEnabled(false);
 
-//        turn off stats gameView (you can leave it on, if you want)
+        //turn off stats gameView (you can leave it on, if you want)
         setDisplayStatView(true);
         setDisplayFps(true);
 
@@ -64,7 +63,9 @@ public class GameView extends SimpleApplication implements ActionListener {
         player1.setMaterial(playerMaterial);
         rootNode.attachChild(player1);
 
-
+        //attaching controllers
+        player1.addControl(new PlayerController());
+        //player2.addControl();
     }
 
     public void simpleUpdate(float tpf){
@@ -72,18 +73,15 @@ public class GameView extends SimpleApplication implements ActionListener {
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
+        //movement of player
         if(name.equals("left")){
-            player1.move(tpf*-speed,0,0);
-           // PlayerController.setLeft(isPressed);
+           player1.getControl(PlayerController.class).setLeft(isPressed);
         }else if(name.equals("right")){
-            player1.move(tpf*speed,0,0);
-           // PlayerController.setRight(isPressed);
+            player1.getControl(PlayerController.class).setRight(isPressed);
         }else if(name.equals("up")){
-            player1.move(0,tpf*speed,0);
-           // PlayerController.setUp(isPressed);
+            player1.getControl(PlayerController.class).setUp(isPressed);
         }else if(name.equals("down")){
-            player1.move(0,tpf*-speed,0);
-          //  PlayerController.setDown(isPressed);
+            player1.getControl(PlayerController.class).setDown(isPressed);
         }
     }
 }
