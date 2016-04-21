@@ -37,9 +37,11 @@ public class GameView extends SimpleApplication implements ActionListener {
     private CharacterControl characterControl;
     private RigidBodyControl wallsControl;
     private BulletAppState bulletAppState;
-
-
-
+    private Geometry groundGeom;
+    private Box verticalWallShape;
+    private Box horizontalWallShape;
+    private Material wallMaterial;
+    private Material playerMaterial;
     //private World world = new World();
     public void simpleInitApp() {
 
@@ -59,92 +61,24 @@ public class GameView extends SimpleApplication implements ActionListener {
 
         //mapping input keys
         setupKeys();
-
         //creating a "ground floor" for levels
-        Quad groundShape = new Quad(50f, 50f); //quad to represent ground in game
-        Geometry groundGeom = new Geometry("Ground",groundShape); //geometry to represent ground
-        Material groundMat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md"); //material for ground
-        Texture dirt = assetManager.loadTexture(
-                "Textures/dirt.jpg");
-        dirt.setWrap(Texture.WrapMode.Repeat);
-        groundMat.setTexture("ColorMap", dirt);        groundGeom.setMaterial(groundMat);
-        groundGeom.rotate(0,0,0);
-        groundGeom.setLocalTranslation(groundShape.getWidth()/-2, groundShape.getHeight()/-2, 0);
-        rootNode.attachChild(groundGeom);
-
-
+        createGround();
         //adding walls for the surface
-        Box verticalWallShape = new Box(0.5f,25f,1);
-        Box horizontalWallShape = new Box(25f, 0.5f,1);
-
-        Material wallMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        Texture brick = assetManager.loadTexture("Textures/BrickWall.jpg");
-        brick.setWrap(Texture.WrapMode.Repeat);
-        wallMaterial.setTexture("ColorMap", brick);
-        //
-
-
-        //
-
-        westWall = new Geometry("westWall", verticalWallShape);
-        eastWall = new Geometry("eastWall", verticalWallShape);
-        northWall = new Geometry("northWall", horizontalWallShape);
-        southWall = new Geometry("southWall", horizontalWallShape);
-
-
-        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x,0,0.5f);
-        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x,0,0.5f);
-        northWall.setLocalTranslation(0,groundGeom.getLocalTranslation().y,0.5f);
-        southWall.setLocalTranslation(0,-groundGeom.getLocalTranslation().y,0.5f);
-
-        westWall.setMaterial(wallMaterial);
-        eastWall.setMaterial(wallMaterial);
-        northWall.setMaterial(wallMaterial);
-        southWall.setMaterial(wallMaterial);
-
-        rootNode.attachChild(westWall);
-        rootNode.attachChild(eastWall);
-        rootNode.attachChild(northWall);
-        rootNode.attachChild(southWall);
+        createWalls();
 
         //spawning player1
-        Box playerShape = new Box(1,1,1);
-        player1 = new Geometry("Box", playerShape);
+        createPlayer();
+
 
         //adding collision-detection to player
-        CapsuleCollisionShape playerCollisionShape = new CapsuleCollisionShape(1f,1f,1);
-        characterControl = new CharacterControl(playerCollisionShape, 0.05f);
-        characterControl.setGravity(0);
-
-
-
-
-
+        playerCollisionControl();
 
 
         //adding collision-detection to map walls, not working properly
-        wallsControl = new RigidBodyControl(0);
-        westWall.addControl(wallsControl);
-        southWall.addControl(wallsControl);
-        northWall.addControl(wallsControl);
-        eastWall.addControl(wallsControl);
-
-        //attach scene and player to root node which enables physics.
-        bulletAppState.getPhysicsSpace().add(characterControl);
-        bulletAppState.getPhysicsSpace().add(southWall);
-        bulletAppState.getPhysicsSpace().add(westWall);
-        bulletAppState.getPhysicsSpace().add(northWall);
-        bulletAppState.getPhysicsSpace().add(eastWall);
+        wallCollisionControl();
 
 
 
-        Material playerMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-
-        player1.setLocalTranslation(0,0,0.5f);
-        playerMaterial.setColor("Color", ColorRGBA.Red);
-        player1.setMaterial(playerMaterial);
-        rootNode.attachChild(player1);
 
         //attaching controllers, latest one is the one used. Can't have 2.
         player1.addControl(new PlayerController());
@@ -164,9 +98,73 @@ public class GameView extends SimpleApplication implements ActionListener {
         inputManager.addListener(this, "right");
         inputManager.addListener(this, "up");
         inputManager.addListener(this, "down");
-
+    }
+    public void createGround(){
+        Quad groundShape = new Quad(50f, 50f); //quad to represent ground in game
+        groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
+        Material groundMat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md"); //material for ground
+        Texture dirt = assetManager.loadTexture(
+                "Textures/dirt.jpg");
+        dirt.setWrap(Texture.WrapMode.Repeat);
+        groundMat.setTexture("ColorMap", dirt);        groundGeom.setMaterial(groundMat);
+        groundGeom.rotate(0,0,0);
+        groundGeom.setLocalTranslation(groundShape.getWidth()/-2, groundShape.getHeight()/-2, 0);
+        rootNode.attachChild(groundGeom);
     }
 
+    public void createWalls(){
+        verticalWallShape = new Box(0.5f,25f,1);
+        horizontalWallShape = new Box(25f, 0.5f,1);
+        wallMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        Texture brick = assetManager.loadTexture("Textures/BrickWall.jpg");
+        brick.setWrap(Texture.WrapMode.Repeat);
+        wallMaterial.setTexture("ColorMap", brick);
+        westWall = new Geometry("westWall", verticalWallShape);
+        eastWall = new Geometry("eastWall", verticalWallShape);
+        northWall = new Geometry("northWall", horizontalWallShape);
+        southWall = new Geometry("southWall", horizontalWallShape);
+        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x,0,0.5f);
+        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x,0,0.5f);
+        northWall.setLocalTranslation(0,groundGeom.getLocalTranslation().y,0.5f);
+        southWall.setLocalTranslation(0,-groundGeom.getLocalTranslation().y,0.5f);
+        westWall.setMaterial(wallMaterial);
+        eastWall.setMaterial(wallMaterial);
+        northWall.setMaterial(wallMaterial);
+        southWall.setMaterial(wallMaterial);
+        rootNode.attachChild(westWall);
+        rootNode.attachChild(eastWall);
+        rootNode.attachChild(northWall);
+        rootNode.attachChild(southWall);
+    }
+
+    public void wallCollisionControl(){
+        wallsControl = new RigidBodyControl(0);
+        westWall.addControl(wallsControl);
+        southWall.addControl(wallsControl);
+        northWall.addControl(wallsControl);
+        eastWall.addControl(wallsControl);
+        bulletAppState.getPhysicsSpace().add(southWall);
+        bulletAppState.getPhysicsSpace().add(westWall);
+        bulletAppState.getPhysicsSpace().add(northWall);
+        bulletAppState.getPhysicsSpace().add(eastWall);
+    }
+    public void playerCollisionControl(){
+        CapsuleCollisionShape playerCollisionShape = new CapsuleCollisionShape(1f,1f,1);
+        characterControl = new CharacterControl(playerCollisionShape, 0.05f);
+        characterControl.setGravity(0);
+        //enable character control to physics.
+        bulletAppState.getPhysicsSpace().add(characterControl);
+    }
+    public void createPlayer(){
+        Box playerShape = new Box(1,1,1);
+        player1 = new Geometry("Box", playerShape);
+        playerMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        player1.setLocalTranslation(0,0,0.5f);
+        playerMaterial.setColor("Color", ColorRGBA.Red);
+        player1.setMaterial(playerMaterial);
+        rootNode.attachChild(player1);
+    }
     public void simpleUpdate(float tpf){
 
     }
