@@ -18,6 +18,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.texture.Texture;
 import game.ctrl.PlayerController;
 
 
@@ -64,23 +65,33 @@ public class GameView extends SimpleApplication implements ActionListener {
         Geometry groundGeom = new Geometry("Ground",groundShape); //geometry to represent ground
         Material groundMat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md"); //material for ground
-        groundMat.setColor("Color", ColorRGBA.Green);
-        groundGeom.setMaterial(groundMat);
+        Texture dirt = assetManager.loadTexture(
+                "Textures/dirt.jpg");
+        dirt.setWrap(Texture.WrapMode.Repeat);
+        groundMat.setTexture("ColorMap", dirt);        groundGeom.setMaterial(groundMat);
         groundGeom.rotate(0,0,0);
         groundGeom.setLocalTranslation(groundShape.getWidth()/-2, groundShape.getHeight()/-2, 0);
         rootNode.attachChild(groundGeom);
+
 
         //adding walls for the surface
         Box verticalWallShape = new Box(0.5f,25f,1);
         Box horizontalWallShape = new Box(25f, 0.5f,1);
 
         Material wallMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        wallMaterial.setColor("Color", ColorRGBA.Blue);
+        Texture brick = assetManager.loadTexture("Textures/BrickWall.jpg");
+        brick.setWrap(Texture.WrapMode.Repeat);
+        wallMaterial.setTexture("ColorMap", brick);
+        //
+
+
+        //
 
         westWall = new Geometry("westWall", verticalWallShape);
         eastWall = new Geometry("eastWall", verticalWallShape);
         northWall = new Geometry("northWall", horizontalWallShape);
         southWall = new Geometry("southWall", horizontalWallShape);
+
 
         westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x,0,0.5f);
         eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x,0,0.5f);
@@ -104,7 +115,8 @@ public class GameView extends SimpleApplication implements ActionListener {
         //adding collision-detection to player
         CapsuleCollisionShape playerCollisionShape = new CapsuleCollisionShape(1f,1f,1);
         characterControl = new CharacterControl(playerCollisionShape, 0.05f);
-        //characterControl.setGravity(0);
+        characterControl.setGravity(0);
+
 
 
 
@@ -137,7 +149,7 @@ public class GameView extends SimpleApplication implements ActionListener {
         //attaching controllers, latest one is the one used. Can't have 2.
         player1.addControl(new PlayerController());
 
-        player1.addControl(characterControl);
+        //player1.addControl(characterControl);
 
         //player2.addControl();
     }
