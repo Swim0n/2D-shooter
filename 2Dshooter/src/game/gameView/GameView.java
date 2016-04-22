@@ -26,7 +26,7 @@ import game.ctrl.PlayerController;
 /**
  * Created by David on 2016-04-18.
  */
-public class GameView extends SimpleApplication implements ActionListener {
+public class GameView extends SimpleApplication {
 
     private Geometry player1;
     private Geometry player2;
@@ -59,8 +59,6 @@ public class GameView extends SimpleApplication implements ActionListener {
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true);
 
-        //mapping input keys
-        setupKeys();
         //creating a "ground floor" for levels
         createGround();
         //adding walls for the surface
@@ -81,24 +79,14 @@ public class GameView extends SimpleApplication implements ActionListener {
 
 
         //attaching controllers, latest one is the one used. Can't have 2.
-        player1.addControl(new PlayerController());
+        player1.addControl(new PlayerController(this));
 
         //player1.addControl(characterControl);
 
         //player2.addControl();
     }
 
-    public void setupKeys(){
-        //creating inputmappings and adding listeners
-        inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_LEFT));
-        inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
-        inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_UP));
-        inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_DOWN));
-        inputManager.addListener(this, "left");
-        inputManager.addListener(this, "right");
-        inputManager.addListener(this, "up");
-        inputManager.addListener(this, "down");
-    }
+
     public void createGround(){
         Quad groundShape = new Quad(50f, 50f); //quad to represent ground in game
         groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
@@ -167,18 +155,5 @@ public class GameView extends SimpleApplication implements ActionListener {
     }
     public void simpleUpdate(float tpf){
 
-    }
-
-    public void onAction(String name, boolean isPressed, float tpf) {
-        //movement of player
-        if(name.equals("left")){
-            player1.getControl(PlayerController.class).setLeft(isPressed);
-        }else if(name.equals("right")){
-            player1.getControl(PlayerController.class).setRight(isPressed);
-        }else if(name.equals("up")){
-            player1.getControl(PlayerController.class).setUp(isPressed);
-        }else if(name.equals("down")){
-            player1.getControl(PlayerController.class).setDown(isPressed);
-        }
     }
 }
