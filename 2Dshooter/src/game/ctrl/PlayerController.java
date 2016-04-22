@@ -1,9 +1,11 @@
 package game.ctrl;
 
+import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
@@ -12,16 +14,17 @@ import game.gameView.GameView;
 /**
  * Created by David on 2016-04-19.
  */
-public class PlayerController extends AbstractControl implements ActionListener {
+public class PlayerController extends BetterCharacterControl implements ActionListener {
     private boolean left,right,up,down;
     //movement speed for players
-    private float speed = 100;
+    //private float speed = 100;
 
     private final GameView view;
 
     private InputManager inputManager;
 
-    public PlayerController(GameView view){
+    public PlayerController(GameView view, float radius, float height, float mass){
+        super(radius, height, mass);
         this.view = view;
         this.inputManager = view.getInputManager();
         setupKeys();
@@ -41,32 +44,29 @@ public class PlayerController extends AbstractControl implements ActionListener 
 
 
 
-    protected void controlUpdate(float tpf) {
-        if(left){
-            spatial.move(tpf*-speed,0,0);
-        }else if(right){
-            spatial.move(tpf*speed,0,0);
-        }else if(up){
-            spatial.move(0,tpf*speed,0);
-        }else if(down){
-            spatial.move(0,tpf*-speed,0);
-        }
-    }
-
     protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
 
+    }
+
+
+    public void setWalkDirection(Vector3f vec, boolean b){
+        if(b){
+            this.walkDirection.set(vec);
+        } else {
+            this.walkDirection.set(new Vector3f(0f,0f,0f));
+        }
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
         //movement of player
         if(name.equals("left")){
-            left = isPressed;
+            setWalkDirection(new Vector3f(-25f,0f,0f), isPressed);
         }else if(name.equals("right")){
-            right = isPressed;
+            setWalkDirection(new Vector3f(25f,0f,0f), isPressed);
         }else if(name.equals("up")){
-            up = isPressed;
+            setWalkDirection(new Vector3f(0f,0f,25f), isPressed);
         }else if(name.equals("down")){
-            down = isPressed;
+            setWalkDirection(new Vector3f(0f,0f,-25f), isPressed);
         }
     }
 }
