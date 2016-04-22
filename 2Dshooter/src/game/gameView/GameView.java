@@ -30,6 +30,7 @@ public class GameView extends SimpleApplication {
     private Geometry northWall;
     private Geometry southWall;
     private RigidBodyControl wallsPhy;
+    private RigidBodyControl groundPhy;
     private PlayerController playerControl;
     private BulletAppState bulletAppState;
     private Geometry groundGeom;
@@ -42,12 +43,12 @@ public class GameView extends SimpleApplication {
     public void simpleInitApp() {
 
         //camera settings
-        cam.setLocation(new Vector3f(0,-70f,0));
+        cam.setLocation(new Vector3f(0,-65f,0));
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
         getFlyByCamera().setEnabled(false);
 
         //turn off stats gameView (you can leave it on, if you want)
-        setDisplayStatView(false);
+        setDisplayStatView(true);
         setDisplayFps(true);
 
         //set up physics
@@ -64,30 +65,33 @@ public class GameView extends SimpleApplication {
         //spawning player1
         createPlayer();
 
-        //adding collision-detection to map walls, not working properly
+        //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();
+
+        //adding collision-detection to ground
+        groundCollisionControl();
 
         //nullify gravity
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
     }
 
     public void createGround(){
-        Quad groundShape = new Quad(50f, 50f); //quad to represent ground in game
+        Quad groundShape = new Quad(71f, 53f); //quad to represent ground in game
         groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
-        Material groundMat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md"); //material for ground
-        Texture dirt = assetManager.loadTexture(
-                "Textures/dirt.jpg");
+        Material groundMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); //material for ground
+        Texture dirt = assetManager.loadTexture("Textures/dirt.jpg");
         dirt.setWrap(Texture.WrapMode.Repeat);
-        groundMat.setTexture("ColorMap", dirt);        groundGeom.setMaterial(groundMat);
+        groundMat.setTexture("ColorMap", dirt);
+        groundGeom.setMaterial(groundMat);
         groundGeom.rotate(FastMath.HALF_PI,0,0);
         groundGeom.setLocalTranslation(-groundShape.getWidth()/2, 0, -groundShape.getHeight()/2);
+
         rootNode.attachChild(groundGeom);
     }
 
     public void createWalls(){
-        verticalWallShape = new Box(0.5f,1,25f);
-        horizontalWallShape = new Box(25f, 1,0.5f);
+        verticalWallShape = new Box(0.5f,2,27f);
+        horizontalWallShape = new Box(36f, 2,0.5f);
         wallMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         Texture brick = assetManager.loadTexture("Textures/BrickWall.jpg");
         brick.setWrap(Texture.WrapMode.Repeat);
@@ -113,6 +117,12 @@ public class GameView extends SimpleApplication {
         wallNode.attachChild(southWall);
         walls = GeometryBatchFactory.optimize(wallNode);
         rootNode.attachChild(walls);
+    }
+
+    public void groundCollisionControl(){
+        groundPhy = new RigidBodyControl(0.0f);
+        groundGeom.addControl(groundPhy);
+        bulletAppState.getPhysicsSpace().add(groundPhy);
     }
 
     public void wallCollisionControl(){
