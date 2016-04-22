@@ -64,6 +64,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             down = isPressed;
             setWalkDirection(new Vector3f(0f,0f,-25f), isPressed);
         }
+
         //Multi buttons pressed, LinAlg put to good use, jk online calculator
         if(left && up){
             setWalkDirection(new Vector3f(-17.68f,0f,17.68f), isPressed);

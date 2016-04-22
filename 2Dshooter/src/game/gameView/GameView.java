@@ -57,6 +57,7 @@ public class GameView extends SimpleApplication {
 
         //creating a "ground floor" for levels
         createGround();
+
         //adding walls for the surface
         createWalls();
 
