@@ -2,14 +2,7 @@ package game.gameView;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
-import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
-import com.jme3.input.KeyInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.KeyTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -19,7 +12,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
-import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.texture.Texture;
 import game.ctrl.PlayerController;
 import jme3tools.optimize.GeometryBatchFactory;
@@ -49,10 +41,9 @@ public class GameView extends SimpleApplication {
 
     public void simpleInitApp() {
 
+        //camera settings
         cam.setLocation(new Vector3f(0,-70f,0));
-
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
-
         getFlyByCamera().setEnabled(false);
 
         //turn off stats gameView (you can leave it on, if you want)
@@ -72,27 +63,12 @@ public class GameView extends SimpleApplication {
         //spawning player1
         createPlayer();
 
-
-        //adding collision-detection to player
-        //playerCollisionControl();
-
-
         //adding collision-detection to map walls, not working properly
         wallCollisionControl();
 
-
-
-
-
-
-
         //nullify gravity
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
-
-
-        //player2.addControl();
     }
-
 
     public void createGround(){
         Quad groundShape = new Quad(50f, 50f); //quad to represent ground in game
@@ -142,15 +118,8 @@ public class GameView extends SimpleApplication {
         wallsPhy = new RigidBodyControl(0.0f);
         walls.addControl(wallsPhy);
         bulletAppState.getPhysicsSpace().add(wallsPhy);
-
     }
-    //public void playerCollisionControl(){
-      //  CapsuleCollisionShape playerCollisionShape = new CapsuleCollisionShape(1f,1f,1);
-        //characterControl = new CharacterControl(playerCollisionShape, 0.05f);
-        //characterControl.setGravity(0);
-        ////enable character control to physics.
-        //bulletAppState.getPhysicsSpace().add(characterControl);
-    //}
+
     public void createPlayer(){
         Box playerShape = new Box(1,1,1);
         playerControl = new PlayerController(this, 1f, 1f, 1f);
@@ -164,6 +133,7 @@ public class GameView extends SimpleApplication {
         player1.addControl(playerControl);
         bulletAppState.getPhysicsSpace().add(playerControl);
     }
+
     public void simpleUpdate(float tpf){
 
     }
