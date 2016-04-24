@@ -9,17 +9,18 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import game.gameView.GameView;
+import game.gameView.PlayerView;
 
 /**
  * Created by David on 2016-04-19.
  */
 public class PlayerController extends BetterCharacterControl implements ActionListener {
 
-    private final GameView view;
+    private final PlayerView view;
     private InputManager inputManager;
     private boolean left,right,up,down;
 
-    public PlayerController(GameView view, float radius, float height, float mass){
+    public PlayerController(PlayerView view, float radius, float height, float mass){
         super(radius, height, mass);
         this.view = view;
         this.inputManager = view.getInputManager();
