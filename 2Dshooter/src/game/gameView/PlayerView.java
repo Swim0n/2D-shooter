@@ -39,7 +39,7 @@ public class PlayerView {
         playerMaterial.setColor("Color", ColorRGBA.Red);
         player.setMaterial(playerMaterial);
         rootNode.attachChild(player);
-        player.addControl(playerControl);
+
         //bulletAppState.getPhysicsSpace().add(playerControl);
     }
 

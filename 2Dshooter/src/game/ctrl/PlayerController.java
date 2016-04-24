@@ -19,6 +19,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     private final PlayerView view;
     private InputManager inputManager;
     private boolean left,right,up,down;
+    private float speed = 80;
 
     public PlayerController(PlayerView view, float radius, float height, float mass){
         super(radius, height, mass);
@@ -42,11 +43,36 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     }
 
-    public void setWalkDirection(Vector3f vec, boolean b){
-        if(b){
-            this.walkDirection.set(vec);
-        } else {
-            this.walkDirection.set(new Vector3f(0f,0f,0f));
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
+        float speedtpf = speed*tpf;
+        if (!left && !right && !up && !down){
+            setWalkDirection(new Vector3f(0f,0f,0f));
+        }
+        if (left){
+            setWalkDirection(new Vector3f(speedtpf*-500f,0f,0f));
+        }
+        if (right){
+            setWalkDirection(new Vector3f(speedtpf*500f,0f,0f));
+        }
+        if (up){
+            setWalkDirection(new Vector3f(0f,0f,speedtpf*500f));
+        }
+        if (down){
+            setWalkDirection(new Vector3f(0f,0f,speedtpf*-500f));
+        }
+        if (left && up){
+            setWalkDirection(new Vector3f(speedtpf*-353.6f,0f,speedtpf*353.6f));
+        }
+        if (left && down){
+            setWalkDirection(new Vector3f(speedtpf*-353.6f,0f,speedtpf*-353.6f));
+        }
+        if (right && up){
+            setWalkDirection(new Vector3f(speedtpf*353.6f,0f,speedtpf*353.6f));
+        }
+        if (right && down){
+            setWalkDirection(new Vector3f(speedtpf*353.6f,0f,speedtpf*-353.6f));
         }
     }
 
@@ -54,27 +80,12 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
         //movement of player
         if(name.equals("left")){
             left = isPressed;
-            setWalkDirection(new Vector3f(-25f,0f,0f), isPressed);
         }else if(name.equals("right")){
             right = isPressed;
-            setWalkDirection(new Vector3f(25f,0f,0f), isPressed);
         }else if(name.equals("up")){
             up = isPressed;
-            setWalkDirection(new Vector3f(0f,0f,25f), isPressed);
         }else if(name.equals("down")){
             down = isPressed;
-            setWalkDirection(new Vector3f(0f,0f,-25f), isPressed);
-        }
-
-        //Multi buttons pressed, LinAlg put to good use, jk online calculator
-        if(left && up){
-            setWalkDirection(new Vector3f(-17.68f,0f,17.68f), isPressed);
-        }else if(right && up){
-            setWalkDirection(new Vector3f(17.68f,0f,17.68f), isPressed);
-        }else if(left && down){
-            setWalkDirection(new Vector3f(-17.68f,0f,-17.68f), isPressed);
-        }else if(right && down){
-            setWalkDirection(new Vector3f(17.68f,0f,-17.68f), isPressed);
         }
     }
 }
