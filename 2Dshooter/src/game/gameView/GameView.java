@@ -1,23 +1,12 @@
 package game.gameView;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Quad;
-import com.jme3.texture.Texture;
+import game.ctrl.Player1Controller;
+import game.ctrl.Player2Controller;
 import game.ctrl.PlayerController;
-import jme3tools.optimize.GeometryBatchFactory;
 
 
 /**
@@ -28,14 +17,16 @@ public class GameView extends SimpleApplication {
     //variables for physics control
     private RigidBodyControl wallsPhy;
     private RigidBodyControl groundPhy;
-    private PlayerController playerControl;
+    private PlayerController player1Control;
+    private PlayerController player2Control;
     private BulletAppState bulletAppState;
 
 
     //variables for viewer classes
     private WallsView wallsView;
     private GroundView groundView;
-    private PlayerView playerView;
+    private Player1View player1View;
+    private Player2View player2View;
 
     //private World world = new World();
 
@@ -65,8 +56,12 @@ public class GameView extends SimpleApplication {
         wallsView.createWalls();
 
         //spawning player1
-        playerView = new PlayerView(getAssetManager(), getRootNode(), this);
-        playerView.createPlayer();
+        player1View = new Player1View(getAssetManager(), getRootNode(), this);
+        player1View.createPlayer();
+
+        //spawning player2
+        player2View = new Player2View(getAssetManager(), getRootNode(), this);
+        player2View.createPlayer();
 
         //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();
@@ -94,9 +89,12 @@ public class GameView extends SimpleApplication {
         bulletAppState.getPhysicsSpace().add(wallsPhy);
     }
     public void playerCollisionControl(){
-        playerControl = new PlayerController(playerView,1f,4f,1f);
-        playerView.getPlayer().addControl(playerControl);
-        bulletAppState.getPhysicsSpace().add(playerControl);
+        player1Control = new Player1Controller(player1View,1f,4f,1f);
+        player2Control = new Player2Controller(player2View,1f,4f,1f);
+        player1View.getPlayer().addControl(player1Control);
+        bulletAppState.getPhysicsSpace().add(player1Control);
+        player2View.getPlayer().addControl(player2Control);
+        bulletAppState.getPhysicsSpace().add(player2Control);
     }
 
     public void simpleUpdate(float tpf){
