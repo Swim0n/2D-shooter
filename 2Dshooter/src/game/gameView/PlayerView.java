@@ -18,10 +18,8 @@ public class PlayerView {
     private Box playerShape;
     private Material playerMaterial;
     private AssetManager assetManager;
-    private PlayerController playerControl;
     private GameView gameView;
     private Node rootNode;
-    private InputManager inputManager;
 
     public PlayerView(AssetManager assetManager, Node rootNode, GameView gameView){
         this.assetManager = assetManager;
@@ -30,12 +28,11 @@ public class PlayerView {
     }
 
     public void createPlayer(){
-        playerShape = new Box(1,1,1);
-        playerControl = new PlayerController(this, 1f, 1f, 1f);
+        playerShape = new Box(1f,1f,1f);
 
         player = new Geometry("Box", playerShape);
         playerMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        player.setLocalTranslation(0,0.5f,0);
+        player.setLocalTranslation(0,-4f,0);
         playerMaterial.setColor("Color", ColorRGBA.Red);
         player.setMaterial(playerMaterial);
         rootNode.attachChild(player);

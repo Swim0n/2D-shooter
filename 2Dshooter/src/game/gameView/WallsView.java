@@ -36,8 +36,8 @@ public class WallsView {
 
 
     public void createWalls(){
-        verticalWallShape = new Box(0.5f,2,27f);
-        horizontalWallShape = new Box(36f, 2,0.5f);
+        verticalWallShape = new Box(0.5f,5f,27f);
+        horizontalWallShape = new Box(36f, 5f,0.5f);
         wallMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         Texture brick = assetManager.loadTexture("Textures/BrickWall.jpg");
         brick.setWrap(Texture.WrapMode.Repeat);
@@ -46,10 +46,10 @@ public class WallsView {
         eastWall = new Geometry("eastWall", verticalWallShape);
         northWall = new Geometry("northWall", horizontalWallShape);
         southWall = new Geometry("southWall", horizontalWallShape);
-        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x,0.5f,0);
-        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x,0.5f,0);
-        northWall.setLocalTranslation(0,0.5f,groundGeom.getLocalTranslation().z);
-        southWall.setLocalTranslation(0,0.5f,-groundGeom.getLocalTranslation().z);
+        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x,-2f,0);
+        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x,-2f,0);
+        northWall.setLocalTranslation(0,-2f,groundGeom.getLocalTranslation().z);
+        southWall.setLocalTranslation(0,-2f,-groundGeom.getLocalTranslation().z);
 
         westWall.setMaterial(wallMaterial);
         eastWall.setMaterial(wallMaterial);

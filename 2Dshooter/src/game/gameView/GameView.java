@@ -3,7 +3,9 @@ package game.gameView;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -43,6 +45,7 @@ public class GameView extends SimpleApplication {
         cam.setLocation(new Vector3f(0,-65f,0));
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
         getFlyByCamera().setEnabled(false);
+        getFlyByCamera().setMoveSpeed(50);
 
         //turn off stats gameView (you can leave it on, if you want)
         setDisplayStatView(true);
@@ -80,18 +83,18 @@ public class GameView extends SimpleApplication {
 
 
     public void groundCollisionControl(){
-        groundPhy = new RigidBodyControl(0.0f);
+        groundPhy = new RigidBodyControl(0);
         groundView.getGroundGeom().addControl(groundPhy);
         bulletAppState.getPhysicsSpace().add(groundPhy);
     }
 
     public void wallCollisionControl(){
-        wallsPhy = new RigidBodyControl(0.0f);
+        wallsPhy = new RigidBodyControl(0);
         wallsView.getWalls().addControl(wallsPhy);
         bulletAppState.getPhysicsSpace().add(wallsPhy);
     }
     public void playerCollisionControl(){
-        playerControl = new PlayerController(playerView,1f,1f,1f);
+        playerControl = new PlayerController(playerView,1f,4f,1f);
         playerView.getPlayer().addControl(playerControl);
         bulletAppState.getPhysicsSpace().add(playerControl);
     }
