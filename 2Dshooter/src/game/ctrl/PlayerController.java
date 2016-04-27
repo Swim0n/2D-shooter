@@ -2,8 +2,6 @@ package game.ctrl;
 
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.input.InputManager;
-import com.jme3.input.controls.ActionListener;
-
 import com.jme3.math.Vector3f;
 import game.gameView.PlayerView;
 

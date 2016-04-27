@@ -4,6 +4,8 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import game.ctrl.BulletController;
 import game.ctrl.Player1Controller;
 import game.ctrl.Player2Controller;
 import game.ctrl.PlayerController;
@@ -17,6 +19,7 @@ public class GameView extends SimpleApplication {
     //variables for physics control
     private RigidBodyControl wallsPhy;
     private RigidBodyControl groundPhy;
+    private RigidBodyControl bulletPhy;
     private PlayerController player1Control;
     private PlayerController player2Control;
     private BulletAppState bulletAppState;
@@ -27,6 +30,7 @@ public class GameView extends SimpleApplication {
     private GroundView groundView;
     private Player1View player1View;
     private Player2View player2View;
+
 
     //private World world = new World();
 
@@ -88,6 +92,15 @@ public class GameView extends SimpleApplication {
         wallsView.getWalls().addControl(wallsPhy);
         bulletAppState.getPhysicsSpace().add(wallsPhy);
     }
+
+    public void bulletCollisionControl(Geometry bullet, PlayerController playerController){
+        bulletPhy = new BulletController();
+        bullet.addControl(bulletPhy);
+
+        bulletPhy.setLinearVelocity(playerController.getWalkDirection().mult(speed*2));
+        bulletAppState.getPhysicsSpace().add(bulletPhy);
+    }
+
     public void playerCollisionControl(){
         player1Control = new Player1Controller(player1View,1f,4f,1f);
         player2Control = new Player2Controller(player2View,1f,4f,1f);

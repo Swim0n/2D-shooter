@@ -20,10 +20,12 @@ public class Player2Controller extends PlayerController implements ActionListene
         inputManager.addMapping("right2", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("up2", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("down2", new KeyTrigger(KeyInput.KEY_S));
+        inputManager.addMapping("shoot2", new KeyTrigger(KeyInput.KEY_E));
         inputManager.addListener(this, "left2");
         inputManager.addListener(this, "right2");
         inputManager.addListener(this, "up2");
         inputManager.addListener(this, "down2");
+        inputManager.addListener(this, "shoot2");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -36,6 +38,9 @@ public class Player2Controller extends PlayerController implements ActionListene
             up = isPressed;
         } else if (name.equals("down2")) {
             down = isPressed;
+        }
+        if (name.equals("shoot2") && isPressed){
+            this.view.shootBullet(this);
         }
     }
 }

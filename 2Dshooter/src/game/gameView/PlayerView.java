@@ -3,10 +3,10 @@ package game.gameView;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import game.ctrl.PlayerController;
 
 /**
  * Created by Simon on 2016-04-26.
@@ -19,6 +19,7 @@ public abstract class PlayerView {
     protected GameView gameView;
     protected Node rootNode;
     protected InputManager inputManager;
+
 
     public PlayerView(AssetManager assetManager, Node rootNode, GameView gameView){
         this.assetManager = assetManager;
@@ -37,4 +38,10 @@ public abstract class PlayerView {
     public Geometry getPlayer(){
         return this.player;
     }
+
+    public void shootBullet(PlayerController playerController){
+        BulletView bullet = new BulletView(this.assetManager,this.rootNode,
+                this.gameView, playerController, player);
+    }
+
 }
