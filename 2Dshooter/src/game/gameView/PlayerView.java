@@ -6,7 +6,6 @@ import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import game.ctrl.PlayerController;
 
 /**
  * Created by Simon on 2016-04-26.
@@ -30,7 +29,6 @@ public abstract class PlayerView {
 
     public void createPlayer(){
     }
-
     public InputManager getInputManager(){
         return this.inputManager;
     }
@@ -38,10 +36,7 @@ public abstract class PlayerView {
     public Geometry getPlayer(){
         return this.player;
     }
-
-    public void shootBullet(PlayerController playerController){
-        BulletView bullet = new BulletView(this.assetManager,this.rootNode,
-                this.gameView, playerController, player);
+    public GameView getGameView(){
+        return this.gameView;
     }
-
 }

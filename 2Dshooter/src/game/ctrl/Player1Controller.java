@@ -40,8 +40,10 @@ public class Player1Controller extends PlayerController implements ActionListene
             down = isPressed;
         }
         if (name.equals("shoot") && isPressed){
-            this.view.shootBullet(this);
+            shootBullet();
         }
     }
+
+
 
 }

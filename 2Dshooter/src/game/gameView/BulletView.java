@@ -23,13 +23,12 @@ public class BulletView {
     private PlayerController playerController;
 
 
-    public BulletView(AssetManager assetManager, Node rootNode, GameView gameView, PlayerController playerController, Geometry player){
-        this.assetManager = assetManager;
+    public BulletView(GameView gameView, PlayerController playerController, Geometry player){
         this.gameView = gameView;
-        this.rootNode = rootNode;
+        this.assetManager = gameView.getAssetManager();
+        this.rootNode = gameView.getRootNode();
         this.playerController = playerController;
         this.player = player;
-
 
         createBullet();
     }
@@ -48,8 +47,14 @@ public class BulletView {
         bullet.setLocalTranslation(player.getLocalTranslation());
 
         //attaching physics to bullet
-        gameView.bulletCollisionControl(this.bullet, this.playerController);
+        gameView.bulletCollisionControl(this);
     }
 
-    public Geometry getBullet(){return this.bullet;}
+    public Geometry getBullet(){
+        return this.bullet;
+    }
+
+    public PlayerController getPlayerController(){
+        return this.playerController;
+    }
 }
