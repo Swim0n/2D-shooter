@@ -1,6 +1,7 @@
 package game.ctrl;
 
 
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 
@@ -9,11 +10,8 @@ import com.jme3.math.Vector3f;
  */
 public class BulletController extends RigidBodyControl{
 
-
     //public void update(float tpf){}
 
     public void setDirection(Vector3f direction){
-
     }
-
 }

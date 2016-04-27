@@ -97,7 +97,7 @@ public class GameView extends SimpleApplication {
         bulletPhy = new BulletController();
         bullet.addControl(bulletPhy);
 
-        bulletPhy.setLinearVelocity(playerController.getWalkDirection().mult(speed*2));
+        bulletPhy.setLinearVelocity(playerController.getLastDirection().mult(speed*2));
         bulletAppState.getPhysicsSpace().add(bulletPhy);
     }
 
