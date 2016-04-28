@@ -10,7 +10,6 @@ import game.gameView.PlayerView;
  */
 public class Player1Controller extends PlayerController implements ActionListener {
 
-
     public Player1Controller(PlayerView view, float radius, float height, float mass) {
         super(view,radius,height,mass);
         setupKeys();
@@ -21,10 +20,12 @@ public class Player1Controller extends PlayerController implements ActionListene
         inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
         inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_UP));
         inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_DOWN));
+        inputManager.addMapping("shoot", new KeyTrigger(KeyInput.KEY_NUMPAD0));
         inputManager.addListener(this, "left");
         inputManager.addListener(this, "right");
         inputManager.addListener(this, "up");
         inputManager.addListener(this, "down");
+        inputManager.addListener(this, "shoot");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -38,6 +39,11 @@ public class Player1Controller extends PlayerController implements ActionListene
         } else if (name.equals("down")) {
             down = isPressed;
         }
+        if (name.equals("shoot") && isPressed){
+            shootBullet();
+        }
     }
+
+
 
 }
