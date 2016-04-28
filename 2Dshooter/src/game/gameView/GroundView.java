@@ -14,11 +14,11 @@ import com.jme3.texture.Texture;
 public class GroundView {
 
     private Geometry groundGeom;
-    private Node rootNode;
+    private Node stageNode;
     private AssetManager assetManager;
 
-    public GroundView(AssetManager assetManager, Node rootNode){
-        this.rootNode = rootNode;
+    public GroundView(AssetManager assetManager, Node stageNode){
+        this.stageNode = stageNode;
         this.assetManager = assetManager;
     }
     public void createGround(){
@@ -32,7 +32,7 @@ public class GroundView {
         groundGeom.rotate(FastMath.HALF_PI,0,0);
         groundGeom.setLocalTranslation(-groundShape.getWidth()/2, 0, -groundShape.getHeight()/2);
 
-        rootNode.attachChild(groundGeom);
+        stageNode.attachChild(groundGeom);
     }
 
     public Geometry getGroundGeom(){

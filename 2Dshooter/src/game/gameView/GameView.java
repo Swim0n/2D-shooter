@@ -3,7 +3,10 @@ package game.gameView;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
+
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
 
@@ -14,7 +17,10 @@ import game.ctrl.PlayerController;
 public class GameView extends SimpleApplication {
 
     //variables for physics control
-    private RigidBodyControl wallsPhy;
+    private RigidBodyControl eWallPhy;
+    private RigidBodyControl wWallPhy;
+    private RigidBodyControl nWallPhy;
+    private RigidBodyControl sWallPhy;
     private RigidBodyControl groundPhy;
     private RigidBodyControl bulletPhy;
     private PlayerController player1Control;
@@ -28,6 +34,9 @@ public class GameView extends SimpleApplication {
     private Player1View player1View;
     private Player2View player2View;
 
+    private Node bulletNode;
+    private Node stageNode;
+
 
     //private World world = new World();
 
@@ -39,6 +48,11 @@ public class GameView extends SimpleApplication {
         getFlyByCamera().setEnabled(false);
         getFlyByCamera().setMoveSpeed(50);
 
+        bulletNode = new Node("bullets");
+        stageNode = new Node("stage");
+        rootNode.attachChild(bulletNode);
+        rootNode.attachChild(stageNode);
+
         //turn off stats gameView (you can leave it on, if you want)
         setDisplayStatView(true);
         setDisplayFps(true);
@@ -49,11 +63,11 @@ public class GameView extends SimpleApplication {
         bulletAppState.setDebugEnabled(true);
 
         //creating a "ground floor" for levels
-        groundView = new GroundView(getAssetManager(),getRootNode());
+        groundView = new GroundView(getAssetManager(),stageNode);
         groundView.createGround();
 
         //adding walls for the surface
-        wallsView = new WallsView(getAssetManager(), getRootNode(), groundView.getGroundGeom());
+        wallsView = new WallsView(getAssetManager(), stageNode, groundView.getGroundGeom());
         wallsView.createWalls();
 
         //spawning player1
@@ -73,8 +87,13 @@ public class GameView extends SimpleApplication {
         //adding collision-detection to player.
         playerCollisionControl();
 
+        //adding collision control to the world
+
+
         //nullify gravity
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
+
+
     }
 
 
@@ -88,13 +107,23 @@ public class GameView extends SimpleApplication {
     }
 
     public void wallCollisionControl(){
-        wallsPhy = new RigidBodyControl(0);
-        wallsView.getWalls().addControl(wallsPhy);
-        bulletAppState.getPhysicsSpace().add(wallsPhy);
+        eWallPhy = new RigidBodyControl(0);
+        wWallPhy = new RigidBodyControl(0);
+        nWallPhy = new RigidBodyControl(0);
+        sWallPhy = new RigidBodyControl(0);
+        wallsView.getWest().addControl(wWallPhy);
+        wallsView.getNorth().addControl(nWallPhy);
+        wallsView.getEast().addControl(eWallPhy);
+        wallsView.getSouth().addControl(sWallPhy);
+        bulletAppState.getPhysicsSpace().add(eWallPhy);
+        bulletAppState.getPhysicsSpace().add(wWallPhy);
+        bulletAppState.getPhysicsSpace().add(nWallPhy);
+        bulletAppState.getPhysicsSpace().add(sWallPhy);
     }
 
-    public void bulletCollisionControl(BulletView bulletView){
-        bulletView.getBullet().addControl(bulletPhy = new BulletController(bulletView));
+    public void bulletCollisionControl(BulletView bulletView, Spatial bullet){
+        bulletPhy = new BulletController(bulletView);
+        bullet.addControl(bulletPhy);
         bulletPhy.setLinearVelocity(bulletView.getPlayerController().getLastDirection().mult(speed*2));
         bulletAppState.getPhysicsSpace().add(bulletPhy);
     }
@@ -108,7 +137,23 @@ public class GameView extends SimpleApplication {
         bulletAppState.getPhysicsSpace().add(player2Control);
     }
 
+    public Node getBulletNode(){
+        return this.bulletNode;
+    }
+
     public void simpleUpdate(float tpf){
 
+    }
+
+    public Node getStageNode(){
+        return stageNode;
+    }
+
+    public BulletAppState getBulletAppState(){
+        return this.bulletAppState;
+    }
+
+    public WallsView getWallsView(){
+        return wallsView;
     }
 }

@@ -18,18 +18,18 @@ public class WallsView {
     private Box horizontalWallShape;
     private Material wallMaterial;
 
-    private Spatial walls;
+
     private Geometry westWall;
     private Geometry eastWall;
     private Geometry northWall;
     private Geometry southWall;
     private final AssetManager assetManager;
-    private final Node rootNode;
+    private final Node stageNode;
     private final Geometry groundGeom;
 
-    public WallsView (AssetManager assetManager, Node rootNode, Geometry groundGeom){
+    public WallsView (AssetManager assetManager, Node stageNode, Geometry groundGeom){
         this.assetManager = assetManager;
-        this.rootNode = rootNode;
+        this.stageNode = stageNode;
         this.groundGeom = groundGeom;
     }
 
@@ -56,19 +56,24 @@ public class WallsView {
         northWall.setMaterial(wallMaterial);
         southWall.setMaterial(wallMaterial);
 
-        Node wallNode = new Node();
-        wallNode.attachChild(westWall);
-        wallNode.attachChild(eastWall);
-        wallNode.attachChild(northWall);
-        wallNode.attachChild(southWall);
-        walls = GeometryBatchFactory.optimize(wallNode);
-        rootNode.attachChild(walls);
+
+        stageNode.attachChild(eastWall);
+        stageNode.attachChild(northWall);
+        stageNode.attachChild(southWall);
+        stageNode.attachChild(westWall);
 
     }
 
-    public Spatial getWalls(){
-        return this.walls;
+    public Spatial getWest(){
+        return this.westWall;
     }
+    public Spatial getEast(){
+        return this.eastWall;
+    }
+    public Spatial getNorth(){
+        return this.northWall;
+    }
+    public Spatial getSouth(){ return this.southWall; }
 
 
 

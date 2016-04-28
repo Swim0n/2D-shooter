@@ -15,40 +15,46 @@ import game.gameView.*;
  */
 public class PlayerController extends BetterCharacterControl implements ActionListener {
 
-    protected final PlayerView view;
-    protected InputManager inputManager;
-    protected boolean left,right,up,down;
-    protected float speed = 40;
-    protected Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
+    private final PlayerView view;
+    private final BulletView bulletView;
+    private InputManager inputManager;
+    private boolean left,right,up,down;
+    private float speed = 40;
+    private Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
 
     public PlayerController(PlayerView view, float radius, float height, float mass){
         super(radius, height, mass);
         this.view = view;
         this.inputManager = view.getInputManager();
+        this.bulletView = new BulletView(view.getGameView(), this, view);
         setupKeys();
     }
 
     private void setupKeys() {
-        inputManager.addMapping("p1left", new KeyTrigger(KeyInput.KEY_LEFT));
-        inputManager.addMapping("p1right", new KeyTrigger(KeyInput.KEY_RIGHT));
-        inputManager.addMapping("p1up", new KeyTrigger(KeyInput.KEY_UP));
-        inputManager.addMapping("p1down", new KeyTrigger(KeyInput.KEY_DOWN));
-        inputManager.addMapping("p1shoot", new KeyTrigger(KeyInput.KEY_NUMPAD0));
-        inputManager.addListener(this, "p1left");
-        inputManager.addListener(this, "p1right");
-        inputManager.addListener(this, "p1up");
-        inputManager.addListener(this, "p1down");
-        inputManager.addListener(this, "p1shoot");
-        inputManager.addMapping("p2left", new KeyTrigger(KeyInput.KEY_A));
-        inputManager.addMapping("p2right", new KeyTrigger(KeyInput.KEY_D));
-        inputManager.addMapping("p2up", new KeyTrigger(KeyInput.KEY_W));
-        inputManager.addMapping("p2down", new KeyTrigger(KeyInput.KEY_S));
-        inputManager.addMapping("p2shoot", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addListener(this, "p2left");
-        inputManager.addListener(this, "p2right");
-        inputManager.addListener(this, "p2up");
-        inputManager.addListener(this, "p2down");
-        inputManager.addListener(this, "p2shoot");
+        if(view instanceof Player1View) {
+            inputManager.addMapping("p1left", new KeyTrigger(KeyInput.KEY_LEFT));
+            inputManager.addMapping("p1right", new KeyTrigger(KeyInput.KEY_RIGHT));
+            inputManager.addMapping("p1up", new KeyTrigger(KeyInput.KEY_UP));
+            inputManager.addMapping("p1down", new KeyTrigger(KeyInput.KEY_DOWN));
+            inputManager.addMapping("p1shoot", new KeyTrigger(KeyInput.KEY_NUMPAD0));
+            inputManager.addListener(this, "p1left");
+            inputManager.addListener(this, "p1right");
+            inputManager.addListener(this, "p1up");
+            inputManager.addListener(this, "p1down");
+            inputManager.addListener(this, "p1shoot");
+        }
+        if(view instanceof Player2View) {
+            inputManager.addMapping("p2left", new KeyTrigger(KeyInput.KEY_A));
+            inputManager.addMapping("p2right", new KeyTrigger(KeyInput.KEY_D));
+            inputManager.addMapping("p2up", new KeyTrigger(KeyInput.KEY_W));
+            inputManager.addMapping("p2down", new KeyTrigger(KeyInput.KEY_S));
+            inputManager.addMapping("p2shoot", new KeyTrigger(KeyInput.KEY_SPACE));
+            inputManager.addListener(this, "p2left");
+            inputManager.addListener(this, "p2right");
+            inputManager.addListener(this, "p2up");
+            inputManager.addListener(this, "p2down");
+            inputManager.addListener(this, "p2shoot");
+        }
     }
 
     @Override
@@ -121,10 +127,14 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     //creates a new bullet specific to the player who fired it
     public void shootBullet(){
-        BulletView bullet = new BulletView(view.getGameView(), this, view.getPlayer());
+        bulletView.createBullet();
     }
 
     //last direction the player moved, used by bullets
     public Vector3f getLastDirection(){return this.lastDirection;}
+
+    public BulletView getBulletView(){
+        return this.bulletView;
+    }
 }
 
