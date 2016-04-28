@@ -5,8 +5,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import game.ctrl.BulletController;
-import game.ctrl.Player1Controller;
-import game.ctrl.Player2Controller;
 import game.ctrl.PlayerController;
 
 
@@ -102,8 +100,8 @@ public class GameView extends SimpleApplication {
     }
 
     public void playerCollisionControl(){
-        player1Control = new Player1Controller(player1View,1f,4f,1f);
-        player2Control = new Player2Controller(player2View,1f,4f,1f);
+        player1Control = new PlayerController(player1View,1f,4f,1f);
+        player2Control = new PlayerController(player2View,1f,4f,1f);
         player1View.getPlayer().addControl(player1Control);
         bulletAppState.getPhysicsSpace().add(player1Control);
         player2View.getPlayer().addControl(player2Control);
