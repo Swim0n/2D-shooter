@@ -15,7 +15,7 @@ public class PlayerController extends BetterCharacterControl {
     protected final PlayerView view;
     protected InputManager inputManager;
     protected boolean left,right,up,down;
-    protected float speed = 80;
+    protected float speed = 20;
     protected Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
 
     public PlayerController(PlayerView view, float radius, float height, float mass){
@@ -56,6 +56,7 @@ public class PlayerController extends BetterCharacterControl {
         if (right && down){
             setWalkDirection(lastDirection=new Vector3f(speedtpf*353.6f,0f,speedtpf*-353.6f));
         }
+        warp(new Vector3f(location.getX(),-4f, location.getZ()));
     }
     //creates a new bullet specific to the player who fired it
     public void shootBullet(){
