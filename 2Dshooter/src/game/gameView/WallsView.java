@@ -57,12 +57,14 @@ public class WallsView {
         southWall.setMaterial(wallMaterial);
 
 
+
         stageNode.attachChild(eastWall);
         stageNode.attachChild(northWall);
         stageNode.attachChild(southWall);
         stageNode.attachChild(westWall);
 
     }
+
 
     public Spatial getWest(){
         return this.westWall;

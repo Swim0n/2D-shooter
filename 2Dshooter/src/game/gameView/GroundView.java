@@ -16,13 +16,18 @@ public class GroundView {
     private Geometry groundGeom;
     private Node stageNode;
     private AssetManager assetManager;
+    private Quad groundShape;
+
+
+
 
     public GroundView(AssetManager assetManager, Node stageNode){
         this.stageNode = stageNode;
         this.assetManager = assetManager;
     }
     public void createGround(){
-        Quad groundShape = new Quad(71f, 53f); //quad to represent ground in game
+
+        groundShape = new Quad(71f, 53f); //quad to represent ground in game
         groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
         Material groundMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); //material for ground
         Texture dirt = assetManager.loadTexture("Textures/dirt.jpg");
@@ -37,6 +42,9 @@ public class GroundView {
 
     public Geometry getGroundGeom(){
         return this.groundGeom;
+    }
+    public  Quad getGroundShape(){
+        return this.groundShape;
     }
 
 }

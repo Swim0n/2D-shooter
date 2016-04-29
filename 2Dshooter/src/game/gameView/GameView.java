@@ -7,6 +7,8 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
+import com.jme3.scene.shape.Quad;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
 
@@ -33,6 +35,7 @@ public class GameView extends SimpleApplication {
     private GroundView groundView;
     private Player1View player1View;
     private Player2View player2View;
+    private PowerupView powerupView;
 
     private Node bulletNode;
     private Node stageNode;
@@ -66,6 +69,8 @@ public class GameView extends SimpleApplication {
         groundView = new GroundView(getAssetManager(),stageNode);
         groundView.createGround();
 
+
+
         //adding walls for the surface
         wallsView = new WallsView(getAssetManager(), stageNode, groundView.getGroundGeom());
         wallsView.createWalls();
@@ -93,7 +98,14 @@ public class GameView extends SimpleApplication {
         //nullify gravity
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
 
+        //spawn a power-up of type speed
+        powerupView = new PowerupView(this,stageNode,groundView);
+        powerupView.createPowerup("speed");
 
+    }
+
+    public Quad getGroundSize(){
+        return groundView.getGroundShape();
     }
 
 
