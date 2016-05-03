@@ -36,7 +36,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             inputManager.addMapping("p1right", new KeyTrigger(KeyInput.KEY_RIGHT));
             inputManager.addMapping("p1up", new KeyTrigger(KeyInput.KEY_UP));
             inputManager.addMapping("p1down", new KeyTrigger(KeyInput.KEY_DOWN));
-            inputManager.addMapping("p1shoot", new KeyTrigger(KeyInput.KEY_NUMPAD0));
+            inputManager.addMapping("p1shoot", new KeyTrigger(KeyInput.KEY_NUMPAD0), new KeyTrigger(KeyInput.KEY_RETURN));
             inputManager.addListener(this, "p1left");
             inputManager.addListener(this, "p1right");
             inputManager.addListener(this, "p1up");
@@ -64,29 +64,29 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             setWalkDirection(new Vector3f(0f,0f,0f));
         }
         if (left){
-            setWalkDirection(lastDirection=new Vector3f(speed*-1f,0f,0f));
+            setWalkDirection(lastDirection.set(speed*-1f,0f,0f));
 
         }
         if (right){
-            setWalkDirection(lastDirection=new Vector3f(speed*1f,0f,0f));
+            setWalkDirection(lastDirection.set(speed*1f,0f,0f));
         }
         if (up){
-            setWalkDirection(lastDirection=new Vector3f(0f,0f,speed*1f));
+            setWalkDirection(lastDirection.set(0f,0f,speed*1f));
         }
         if (down){
-            setWalkDirection(lastDirection=new Vector3f(0f,0f,speed*-1f));
+            setWalkDirection(lastDirection.set(0f,0f,speed*-1f));
         }
         if (left && up){
-            setWalkDirection(lastDirection=new Vector3f(speed*-0.707f,0f,speed*0.707f));
+            setWalkDirection(lastDirection.set(speed*-0.707f,0f,speed*0.707f));
         }
         if (left && down){
-            setWalkDirection(lastDirection=new Vector3f(speed*-0.707f,0f,speed*-0.707f));
+            setWalkDirection(lastDirection.set(speed*-0.707f,0f,speed*-0.707f));
         }
         if (right && up){
-            setWalkDirection(lastDirection=new Vector3f(speed*0.707f,0f,speed*0.707f));
+            setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*0.707f));
         }
         if (right && down){
-            setWalkDirection(lastDirection=new Vector3f(speed*0.707f,0f,speed*-0.707f));
+            setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
         }
         warp(new Vector3f(location.getX(),-4f, location.getZ()));
     }
