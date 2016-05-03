@@ -90,4 +90,8 @@ public class TerrainView {
 
 
     }
+
+    public Geometry[][] getTerrainGrid(){
+        return this.terrainGrid;
+    }
 }

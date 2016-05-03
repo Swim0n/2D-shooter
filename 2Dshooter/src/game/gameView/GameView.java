@@ -5,6 +5,7 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
@@ -85,7 +86,7 @@ public class GameView extends SimpleApplication {
         player2View.createPlayer();
 
         terrainView = new TerrainView(this, stageNode, groundView);
-        terrainView.createTerrain(30,30);
+        terrainView.createTerrain(10,5);
 
         //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();
@@ -95,6 +96,9 @@ public class GameView extends SimpleApplication {
 
         //adding collision-detection to player.
         playerCollisionControl();
+
+        //adding collision-detection to terrain.
+        terrainCollisionControl();
 
 
 
@@ -135,6 +139,20 @@ public class GameView extends SimpleApplication {
         bulletAppState.getPhysicsSpace().add(wWallPhy);
         bulletAppState.getPhysicsSpace().add(nWallPhy);
         bulletAppState.getPhysicsSpace().add(sWallPhy);
+    }
+
+    public void terrainCollisionControl(){
+        Geometry[][] terrainGrid = terrainView.getTerrainGrid();
+        for (int i = 0; i < terrainGrid.length; i++){
+            for (int j = 0; j<terrainGrid[i].length; j++){
+                if (terrainGrid[i][j] != null) {
+                    RigidBodyControl terrainPhy = new RigidBodyControl(0);
+                    terrainGrid[i][j].addControl(terrainPhy);
+                    bulletAppState.getPhysicsSpace().add(terrainPhy);
+                }
+            }
+        }
+
     }
 
     public void bulletCollisionControl(BulletView bulletView, Spatial bullet){

@@ -23,10 +23,12 @@ public class BulletController extends RigidBodyControl{
     public void update(float tpf){
         super.update(tpf);
         CollisionResults results = new CollisionResults();
-        spatial.collideWith(bulletView.getGameView().getWallsView().getWest().getWorldBound(), results);
-        spatial.collideWith(bulletView.getGameView().getWallsView().getEast().getWorldBound(), results);
-        spatial.collideWith(bulletView.getGameView().getWallsView().getNorth().getWorldBound(), results);
-        spatial.collideWith(bulletView.getGameView().getWallsView().getSouth().getWorldBound(), results);
+        //spatial.collideWith(bulletView.getGameView().getWallsView().getWest().getWorldBound(), results);
+        //spatial.collideWith(bulletView.getGameView().getWallsView().getEast().getWorldBound(), results);
+        //spatial.collideWith(bulletView.getGameView().getWallsView().getNorth().getWorldBound(), results);
+        //spatial.collideWith(bulletView.getGameView().getWallsView().getSouth().getWorldBound(), results);
+        bulletView.getGameView().getStageNode().collideWith(spatial.getWorldBound(), results);
+
         if (results.size() > 0){
             spatial.removeFromParent();
             bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
