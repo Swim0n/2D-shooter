@@ -12,6 +12,8 @@ import com.jme3.scene.shape.Box;
  */
 public class Player1View extends PlayerView {
 
+
+
     public Player1View(AssetManager assetManager, Node rootNode, GameView gameView){
         super(assetManager,rootNode,gameView);
     }
@@ -26,4 +28,6 @@ public class Player1View extends PlayerView {
         player.setMaterial(playerMaterial);
         rootNode.attachChild(player);
     }
+
+
 }

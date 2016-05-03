@@ -9,6 +9,7 @@ public class Player1ControllerTest {
 
     @org.junit.Test
     public void onAction() throws Exception {
+        assertTrue(1==1);
 
     }
 }
