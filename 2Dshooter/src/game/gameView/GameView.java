@@ -85,7 +85,7 @@ public class GameView extends SimpleApplication {
         player2View.createPlayer();
 
         terrainView = new TerrainView(this, stageNode, groundView);
-        terrainView.createTerrain(5,2);
+        terrainView.createTerrain(30,30);
 
         //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();

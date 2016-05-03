@@ -48,12 +48,12 @@ public class TerrainView {
         rockMaterial.setColor("Color", ColorRGBA.DarkGray);
 
         for (int i = 0; i < rocks; i++){
-            int x = randomGenerator.nextInt((int) (groundX-4)/4);
-            int z = randomGenerator.nextInt((int) (groundZ-4)/4);
+            int x = randomGenerator.nextInt((int) (groundX-4)/4+2);
+            int z = randomGenerator.nextInt((int) (groundZ-4)/4+1);
             while(true){
                 if(terrainGrid[x][z] != null){
-                    x = randomGenerator.nextInt((int) (groundX-4)/4);
-                    z = randomGenerator.nextInt((int) (groundZ-4)/4);
+                    x = randomGenerator.nextInt((int) (groundX-4)/4+2);
+                    z = randomGenerator.nextInt((int) (groundZ-4)/4+1);
                 } else {
                     break;
                 }
