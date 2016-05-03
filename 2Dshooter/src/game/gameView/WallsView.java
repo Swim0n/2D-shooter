@@ -46,10 +46,10 @@ public class WallsView {
         eastWall = new Geometry("eastWall", verticalWallShape);
         northWall = new Geometry("northWall", horizontalWallShape);
         southWall = new Geometry("southWall", horizontalWallShape);
-        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x,-2f,0);
-        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x,-2f,0);
-        northWall.setLocalTranslation(0,-2f,groundGeom.getLocalTranslation().z);
-        southWall.setLocalTranslation(0,-2f,-groundGeom.getLocalTranslation().z);
+        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x+1f,-2f,0);
+        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x-1f,-2f,0);
+        northWall.setLocalTranslation(0,-2f,groundGeom.getLocalTranslation().z-1f);
+        southWall.setLocalTranslation(0,-2f,-groundGeom.getLocalTranslation().z+1f);
 
         westWall.setMaterial(wallMaterial);
         eastWall.setMaterial(wallMaterial);

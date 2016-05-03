@@ -36,6 +36,7 @@ public class GameView extends SimpleApplication {
     private Player1View player1View;
     private Player2View player2View;
     private PowerupView powerupView;
+    private TerrainView terrainView;
 
     private Node bulletNode;
     private Node stageNode;
@@ -46,7 +47,7 @@ public class GameView extends SimpleApplication {
     public void simpleInitApp() {
 
         //camera settings
-        cam.setLocation(new Vector3f(0,-65f,0));
+        cam.setLocation(new Vector3f(0,-68f,0));
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
         getFlyByCamera().setEnabled(false);
         getFlyByCamera().setMoveSpeed(50);
@@ -83,6 +84,9 @@ public class GameView extends SimpleApplication {
         player2View = new Player2View(getAssetManager(), getRootNode(), this);
         player2View.createPlayer();
 
+        terrainView = new TerrainView(this, stageNode, groundView);
+        terrainView.createTerrain(5,2);
+
         //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();
 
@@ -92,7 +96,7 @@ public class GameView extends SimpleApplication {
         //adding collision-detection to player.
         playerCollisionControl();
 
-        //adding collision control to the world
+
 
 
         //nullify gravity
@@ -100,7 +104,7 @@ public class GameView extends SimpleApplication {
 
         //spawn a power-up of type speed
         powerupView = new PowerupView(this,stageNode,groundView);
-        powerupView.createPowerup("speed");
+        //powerupView.createPowerup("speed");
 
     }
 
