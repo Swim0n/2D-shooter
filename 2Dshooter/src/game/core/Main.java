@@ -1,5 +1,6 @@
 package game.core;
 
+import com.jme3.system.AppSettings;
 import game.gameView.GameView;
 
 /**
@@ -7,7 +8,11 @@ import game.gameView.GameView;
  */
 public class Main {
     public static void main(String[] args) {
+        AppSettings settings = new AppSettings(false);
+        settings.setSettingsDialogImage("Interface/theteam.png");
+        settings.setTitle("Epic 2D-shooter");
         GameView gameView = new GameView();
+        gameView.setSettings(settings);
         gameView.start();
     }
 }

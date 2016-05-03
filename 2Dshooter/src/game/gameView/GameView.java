@@ -163,8 +163,8 @@ public class GameView extends SimpleApplication {
     }
 
     public void playerCollisionControl(){
-        player1Control = new PlayerController(player1View,1f,4f,1f);
-        player2Control = new PlayerController(player2View,1f,4f,1f);
+        player1Control = new PlayerController(player1View,1f,2f,1f);
+        player2Control = new PlayerController(player2View,1f,2f,1f);
         player1View.getPlayer().addControl(player1Control);
         bulletAppState.getPhysicsSpace().add(player1Control);
         player2View.getPlayer().addControl(player2Control);

@@ -21,7 +21,7 @@ public class Player1View extends PlayerView {
 
         player = new Geometry("Box", playerShape);
         playerMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        player.setLocalTranslation(-4,-4f,0);
+        player.setLocalTranslation(-4,-2f,0);
         playerMaterial.setColor("Color", ColorRGBA.Red);
         player.setMaterial(playerMaterial);
         rootNode.attachChild(player);
