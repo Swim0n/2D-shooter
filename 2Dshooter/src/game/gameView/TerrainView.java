@@ -61,7 +61,7 @@ public class TerrainView {
             rock = new Geometry("Rock", rockShape);
             rock.setMaterial(rockMaterial);
             terrainGrid[x][z] = rock;
-            rock.setLocalTranslation(-groundX/2+rockShape.getXExtent()+x*4,-2, -groundZ/2+rockShape.getZExtent()+z*4);
+            rock.setLocalTranslation(-groundX/2+rockShape.getXExtent()+x*4,-2, -groundZ/2+rockShape.getZExtent()+z*4+0.5f);
             stageNode.attachChild(rock);
         }
 
@@ -83,7 +83,7 @@ public class TerrainView {
             tree = new Geometry("Tree", treeShape);
             tree.setMaterial(treeMaterial);
             terrainGrid[x][z] = tree;
-            tree.setLocalTranslation(-groundX/2+treeShape.getXExtent()+x*4,-2, -groundZ/2+treeShape.getZExtent()+z*4);
+            tree.setLocalTranslation(-groundX/2+treeShape.getXExtent()+x*4,-2, -groundZ/2+treeShape.getZExtent()+z*4+0.5f);
             stageNode.attachChild(tree);
         }
 
