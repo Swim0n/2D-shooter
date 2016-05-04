@@ -12,8 +12,8 @@ import com.jme3.scene.shape.Box;
  */
 public class Player1View extends PlayerView {
 
-    public Player1View(AssetManager assetManager, Node rootNode, GameView gameView){
-        super(assetManager,rootNode,gameView);
+    public Player1View(AssetManager assetManager, Node playerNode, GameView gameView){
+        super(assetManager,playerNode,gameView);
     }
 
     public void createPlayer(){
@@ -24,6 +24,6 @@ public class Player1View extends PlayerView {
         player.setLocalTranslation(-4,-2f,0);
         playerMaterial.setColor("Color", ColorRGBA.Red);
         player.setMaterial(playerMaterial);
-        rootNode.attachChild(player);
+        playerNode.attachChild(player);
     }
 }

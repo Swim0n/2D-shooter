@@ -41,6 +41,8 @@ public class GameView extends SimpleApplication {
 
     private Node bulletNode;
     private Node stageNode;
+    private Node player1Node;
+    private Node player2Node;
 
 
     //private World world = new World();
@@ -55,6 +57,10 @@ public class GameView extends SimpleApplication {
 
         bulletNode = new Node("bullets");
         stageNode = new Node("stage");
+        player1Node = new Node("player1");
+        player2Node = new Node("player2");
+        rootNode.attachChild(player1Node);
+        rootNode.attachChild(player2Node);
         rootNode.attachChild(bulletNode);
         rootNode.attachChild(stageNode);
 
@@ -78,11 +84,11 @@ public class GameView extends SimpleApplication {
         wallsView.createWalls();
 
         //spawning player1
-        player1View = new Player1View(getAssetManager(), getRootNode(), this);
+        player1View = new Player1View(getAssetManager(), player1Node, this);
         player1View.createPlayer();
 
         //spawning player2
-        player2View = new Player2View(getAssetManager(), getRootNode(), this);
+        player2View = new Player2View(getAssetManager(), player2Node, this);
         player2View.createPlayer();
 
         terrainView = new TerrainView(this, stageNode, groundView);
@@ -190,4 +196,8 @@ public class GameView extends SimpleApplication {
     public WallsView getWallsView(){
         return wallsView;
     }
+
+    public Node getPlayer1Node() {return player1Node;}
+
+    public Node getPlayer2Node() {return player2Node;}
 }

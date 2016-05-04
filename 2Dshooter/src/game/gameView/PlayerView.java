@@ -16,14 +16,14 @@ public abstract class PlayerView {
     protected Material playerMaterial;
     protected AssetManager assetManager;
     protected GameView gameView;
-    protected Node rootNode;
+    protected Node playerNode;
     protected InputManager inputManager;
 
 
-    public PlayerView(AssetManager assetManager, Node rootNode, GameView gameView){
+    public PlayerView(AssetManager assetManager, Node playerNode, GameView gameView){
         this.assetManager = assetManager;
         this.gameView = gameView;
-        this.rootNode = rootNode;
+        this.playerNode = playerNode;
         this.inputManager = gameView.getInputManager();
     }
 
