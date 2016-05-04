@@ -88,7 +88,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
         if (right && down){
             setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
         }
-        warp(new Vector3f(location.getX(),-4f, location.getZ()));
+        warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {

@@ -5,6 +5,7 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
@@ -36,6 +37,7 @@ public class GameView extends SimpleApplication {
     private Player1View player1View;
     private Player2View player2View;
     private PowerupView powerupView;
+    private TerrainView terrainView;
 
     private Node bulletNode;
     private Node stageNode;
@@ -46,7 +48,7 @@ public class GameView extends SimpleApplication {
     public void simpleInitApp() {
 
         //camera settings
-        cam.setLocation(new Vector3f(0,-65f,0));
+        cam.setLocation(new Vector3f(0,-68f,0));
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
         getFlyByCamera().setEnabled(false);
         getFlyByCamera().setMoveSpeed(50);
@@ -83,6 +85,9 @@ public class GameView extends SimpleApplication {
         player2View = new Player2View(getAssetManager(), getRootNode(), this);
         player2View.createPlayer();
 
+        terrainView = new TerrainView(this, stageNode, groundView);
+        terrainView.createTerrain(10,5);
+
         //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();
 
@@ -92,7 +97,10 @@ public class GameView extends SimpleApplication {
         //adding collision-detection to player.
         playerCollisionControl();
 
-        //adding collision control to the world
+        //adding collision-detection to terrain.
+        terrainCollisionControl();
+
+
 
 
         //nullify gravity
@@ -100,7 +108,7 @@ public class GameView extends SimpleApplication {
 
         //spawn a power-up of type speed
         powerupView = new PowerupView(this,stageNode,groundView);
-        powerupView.createPowerup("speed");
+        //powerupView.createPowerup("speed");
 
     }
 
@@ -133,6 +141,20 @@ public class GameView extends SimpleApplication {
         bulletAppState.getPhysicsSpace().add(sWallPhy);
     }
 
+    public void terrainCollisionControl(){
+        Geometry[][] terrainGrid = terrainView.getTerrainGrid();
+        for (int i = 0; i < terrainGrid.length; i++){
+            for (int j = 0; j<terrainGrid[i].length; j++){
+                if (terrainGrid[i][j] != null) {
+                    RigidBodyControl terrainPhy = new RigidBodyControl(0);
+                    terrainGrid[i][j].addControl(terrainPhy);
+                    bulletAppState.getPhysicsSpace().add(terrainPhy);
+                }
+            }
+        }
+
+    }
+
     public void bulletCollisionControl(BulletView bulletView, Spatial bullet){
         bulletPhy = new BulletController(bulletView);
         bullet.addControl(bulletPhy);
@@ -141,8 +163,8 @@ public class GameView extends SimpleApplication {
     }
 
     public void playerCollisionControl(){
-        player1Control = new PlayerController(player1View,1f,4f,1f);
-        player2Control = new PlayerController(player2View,1f,4f,1f);
+        player1Control = new PlayerController(player1View,1f,2f,1f);
+        player2Control = new PlayerController(player2View,1f,2f,1f);
         player1View.getPlayer().addControl(player1Control);
         bulletAppState.getPhysicsSpace().add(player1Control);
         player2View.getPlayer().addControl(player2Control);
