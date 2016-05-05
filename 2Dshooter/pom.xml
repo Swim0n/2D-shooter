@@ -42,13 +42,27 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <groupId>com.jme3</groupId>
+            <artifactId>jme3-niftygui</artifactId>
+            <version>3.0.10</version>
         </dependency>
+        <dependency>
+            <groupId>com.jme3</groupId>
+            <artifactId>jme3-niftygui</artifactId>
+            <version>3.0.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jme3</groupId>
+            <artifactId>jme3-niftygui</artifactId>
+            <version>3.0.10</version>
+        </dependency>
+            <dependency>
+                <groupId>lessvoid</groupId>
+                <artifactId>nifty</artifactId>
+                <version>1.3.3</version>
+            </dependency>
     </dependencies>
 
     <repositories>
@@ -56,7 +70,11 @@
             <id>jme3-repo</id>
             <name>JME3 maven repo</name>
             <url>http://updates.jmonkeyengine.org/maven/</url>
-        </repository>
+            </repository>
+            <repository>
+                <id>nifty-maven-repo.sourceforge.net</id>
+                <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
+            </repository>
     </repositories>
 
 </project>

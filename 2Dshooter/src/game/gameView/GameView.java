@@ -5,19 +5,24 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.screen.Screen;
+import de.lessvoid.nifty.screen.ScreenController;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
+
 
 
 /**
  * Created by David on 2016-04-18.
  */
-public class GameView extends SimpleApplication {
+public class GameView extends SimpleApplication implements ScreenController{
 
     //variables for physics control
     private RigidBodyControl eWallPhy;
@@ -44,10 +49,25 @@ public class GameView extends SimpleApplication {
     private Node player1Node;
     private Node player2Node;
 
+    //variables for gui
+    private NiftyJmeDisplay niftyDisplay;
+    private Nifty nifty;
+
 
     //private World world = new World();
 
     public void simpleInitApp() {
+        //gui initialization
+        flyCam.setEnabled(false);
+        niftyDisplay = new NiftyJmeDisplay(assetManager,
+                inputManager,
+                audioRenderer,
+                guiViewPort);
+        nifty = niftyDisplay.getNifty();
+
+        nifty.fromXml("Interface/screen.xml", "start", this);
+
+        guiViewPort.addProcessor(niftyDisplay);
 
         //camera settings
         cam.setLocation(new Vector3f(0,-68f,0));
@@ -200,4 +220,8 @@ public class GameView extends SimpleApplication {
     public Node getPlayer1Node() {return player1Node;}
 
     public Node getPlayer2Node() {return player2Node;}
+
+    public void onEndScreen(){}
+    public void onStartScreen(){}
+    public void bind(Nifty nifty, Screen screen){}
 }
