@@ -7,6 +7,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
+import game.core.Player;
 import game.gameView.*;
 
 
@@ -19,7 +20,8 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     private final BulletView bulletView;
     private InputManager inputManager;
     private boolean left,right,up,down;
-    private float speed = 40;
+    private Player playerData = new Player();
+    private float speed;
     private Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
 
     public PlayerController(PlayerView view, float radius, float height, float mass){
@@ -28,6 +30,8 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
         this.inputManager = view.getInputManager();
         this.bulletView = new BulletView(view.getGameView(), this, view);
         setupKeys();
+        this.playerData.setStandard();
+        speed = playerData.getSpeed();
     }
 
     private void setupKeys() {
@@ -60,6 +64,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     @Override
     public void update(float tpf) {
         super.update(tpf);
+        speed = playerData.getSpeed();
         if (!left && !right && !up && !down){
             setWalkDirection(new Vector3f(0f,0f,0f));
         }
@@ -121,6 +126,15 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
                 shootBullet();
             }
         }
+    }
+
+    public void takeDamage(float damage){
+        playerData.setHeath(playerData.getHealth() - damage);
+
+    }
+
+    public Player getPlayerData(){
+        return this.playerData;
     }
 
 

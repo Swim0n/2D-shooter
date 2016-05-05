@@ -66,7 +66,6 @@ public class GameView extends SimpleApplication implements ScreenController{
         nifty = niftyDisplay.getNifty();
 
         nifty.fromXml("Interface/screen.xml", "start", this);
-
         guiViewPort.addProcessor(niftyDisplay);
 
         //camera settings
@@ -113,6 +112,9 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         terrainView = new TerrainView(this, stageNode, groundView);
         terrainView.createTerrain(10,5);
+
+        player1Control = new PlayerController(player1View,1f,2f,1f);
+        player2Control = new PlayerController(player2View,1f,2f,1f);
 
         //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();
@@ -182,15 +184,13 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
 
     public void bulletCollisionControl(BulletView bulletView, Spatial bullet){
-        bulletPhy = new BulletController(bulletView);
+        bulletPhy = new BulletController(bulletView, player1Control, player2Control);
         bullet.addControl(bulletPhy);
         bulletPhy.setLinearVelocity(bulletView.getPlayerController().getLastDirection().mult(speed*2));
         bulletAppState.getPhysicsSpace().add(bulletPhy);
     }
 
     public void playerCollisionControl(){
-        player1Control = new PlayerController(player1View,1f,2f,1f);
-        player2Control = new PlayerController(player2View,1f,2f,1f);
         player1View.getPlayerNode().addControl(player1Control);
         bulletAppState.getPhysicsSpace().add(player1Control);
         player2View.getPlayerNode().addControl(player2Control);
