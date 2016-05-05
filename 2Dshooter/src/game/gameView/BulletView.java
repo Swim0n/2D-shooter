@@ -68,4 +68,8 @@ public class BulletView {
     public GameView getGameView(){
         return this.gameView;
     }
+
+    public PlayerView getPlayerView(){
+        return this.player;
+    }
 }
