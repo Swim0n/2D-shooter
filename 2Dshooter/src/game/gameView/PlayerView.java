@@ -5,6 +5,7 @@ import com.jme3.input.InputManager;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 /**
@@ -27,8 +28,7 @@ public abstract class PlayerView {
         this.inputManager = gameView.getInputManager();
     }
 
-    public void createPlayer(){
-    }
+    public void createPlayer(){}
     public InputManager getInputManager(){
         return this.inputManager;
     }
@@ -36,6 +36,7 @@ public abstract class PlayerView {
     public Geometry getPlayer(){
         return this.player;
     }
+    public Spatial getPlayerNode(){return this.playerNode;}
     public GameView getGameView(){
         return this.gameView;
     }

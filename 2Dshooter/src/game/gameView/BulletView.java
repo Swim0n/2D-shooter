@@ -50,7 +50,7 @@ public class BulletView {
         bulletNode.attachChild(bullet);
 
         //setting starting point at players pos.
-        bullet.setLocalTranslation(player.getPlayer().getLocalTranslation());
+        bullet.setLocalTranslation(player.getPlayerNode().getLocalTranslation());
 
         //attaching physics to bullet
         gameView.bulletCollisionControl(this, bullet);

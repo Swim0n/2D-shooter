@@ -191,9 +191,9 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void playerCollisionControl(){
         player1Control = new PlayerController(player1View,1f,2f,1f);
         player2Control = new PlayerController(player2View,1f,2f,1f);
-        player1View.getPlayer().addControl(player1Control);
+        player1View.getPlayerNode().addControl(player1Control);
         bulletAppState.getPhysicsSpace().add(player1Control);
-        player2View.getPlayer().addControl(player2Control);
+        player2View.getPlayerNode().addControl(player2Control);
         bulletAppState.getPhysicsSpace().add(player2Control);
     }
 
