@@ -25,7 +25,7 @@ public class Player {
     public void getPlayerDirection(){
     }
 
-    public void setHeath(float health){
+    public void setHealth(float health){
         this.health = health;
     }
 
@@ -55,7 +55,7 @@ public class Player {
         this.mass = 1;
         this.health = 100;
         this.speed = 40;
-        this.damage = 1;
+        this.damage = 5;
     }
 
 

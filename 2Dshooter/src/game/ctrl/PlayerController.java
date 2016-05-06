@@ -110,7 +110,8 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
         }
         if (gunLeft){
 
-            //for some reason, everything gets reset when releasing the rotation button. Everrything else works fine
+            //for some reason, everything gets reset when releasing the rotation button. Everything else works fine.
+            //feel free to poke around if not yet resolved.
             gunRot = spatial.getLocalRotation();
             Vector3f direction = gunRot.getRotationColumn(2);
             gunRot.getRotationColumn(2);
@@ -165,8 +166,6 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             }else if(name.equals("p1GunRight")){
                 gunRight = isPressed;
             }
-
-
         }
         else if(view instanceof Player2View){
             if (name.equals("p2left")) {
@@ -191,7 +190,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     }
 
     public void takeDamage(float damage){
-        playerData.setHeath(playerData.getHealth() - damage);
+        playerData.setHealth(playerData.getHealth() - damage);
 
     }
 
@@ -208,7 +207,6 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     //last direction the player moved, used by bullets
     public Vector3f getLastDirection(){return this.lastDirection;}
-    //last rotation of the player
     public Quaternion getGunRotation(){return gunRot;}
     public float getLastRotation(){return FastMath.PI*lastRotation/180;}
     public BulletView getBulletView(){return this.bulletView;}

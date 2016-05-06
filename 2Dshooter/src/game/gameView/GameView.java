@@ -3,13 +3,11 @@ package game.gameView;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
-
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
@@ -58,7 +56,6 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     public void simpleInitApp() {
         //gui initialization
-        flyCam.setEnabled(false);
         niftyDisplay = new NiftyJmeDisplay(assetManager,
                 inputManager,
                 audioRenderer,
@@ -69,11 +66,13 @@ public class GameView extends SimpleApplication implements ScreenController{
         guiViewPort.addProcessor(niftyDisplay);
 
         //camera settings
-        cam.setLocation(new Vector3f(0,-68f,0));
+        flyCam.setEnabled(false);
+        cam.setLocation(new Vector3f(0f,-80f,4f));
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
         getFlyByCamera().setEnabled(false);
         getFlyByCamera().setMoveSpeed(50);
 
+        //init nodes
         bulletNode = new Node("bullets");
         stageNode = new Node("stage");
         player1Node = new Node("player1");
