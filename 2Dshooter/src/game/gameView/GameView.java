@@ -106,9 +106,6 @@ public class GameView extends SimpleApplication {
         //adding collision-detection to terrain.
         terrainCollisionControl();
 
-
-
-
         //nullify gravity
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
 
@@ -164,7 +161,8 @@ public class GameView extends SimpleApplication {
     public void bulletCollisionControl(BulletView bulletView, Spatial bullet){
         bulletPhy = new BulletController(bulletView);
         bullet.addControl(bulletPhy);
-        bulletPhy.setLinearVelocity(bulletView.getPlayerController().getLastDirection().mult(speed*2));
+
+        bulletPhy.setLinearVelocity(bulletView.getPlayerController().getGunRotation().getRotationColumn(2).mult(speed*30));
         bulletAppState.getPhysicsSpace().add(bulletPhy);
     }
 

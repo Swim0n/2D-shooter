@@ -12,6 +12,8 @@ import com.jme3.scene.shape.Box;
  */
 public class Player1View extends PlayerView {
 
+
+
     public Player1View(AssetManager assetManager, Node playerNode, GameView gameView){
         super(assetManager,playerNode,gameView);
     }
@@ -25,5 +27,20 @@ public class Player1View extends PlayerView {
         playerMaterial.setColor("Color", ColorRGBA.Red);
         player.setMaterial(playerMaterial);
         playerNode.attachChild(player);
+        createGun();
+    }
+
+    @Override
+    public void createGun(){
+        gunShape = new Box(0.3f,0.1f,1.5f);
+
+        gun = new Geometry("Box", gunShape);
+        gunMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        gun.setLocalTranslation(0,0,0.75f);
+
+        gunMaterial.setColor("Color", ColorRGBA.DarkGray);
+        gun.setMaterial(gunMaterial);
+        gunNode.attachChild(gun);
+        playerNode.attachChild(gunNode);
     }
 }

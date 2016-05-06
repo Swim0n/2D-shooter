@@ -17,9 +17,6 @@ public class BulletController extends RigidBodyControl{
 
     public BulletController(BulletView bulletView){
         this.bulletView = bulletView;
-
-        //this.setLinearVelocity(this.bulletView.getPlayerController().getLastDirection().mult(bulletSpeed));
-        //setDirection(this.bulletView.getPlayerController().getLastDirection());
     }
 
     public void update(float tpf){
@@ -46,9 +43,5 @@ public class BulletController extends RigidBodyControl{
             }
         }
 
-    }
-
-    public void setDirection(Vector3f direction){
-       // this.setLinearVelocity(direction.mult(bulletSpeed));
     }
 }

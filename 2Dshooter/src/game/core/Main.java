@@ -11,6 +11,7 @@ public class Main {
         AppSettings settings = new AppSettings(false);
         settings.setSettingsDialogImage("Interface/theteam.png");
         settings.setTitle("Epic 2D-shooter");
+        settings.setVSync(true);
         GameView gameView = new GameView();
         gameView.setSettings(settings);
         gameView.start();

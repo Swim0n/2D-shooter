@@ -3,6 +3,7 @@ package game.gameView;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.material.Material;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -13,11 +14,15 @@ import com.jme3.scene.shape.Box;
  */
 public abstract class PlayerView {
     protected Geometry player;
+    protected Geometry gun;
     protected Box playerShape;
+    protected Box gunShape;
     protected Material playerMaterial;
+    protected Material gunMaterial;
     protected AssetManager assetManager;
     protected GameView gameView;
     protected Node playerNode;
+    protected Node gunNode = new Node("guns");
     protected InputManager inputManager;
 
 
@@ -29,10 +34,11 @@ public abstract class PlayerView {
     }
 
     public void createPlayer(){}
+    public void createGun(){}
+
     public InputManager getInputManager(){
         return this.inputManager;
     }
-
     public Geometry getPlayer(){
         return this.player;
     }
@@ -40,4 +46,5 @@ public abstract class PlayerView {
     public GameView getGameView(){
         return this.gameView;
     }
+
 }
