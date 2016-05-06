@@ -1,7 +1,6 @@
 package game.gameView;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -9,8 +8,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -43,13 +40,13 @@ public class PowerupView {
 
     }
 
-    /**sets the possible x and y range for box.*/
+    /**sets the possible x and z range for box.*/
     private void setRandomPos(){
         float maximumX = groundView.getGroundShape().getWidth();
         float maximumZ = groundView.getGroundShape().getHeight();
 
-        randomX = randomGenerator.nextInt((int)(maximumX)) - maximumX/2-(powerBox.getXExtent()*2);
-        randomZ = randomGenerator.nextInt((int)((maximumZ)))-maximumZ/2-(powerBox.getZExtent()*2);
+        randomX = randomGenerator.nextInt((int)(maximumX)) - maximumX/2;
+        randomZ = randomGenerator.nextInt((int)(maximumZ)) - maximumZ/2;
     }
 
     /**creates a power up at random position. Have to set type of power up.*/
