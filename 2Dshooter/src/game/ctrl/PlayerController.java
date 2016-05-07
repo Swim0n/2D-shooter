@@ -21,15 +21,17 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     private Player playerData = new Player();
     private float speed;
     private Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
+    private GUIView niftyView;
 
-    public PlayerController(PlayerView view, float radius, float height, float mass){
+    public PlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView){
         super(radius, height, mass);
         this.view = view;
         this.inputManager = view.getInputManager();
         this.bulletView = new BulletView(view.getGameView(), this, view);
         setupKeys();
         this.playerData.setStandard();
-        speed = playerData.getSpeed();
+        this.speed = playerData.getSpeed();
+        this.niftyView = niftyView;
     }
 
     private void setupKeys() {
@@ -154,6 +156,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     public void takeDamage(float damage){
         playerData.setHealth(playerData.getHealth() - damage);
+        niftyView.updateText();
     }
 
     public Player getPlayerData(){

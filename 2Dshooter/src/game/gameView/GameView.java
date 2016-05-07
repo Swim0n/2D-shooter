@@ -11,6 +11,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import game.ctrl.BulletController;
@@ -48,6 +50,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     //variables for gui
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
+    private GUIView niftyView;
 
 
     //private World world = new World();
@@ -62,6 +65,9 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         nifty.fromXml("Interface/screen.xml", "start", this);
         guiViewPort.addProcessor(niftyDisplay);
+
+        niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
+        niftyView.setNiftyDisp(niftyDisplay);
 
         //camera settings
         flyCam.setEnabled(false);
@@ -106,8 +112,12 @@ public class GameView extends SimpleApplication implements ScreenController{
         terrainView = new TerrainView(this, stageNode, groundView);
         terrainView.createTerrain(10,5);
 
-        player1Control = new PlayerController(player1View,1f,2f,1f);
-        player2Control = new PlayerController(player2View,1f,2f,1f);
+        player1Control = new PlayerController(player1View,1f,2f,1f, niftyView);
+        player2Control = new PlayerController(player2View,1f,2f,1f, niftyView);
+
+        niftyView.setP1ctr(player1Control);
+        niftyView.setP2ctr(player2Control);
+
 
         //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();

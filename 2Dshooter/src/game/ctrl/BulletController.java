@@ -44,7 +44,6 @@ public class BulletController extends RigidBodyControl{
 
             if (results.size() > 0){
                 spatial.removeFromParent();
-                player2Control.takeDamage(player1Control.getPlayerData().getDamage());
                 bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
 
                 player1Control.takeDamage(player2Control.getPlayerData().getDamage()); //player taking damage, runs for every bullet, needs logic fix
