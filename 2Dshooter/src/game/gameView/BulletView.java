@@ -8,7 +8,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import game.ctrl.PlayerController;
-
 import java.util.ArrayList;
 import java.util.List;
 

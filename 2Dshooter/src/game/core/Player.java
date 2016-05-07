@@ -14,19 +14,13 @@ public class Player {
     private float damage;
 
 
-    public Player(){
-    }
-
-
-    public void setPlayerDirection(){
-
-    }
-
-    public void getPlayerDirection(){
-    }
+    public Player(){}
 
     public void setHealth(float health){
         this.health = health;
+        if(this.health<0){
+            this.health = 0;
+        }
     }
 
     public void setSpeed(float speed){
@@ -44,10 +38,10 @@ public class Player {
     public float getSpeed(){
         return this.speed;
     }
+
     public float getDamage(){
         return this.damage;
     }
-
 
     public void setStandard(){
         this.radius = 1;

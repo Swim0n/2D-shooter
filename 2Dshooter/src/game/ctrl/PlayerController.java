@@ -1,19 +1,13 @@
 package game.ctrl;
 
-
-import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.math.FastMath;
-import com.jme3.math.Matrix3f;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import game.core.Player;
 import game.gameView.*;
-
 
 /**
  * Created by Simon on 2016-04-26.
@@ -39,7 +33,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     }
 
     private void setupKeys() {
-        if(view instanceof Player1View) {
+        if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())) {
             inputManager.addMapping("p1left", new KeyTrigger(KeyInput.KEY_LEFT));
             inputManager.addMapping("p1right", new KeyTrigger(KeyInput.KEY_RIGHT));
             inputManager.addMapping("p1up", new KeyTrigger(KeyInput.KEY_UP));
@@ -56,7 +50,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             inputManager.addListener(this, "p1GunLeft");
             inputManager.addListener(this, "p1GunRight");
         }
-        if(view instanceof Player2View) {
+        if(view.getPlayerNode().equals(view.getGameView().getPlayer2Node())) {
             inputManager.addMapping("p2left", new KeyTrigger(KeyInput.KEY_A));
             inputManager.addMapping("p2right", new KeyTrigger(KeyInput.KEY_D));
             inputManager.addMapping("p2up", new KeyTrigger(KeyInput.KEY_W));
@@ -118,7 +112,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     public void onAction(String name, boolean isPressed, float tpf) {
         //movement of player
-        if(view instanceof Player1View){
+        if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())){
             if (name.equals("p1left")) {
                 left = isPressed;
             } else if (name.equals("p1right")) {
@@ -137,7 +131,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
                 gunRight = isPressed;
             }
         }
-        else if(view instanceof Player2View){
+        else if(view.getPlayerNode().equals(view.getGameView().getPlayer2Node())){
             if (name.equals("p2left")) {
                 left = isPressed;
             } else if (name.equals("p2right")) {

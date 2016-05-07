@@ -3,6 +3,7 @@ package game.gameView;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.scene.Geometry;
@@ -12,11 +13,8 @@ import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
-import game.core.Bullet;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
-
-
 
 /**
  * Created by David on 2016-04-18.
@@ -37,8 +35,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     //variables for viewer classes
     private WallsView wallsView;
     private GroundView groundView;
-    private Player1View player1View;
-    private Player2View player2View;
+    private PlayerView player1View;
+    private PlayerView player2View;
     private PowerupView powerupView;
     private TerrainView terrainView;
 
@@ -100,12 +98,10 @@ public class GameView extends SimpleApplication implements ScreenController{
         wallsView.createWalls();
 
         //spawning player1
-        player1View = new Player1View(getAssetManager(), player1Node, this);
-        player1View.createPlayer();
+        player1View = new PlayerView(getAssetManager(), player1Node, this, ColorRGBA.Red, new Vector3f(-4f,-2f,0f));
 
         //spawning player2
-        player2View = new Player2View(getAssetManager(), player2Node, this);
-        player2View.createPlayer();
+        player2View = new PlayerView(getAssetManager(), player2Node, this, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
 
         terrainView = new TerrainView(this, stageNode, groundView);
         terrainView.createTerrain(10,5);
