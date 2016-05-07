@@ -12,6 +12,7 @@ import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import game.core.Bullet;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
 
@@ -32,7 +33,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     private PlayerController player1Control;
     private PlayerController player2Control;
     private BulletAppState bulletAppState;
-
 
     //variables for viewer classes
     private WallsView wallsView;
@@ -95,8 +95,6 @@ public class GameView extends SimpleApplication implements ScreenController{
         groundView = new GroundView(getAssetManager(),stageNode);
         groundView.createGround();
 
-
-
         //adding walls for the surface
         wallsView = new WallsView(getAssetManager(), stageNode, groundView.getGroundGeom());
         wallsView.createWalls();
@@ -133,15 +131,11 @@ public class GameView extends SimpleApplication implements ScreenController{
         //spawn a power-up of type speed
         powerupView = new PowerupView(this,stageNode,groundView);
         //powerupView.createPowerup("speed");
-
     }
 
     public Quad getGroundSize(){
         return groundView.getGroundShape();
     }
-
-
-
 
     //CollisionControl methods to give objects physic bodies and properties
     public void groundCollisionControl(){
@@ -176,14 +170,13 @@ public class GameView extends SimpleApplication implements ScreenController{
                 }
             }
         }
-
     }
 
     public void bulletCollisionControl(BulletView bulletView, Spatial bullet){
         bulletPhy = new BulletController(bulletView, player1Control, player2Control);
         bullet.addControl(bulletPhy);
 
-        bulletPhy.setLinearVelocity(bulletView.getPlayerController().getGunRotation().getRotationColumn(2).mult(speed*30));
+        bulletPhy.setLinearVelocity(bulletView.getPlayerView().getGunRotation().getRotationColumn(2).mult(50));
         bulletAppState.getPhysicsSpace().add(bulletPhy);
     }
 
@@ -198,9 +191,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         return this.bulletNode;
     }
 
-    public void simpleUpdate(float tpf){
-
-    }
+    public void simpleUpdate(float tpf){}
 
     public Node getStageNode(){
         return stageNode;

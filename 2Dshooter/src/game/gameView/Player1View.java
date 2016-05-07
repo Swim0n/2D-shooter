@@ -1,8 +1,12 @@
 package game.gameView;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
@@ -11,8 +15,6 @@ import com.jme3.scene.shape.Box;
  * Created by Hannes on 24/04/2016.
  */
 public class Player1View extends PlayerView {
-
-
 
     public Player1View(AssetManager assetManager, Node playerNode, GameView gameView){
         super(assetManager,playerNode,gameView);
@@ -43,4 +45,6 @@ public class Player1View extends PlayerView {
         gunNode.attachChild(gun);
         playerNode.attachChild(gunNode);
     }
+
+
 }

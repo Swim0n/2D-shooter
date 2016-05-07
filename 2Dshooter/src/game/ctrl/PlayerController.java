@@ -1,6 +1,7 @@
 package game.ctrl;
 
 
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -26,9 +27,6 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     private Player playerData = new Player();
     private float speed;
     private Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
-    private float lastRotation;
-    private Quaternion gunRot = new Quaternion();
-    private Vector3f axisY=Vector3f.UNIT_Y;//for rotation around Y-axis
 
     public PlayerController(PlayerView view, float radius, float height, float mass){
         super(radius, height, mass);
@@ -46,9 +44,9 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             inputManager.addMapping("p1right", new KeyTrigger(KeyInput.KEY_RIGHT));
             inputManager.addMapping("p1up", new KeyTrigger(KeyInput.KEY_UP));
             inputManager.addMapping("p1down", new KeyTrigger(KeyInput.KEY_DOWN));
-            inputManager.addMapping("p1shoot", new KeyTrigger(KeyInput.KEY_NUMPAD0), new KeyTrigger(KeyInput.KEY_RETURN));
-            inputManager.addMapping("p1GunLeft", new KeyTrigger(KeyInput.KEY_O));
-            inputManager.addMapping("p1GunRight", new KeyTrigger(KeyInput.KEY_P));
+            inputManager.addMapping("p1shoot", new KeyTrigger(KeyInput.KEY_NUMPAD5), new KeyTrigger(KeyInput.KEY_RETURN));
+            inputManager.addMapping("p1GunLeft", new KeyTrigger(KeyInput.KEY_O),new KeyTrigger(KeyInput.KEY_NUMPAD4));
+            inputManager.addMapping("p1GunRight", new KeyTrigger(KeyInput.KEY_P),new KeyTrigger(KeyInput.KEY_NUMPAD6));
 
             inputManager.addListener(this, "p1left");
             inputManager.addListener(this, "p1right");
@@ -63,9 +61,9 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             inputManager.addMapping("p2right", new KeyTrigger(KeyInput.KEY_D));
             inputManager.addMapping("p2up", new KeyTrigger(KeyInput.KEY_W));
             inputManager.addMapping("p2down", new KeyTrigger(KeyInput.KEY_S));
-            inputManager.addMapping("p2shoot", new KeyTrigger(KeyInput.KEY_SPACE));
+            inputManager.addMapping("p2shoot", new KeyTrigger(KeyInput.KEY_SPACE),new KeyTrigger(KeyInput.KEY_H));
             inputManager.addMapping("p2GunLeft", new KeyTrigger(KeyInput.KEY_G));
-            inputManager.addMapping("p2GunRight", new KeyTrigger(KeyInput.KEY_H));
+            inputManager.addMapping("p2GunRight", new KeyTrigger(KeyInput.KEY_J));
             inputManager.addListener(this, "p2left");
             inputManager.addListener(this, "p2right");
             inputManager.addListener(this, "p2up");
@@ -109,38 +107,10 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
         }
         if (gunLeft){
-
-            //for some reason, everything gets reset when releasing the rotation button. Everything else works fine.
-            //feel free to poke around if not yet resolved.
-            gunRot = spatial.getLocalRotation();
-            Vector3f direction = gunRot.getRotationColumn(2);
-            gunRot.getRotationColumn(2);
-            spatial.setLocalRotation(gunRot);
-            spatial.updateModelBound();
-            gunRot.fromAngleAxis(FastMath.PI*lastRotation/180, axisY);
-
-            view.getPlayer().updateGeometricState();
-
-
-           // spatial.rotate(0, FastMath.PI*lastRotation/180, 0);
-            //spatial.rotate(0, lastRotation-0.1f, 0);
-            lastRotation -= 2f;
+            view.rotateGun(-2f);
         }
         if(gunRight){
-            gunRot = spatial.getLocalRotation();
-            gunRot.fromAngleAxis(FastMath.PI*lastRotation/180, axisY);
-            spatial.setLocalRotation(gunRot);
-
-            //  Vector3f translation = new Vector3f(2,0,0);
-
-            //spatial.setLocalTranslation(gunRot.mult(translation));
-            //spatial.setLocalRotation(gunRot);
-            //spatial.rotate(0, FastMath.PI*lastRotation/180, 0);
-            //spatial.rotate(0, lastRotation+0.1f, 0);
-            lastRotation += 2f;
-            view.getPlayer().updateGeometricState();
-            spatial.updateModelBound();
-
+            view.rotateGun(2f);
         }
 
             warp(new Vector3f(location.getX(),-2f, location.getZ()));
@@ -185,30 +155,20 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             }else if(name.equals("p2GunRight")){
                 gunRight = isPressed;
             }
-
         }
     }
 
     public void takeDamage(float damage){
         playerData.setHealth(playerData.getHealth() - damage);
-
     }
 
     public Player getPlayerData(){
         return this.playerData;
     }
 
-
-
     //creates a new bullet specific to the player who fired it
     public void shootBullet(){
         bulletView.createBullet();
     }
-
-    //last direction the player moved, used by bullets
-    public Vector3f getLastDirection(){return this.lastDirection;}
-    public Quaternion getGunRotation(){return gunRot;}
-    public float getLastRotation(){return FastMath.PI*lastRotation/180;}
-    public BulletView getBulletView(){return this.bulletView;}
 }
 
