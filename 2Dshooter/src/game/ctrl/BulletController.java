@@ -23,14 +23,16 @@ public class BulletController extends RigidBodyControl{
         CollisionResults results = new CollisionResults();
 
         bulletView.getGameView().getStageNode().collideWith(spatial.getWorldBound(), results);
+
         if (results.size() > 0){
             spatial.removeFromParent();
             bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
         }
 
+        results.clear();
+
         if (bulletView.getPlayerView().getPlayerNode().equals(bulletView.getGameView().getPlayer1Node())){
             bulletView.getGameView().getPlayer2Node().collideWith(spatial.getWorldBound(), results);
-
             if (results.size() > 0){
                 spatial.removeFromParent();
                 bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
