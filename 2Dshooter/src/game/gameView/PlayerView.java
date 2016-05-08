@@ -10,22 +10,16 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import game.utils.Utils;
 
 /**
  * Created by Simon on 2016-04-26.
  */
 public class PlayerView {
-    private final Box pipeShape;
     private final Geometry pipe;
-    private final Material pipeMaterial;
     private final Node pipeNode = new Node("pipeNode");
-    private Node gunPipe = new Node("gunPipe");
     private Geometry player;
     private Geometry gun;
-    private Box playerShape;
-    private Box gunShape;
-    private Material playerMaterial;
-    private Material gunMaterial;
     private AssetManager assetManager;
     private GameView gameView;
     private Node playerNode;
@@ -43,38 +37,23 @@ public class PlayerView {
         this.inputManager = gameView.getInputManager();
 
         //creating player
-        playerShape = new Box(1f,1f,1f);
-
-        player = new Geometry("Box", playerShape);
-        playerMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        player = Utils.getBox(1f,1f,1f);
+        player.setMaterial(Utils.getMaterial(assetManager,colorRGBA));
         playerNode.setLocalTranslation(startPos);
-        playerMaterial.setColor("Color", colorRGBA);
-        player.setMaterial(playerMaterial);
         playerNode.attachChild(player);
 
         //creating gun attached to player
-        gunShape = new Box(0.3f,0.3f,1.5f);
-
-        gun = new Geometry("Box", gunShape);
-        gunMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        gun = Utils.getBox(0.3f,0.3f,1.5f);
+        gun.setMaterial(Utils.getMaterial(assetManager,colorRGBA.DarkGray));
         gun.setLocalTranslation(0,0,0.75f);
-
-        gunMaterial.setColor("Color", ColorRGBA.DarkGray);
-        gun.setMaterial(gunMaterial);
         gunNode.attachChild(gun);
         playerNode.attachChild(gunNode);
 
         //creating pipe for bullet exit
-        pipeShape = new Box(0.1f,0.1f,0.2f);
-
-        pipe = new Geometry("Box", pipeShape);
-        pipeMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-
-        pipeMaterial.setColor("Color", ColorRGBA.Green);
-        pipe.setMaterial(pipeMaterial);
+        pipe = Utils.getBox(0.1f,0.1f,0.2f);
+        pipe.setMaterial(Utils.getMaterial(assetManager,colorRGBA.Green));
+        pipeNode.setLocalTranslation(0f,0.3f,3f);
         pipe.setLocalTranslation(0f,0.3f,-0.4f);
-        pipeNode.setLocalTranslation(0,0.3f,3f);
-
         pipeNode.attachChild(pipe);
         gunNode.attachChild(pipeNode);
     }

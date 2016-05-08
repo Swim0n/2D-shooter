@@ -11,8 +11,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import game.ctrl.BulletController;
@@ -93,7 +91,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         //set up physics
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugEnabled(false);
 
         //creating a "ground floor" for levels
         groundView = new GroundView(getAssetManager(),stageNode);
@@ -136,7 +134,7 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         //spawn a power-up of type speed
         powerupView = new PowerupView(this,stageNode,groundView);
-        //powerupView.createPowerup("speed");
+        //powerUpView.createPowerUp("speed");
     }
 
     public Quad getGroundSize(){

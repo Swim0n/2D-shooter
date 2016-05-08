@@ -15,15 +15,18 @@ import javax.swing.*;
 public final class Utils {
 
 
-    public Geometry getBox(AssetManager assetManager,float xDim, float yDim, float zDim, ColorRGBA colorRGBA){
+    public static Geometry getBox(float xDim, float yDim, float zDim){
         Box box = new Box(xDim,yDim,zDim);
         Geometry geometry = new Geometry("Box", box);
-        Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-
-        material.setColor("Color", ColorRGBA.DarkGray);
-        geometry.setMaterial(material);
 
         return geometry;
+    }
+
+    public static Material getMaterial(AssetManager assetManager, ColorRGBA colorRGBA){
+        Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        material.setColor("Color", colorRGBA);
+
+        return material;
     }
 
 }
