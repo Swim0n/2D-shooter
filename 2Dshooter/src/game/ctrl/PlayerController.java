@@ -156,6 +156,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     public void takeDamage(float damage){
         playerData.setHealth(playerData.getHealth() - damage);
+        view.setHealthBar(playerData.getHealth());
         niftyView.updateText();
     }
 
