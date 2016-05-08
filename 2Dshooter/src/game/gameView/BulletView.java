@@ -3,6 +3,7 @@ package game.gameView;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -26,7 +27,6 @@ public class BulletView {
     private PlayerController playerController;
     private List<Spatial> bullets;
 
-
     public BulletView(GameView gameView, PlayerController playerController, PlayerView player){
         this.gameView = gameView;
         this.assetManager = gameView.getAssetManager();
@@ -34,7 +34,6 @@ public class BulletView {
         this.playerController = playerController;
         this.player = player;
         this.bullets = new ArrayList<Spatial>();
-
     }
 
     public void createBullet() {
@@ -49,7 +48,7 @@ public class BulletView {
         bulletNode.attachChild(bullet);
 
         //setting starting point at players pos.
-        bullet.setLocalTranslation(player.getPlayerNode().getLocalTranslation());
+        bullet.setLocalTranslation(this.player.getPipePos());
 
         //attaching physics to bullet
         gameView.bulletCollisionControl(this, bullet);

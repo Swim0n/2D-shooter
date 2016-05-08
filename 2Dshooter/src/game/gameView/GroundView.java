@@ -18,14 +18,11 @@ public class GroundView {
     private AssetManager assetManager;
     private Quad groundShape;
 
-
-
-
-    public GroundView(AssetManager assetManager, Node stageNode){
+    GroundView(AssetManager assetManager, Node stageNode){
         this.stageNode = stageNode;
         this.assetManager = assetManager;
     }
-    public void createGround(){
+    void createGround(){
 
         groundShape = new Quad(71f, 53f); //quad to represent ground in game
         groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
@@ -39,12 +36,6 @@ public class GroundView {
 
         stageNode.attachChild(groundGeom);
     }
-
-    public Geometry getGroundGeom(){
-        return this.groundGeom;
-    }
-    public  Quad getGroundShape(){
-        return this.groundShape;
-    }
-
+    Geometry getGroundGeom(){return this.groundGeom;}
+    Quad getGroundShape(){return this.groundShape;}
 }
