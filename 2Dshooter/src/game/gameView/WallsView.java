@@ -1,14 +1,12 @@
 package game.gameView;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
-import jme3tools.optimize.GeometryBatchFactory;
 
 /**
  * Created by Hannes on 24/04/2016.
