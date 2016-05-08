@@ -103,10 +103,10 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
         }
         if (gunLeft){
-            view.rotateGun(-2f);
+            view.rotateGun(tpf*-300f);
         }
         if(gunRight){
-            view.rotateGun(2f);
+            view.rotateGun(tpf*300f);
         }
 
             warp(new Vector3f(location.getX(),-2f, location.getZ()));
