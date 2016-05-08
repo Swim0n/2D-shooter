@@ -103,10 +103,10 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
         }
         if (gunLeft){
-            view.rotateGun(-2f);
+            view.rotateGun(tpf*-300f);
         }
         if(gunRight){
-            view.rotateGun(2f);
+            view.rotateGun(tpf*300f);
         }
 
             warp(new Vector3f(location.getX(),-2f, location.getZ()));
@@ -156,6 +156,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     public void takeDamage(float damage){
         playerData.setHealth(playerData.getHealth() - damage);
+        view.setHealthBar(playerData.getHealth());
         niftyView.updateText();
     }
 

@@ -17,10 +17,13 @@ public class Player {
     public Player(){}
 
     public void setHealth(float health){
-        this.health = health;
-        if(this.health<0){
+        if(health < 0){
             this.health = 0;
         }
+        else {
+            this.health = health;
+        }
+
     }
 
     public void setSpeed(float speed){
@@ -48,7 +51,7 @@ public class Player {
         this.height = 1;
         this.mass = 1;
         this.health = 100;
-        this.speed = 40;
+        this.speed = 25;
         this.damage = 5;
     }
 
