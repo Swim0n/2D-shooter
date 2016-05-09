@@ -2,7 +2,6 @@ package game.gameView;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
@@ -10,7 +9,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.BillboardControl;
-import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import game.utils.Utils;
 
@@ -20,6 +18,7 @@ import game.utils.Utils;
 public class PlayerView {
     private final Geometry pipe;
     private final Node pipeNode = new Node("pipeNode");
+    private final Vector3f startPos;
     private Geometry player;
     private Geometry gun;
     private Geometry backgroundBar;
@@ -39,6 +38,7 @@ public class PlayerView {
         this.gameView = gameView;
         this.playerNode = playerNode;
         this.inputManager = gameView.getInputManager();
+        this.startPos = startPos;
 
         //creating player
         player = Utils.getBox(1f,1f,1f);
@@ -92,12 +92,12 @@ public class PlayerView {
         } else {
             healthBar.setLocalScale(-0.1f, 1f, 1f);
         }
-
     }
 
     public InputManager getInputManager(){return this.inputManager;}
     public Node getPlayerNode(){return this.playerNode;}
     public Vector3f getPipePos(){return this.pipeNode.getWorldTranslation();}
+    public Vector3f getStartPos(){return startPos;}
     public GameView getGameView(){return this.gameView;}
     public Quaternion getGunRotation(){return gunRot;}
 

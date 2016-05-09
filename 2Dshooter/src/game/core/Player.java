@@ -51,7 +51,7 @@ public class Player {
         this.height = 1;
         this.mass = 1;
         this.health = 100;
-        this.speed = 25;
+        this.speed = 35;
         this.damage = 5;
     }
 
