@@ -35,6 +35,8 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     }
 
     private void setupKeys() {
+        inputManager.addMapping("resetGame",new KeyTrigger(KeyInput.KEY_F8));
+        inputManager.addListener(this, "resetGame");
         if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())) {
             inputManager.addMapping("p1left", new KeyTrigger(KeyInput.KEY_LEFT));
             inputManager.addMapping("p1right", new KeyTrigger(KeyInput.KEY_RIGHT));
@@ -79,7 +81,6 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
         }
         if (left){
             setWalkDirection(lastDirection.set(speed*-1f,0f,0f));
-
         }
         if (right){
             setWalkDirection(lastDirection.set(speed*1f,0f,0f));
@@ -103,16 +104,22 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
         }
         if (gunLeft){
-            view.rotateGun(tpf*-300f);
+            view.rotateGun(tpf*-140f);
         }
         if(gunRight){
-            view.rotateGun(tpf*300f);
+            view.rotateGun(tpf*140f);
         }
-
             warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
+        //resetting the game to its original state
+        if (name.equals("resetGame") && !isPressed){
+            warp(new Vector3f(view.getStartPos()));
+            view.setHealthBar(100);
+            playerData.setStandard();
+            niftyView.updateText();
+        }
         //movement of player
         if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())){
             if (name.equals("p1left")) {

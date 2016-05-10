@@ -1,0 +1,46 @@
+Meeting Agenda
+ Date: 09/05/2016 
+ Facilitator: David
+ Participants: Hannes, Simon, David, Lukas.
+1. Objectives (5 min). Resolve any issues preventing the team to
+ continue.
+Modeller är på ingång men är inte helt klara nu. Graphics och saker dröjer lite pga detta. Ska brancha ut de lite och testa bredvid. Solen och pollen är lite dryga också. 
+
+	· Ta reda på vad vi vill göra och hur vi vill göra det.
+	Lägga in saker för att ha ett fullständigt spel; menyer, game over exclamation osv.
+Tester överlag behöver implementeras.
+PowerUps, implementera så den ändrar i modellen. Inte ha physics men ändå kolla collision och se till att den inte lägger sig på terräng. 
+
+2. Reports (15 min) from previous meeting
+
+Terrain – gjort en hel del, lite till + modeller
+Körbartspel – lite kvar men det mesta är gjort.
+PowerUps har lite kvar men en grund
+
+Dash är ganska orörd men heller inte prio
+
+3. Discussion items (35 min)
+
+Det som står oban och hur vi ska implementera det 
+
+4. Outcomes and assignments (5 min)
+ - Outcomes from 3). I.e. write down what's decided and why it
+ was decided? Sync with other documentation (add terms to
+ wordbook)
+
+simon – SDD + ev grafik
+david – dash, kommentera kod och restrukturera koden
+hannes – power ups
+lukas – menyer innan och efter
+
+ - From outcomes, 1), 2) and 3) (re)assign each group member
+ issues to solve.
+simon – SDD + ev grafik
+david – dash, kommentera kod och restrukturera koden
+hannes – power ups
+lukas – menyer innan och efter
+
+5. Wrap up
+- Write down unresolved issues for next meeting.
+
+Simons IML fil.

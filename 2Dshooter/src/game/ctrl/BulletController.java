@@ -37,7 +37,7 @@ public class BulletController extends RigidBodyControl{
                 spatial.removeFromParent();
                 bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
 
-                player2Control.takeDamage(player1Control.getPlayerData().getDamage());//player taking damage, runs for every bullet, needs logic fi
+                player2Control.takeDamage(player1Control.getPlayerData().getDamage());
 
                 System.out.println("P2 HP: " + Float.toString(player2Control.getPlayerData().getHealth()));
             }
@@ -48,7 +48,7 @@ public class BulletController extends RigidBodyControl{
                 spatial.removeFromParent();
                 bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
 
-                player1Control.takeDamage(player2Control.getPlayerData().getDamage()); //player taking damage, runs for every bullet, needs logic fix
+                player1Control.takeDamage(player2Control.getPlayerData().getDamage());
 
                 System.out.println("P1 HP: " + Float.toString(player1Control.getPlayerData().getHealth()));
             }
