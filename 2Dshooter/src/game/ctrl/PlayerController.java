@@ -15,21 +15,21 @@ import game.gameView.*;
  */
 public class PlayerController extends BetterCharacterControl implements ActionListener {
 
-    private final PlayerView view;
-    private final BulletView bulletView;
+    protected final PlayerView view;
+    protected final BulletView bulletView;
     private InputManager inputManager;
     private boolean left,right,up,down,gunLeft,gunRight;
-    private Player playerData;
-    private float speed;
-    private Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
-    private GUIView niftyView;
+    protected Player playerData;
+    protected float speed;
+    protected Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
+    protected GUIView niftyView;
 
     public PlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, World world){
         super(radius, height, mass);
         this.view = view;
         this.inputManager = view.getInputManager();
-        this.bulletView = new BulletView(view.getGameView(), this, view);
-        setupKeys();
+        this.bulletView = new BulletView(view.getGameView(), view);
+
         if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())) {
             this.playerData = world.getPlayer1();
         } else if (view.getPlayerNode().equals(view.getGameView().getPlayer2Node())) {
@@ -39,7 +39,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
         this.niftyView = niftyView;
     }
 
-    private void setupKeys() {
+    public void setupKeys() {
         inputManager.addMapping("resetGame",new KeyTrigger(KeyInput.KEY_F8));
         inputManager.addListener(this, "resetGame");
         if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())) {

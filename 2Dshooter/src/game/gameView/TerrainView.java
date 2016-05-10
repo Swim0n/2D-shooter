@@ -17,7 +17,7 @@ import java.util.Random;
 public class TerrainView {
     private AssetManager assetManager;
     private GroundView groundView;
-    private Node stageNode;
+    private Node terrainNode;
 
     private float groundX;
     private float groundZ;
@@ -34,9 +34,9 @@ public class TerrainView {
 
     private final static Random randomGenerator = new Random();
 
-    public TerrainView(Application application, Node stageNode, GroundView groundView, World world) {
+    public TerrainView(Application application, Node terrainNode, GroundView groundView, World world) {
         this.assetManager = application.getAssetManager();
-        this.stageNode = stageNode;
+        this.terrainNode = terrainNode;
         this.groundView = groundView;
         this.groundX = groundView.getGroundShape().getWidth();
         this.groundZ = groundView.getGroundShape().getHeight();
@@ -56,7 +56,7 @@ public class TerrainView {
             rock.setMaterial(rockMaterial);
             terrainGrid[position[0]][position[1]] = rock;
             rock.setLocalTranslation(-groundX/2+rockShape.getXExtent()+position[0]*4,-2, -groundZ/2+rockShape.getZExtent()+position[1]*4+0.5f);
-            stageNode.attachChild(rock);
+            terrainNode.attachChild(rock);
         }
 
         treeShape = new Box(2f,2f,2f);
@@ -69,7 +69,7 @@ public class TerrainView {
             tree.setMaterial(treeMaterial);
             terrainGrid[position[0]][position[1]] = tree;
             tree.setLocalTranslation(-groundX/2+treeShape.getXExtent()+position[0]*4,-2, -groundZ/2+treeShape.getZExtent()+position[1]*4+0.5f);
-            stageNode.attachChild(tree);
+            terrainNode.attachChild(tree);
         }
 
 

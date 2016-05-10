@@ -14,6 +14,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import game.core.World;
+import game.ctrl.AIPlayerController;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
 
@@ -31,6 +32,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private RigidBodyControl bulletPhy;
     private PlayerController player1Control;
     private PlayerController player2Control;
+    private AIPlayerController player2AIControl;
     private BulletAppState bulletAppState;
 
     //variables for viewer classes
@@ -43,6 +45,7 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private Node bulletNode;
     private Node stageNode;
+    private Node terrainNode;
     private Node player1Node;
     private Node player2Node;
 
@@ -80,14 +83,16 @@ public class GameView extends SimpleApplication implements ScreenController{
         //init nodes
         bulletNode = new Node("bullets");
         stageNode = new Node("stage");
+        terrainNode = new Node("terrain");
         player1Node = new Node("player1");
         player2Node = new Node("player2");
         rootNode.attachChild(player1Node);
         rootNode.attachChild(player2Node);
         rootNode.attachChild(bulletNode);
         rootNode.attachChild(stageNode);
+        rootNode.attachChild(terrainNode);
 
-        world = new World(40, 30);
+        world = new World(20, 12);
 
         //turn off stats gameView (you can leave it on, if you want)
         setDisplayStatView(true);
@@ -112,11 +117,22 @@ public class GameView extends SimpleApplication implements ScreenController{
         //spawning player2
         player2View = new PlayerView(getAssetManager(), player2Node, this, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
 
-        terrainView = new TerrainView(this, stageNode, groundView, world);
+        terrainView = new TerrainView(this, terrainNode, groundView, world);
         terrainView.createTerrain();
 
         player1Control = new PlayerController(player1View,1f,2f,1f, niftyView, world);
-        player2Control = new PlayerController(player2View,1f,2f,1f, niftyView, world);
+        player1Control.setupKeys();
+
+        boolean ai = true;
+
+        if(ai == true){
+            player2Control = new AIPlayerController(player2View,1f,2f,1f, niftyView, world);
+        } else {
+            player2Control = new PlayerController(player2View,1f,2f,1f, niftyView, world);
+            player2Control.setupKeys();
+        }
+
+
 
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
@@ -207,6 +223,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     public Node getStageNode(){
         return stageNode;
     }
+
+    public Node getTerrainNode() {return terrainNode;}
 
     public BulletAppState getBulletAppState(){
         return this.bulletAppState;

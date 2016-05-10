@@ -39,7 +39,6 @@ public class BulletController extends RigidBodyControl{
 
                 player2Control.takeDamage(player1Control.getPlayerData().getDamage());
 
-                System.out.println("P2 HP: " + Float.toString(player2Control.getPlayerData().getHealth()));
             }
         } else if (bulletView.getPlayerView().getPlayerNode().equals(bulletView.getGameView().getPlayer2Node())) {
             bulletView.getGameView().getPlayer1Node().collideWith(spatial.getWorldBound(), results);
@@ -50,7 +49,6 @@ public class BulletController extends RigidBodyControl{
 
                 player1Control.takeDamage(player2Control.getPlayerData().getDamage());
 
-                System.out.println("P1 HP: " + Float.toString(player1Control.getPlayerData().getHealth()));
             }
         }
 
