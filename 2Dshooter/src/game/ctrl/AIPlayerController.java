@@ -17,8 +17,6 @@ import game.gameView.PlayerView;
  */
 public class AIPlayerController extends PlayerController {
 
-
-
     public AIPlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, World world){
         super(view,radius, height, mass, niftyView, world);
 
@@ -52,20 +50,5 @@ public class AIPlayerController extends PlayerController {
         if(results.size() == 0) {
             shootBullet();
         }
-    }
-
-    public void takeDamage(float damage){
-        playerData.setHealth(playerData.getHealth() - damage);
-        view.setHealthBar(playerData.getHealth());
-        niftyView.updateText();
-    }
-
-    public Player getPlayerData(){
-        return this.playerData;
-    }
-
-    //creates a new bullet specific to the player who fired it
-    public void shootBullet(){
-        bulletView.createBullet();
     }
 }
