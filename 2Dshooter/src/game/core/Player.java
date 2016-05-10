@@ -14,7 +14,14 @@ public class Player {
     private float damage;
 
 
-    public Player(){}
+    public Player(){
+        this.radius = 1;
+        this.height = 1;
+        this.mass = 1;
+        this.health = 100;
+        this.speed = 35;
+        this.damage = 5;
+    }
 
     public void setHealth(float health){
         if(health < 0){

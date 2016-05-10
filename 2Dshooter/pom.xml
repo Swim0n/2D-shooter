@@ -20,6 +20,11 @@
         </dependency>
         <dependency>
             <groupId>com.jme3</groupId>
+            <artifactId>jme3-plugins</artifactId>
+            <version>${jme3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jme3</groupId>
             <artifactId>jme3-desktop</artifactId>
             <version>${jme3.version}</version>
         </dependency>

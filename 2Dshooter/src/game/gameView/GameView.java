@@ -13,6 +13,7 @@ import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import game.core.World;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
 
@@ -45,6 +46,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     private Node player1Node;
     private Node player2Node;
 
+    private World world;
+
     //variables for gui
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
@@ -62,14 +65,14 @@ public class GameView extends SimpleApplication implements ScreenController{
         nifty = niftyDisplay.getNifty();
 
         nifty.fromXml("Interface/screen.xml", "start", this);
-        guiViewPort.addProcessor(niftyDisplay);
+        //guiViewPort.addProcessor(niftyDisplay);
 
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
         niftyView.setNiftyDisp(niftyDisplay);
 
         //camera settings
         flyCam.setEnabled(false);
-        cam.setLocation(new Vector3f(0f,-80f,4f));
+        cam.setLocation(new Vector3f(0f,-80f,0));
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
         getFlyByCamera().setEnabled(false);
         getFlyByCamera().setMoveSpeed(50);
@@ -83,6 +86,8 @@ public class GameView extends SimpleApplication implements ScreenController{
         rootNode.attachChild(player2Node);
         rootNode.attachChild(bulletNode);
         rootNode.attachChild(stageNode);
+
+        world = new World(40, 30);
 
         //turn off stats gameView (you can leave it on, if you want)
         setDisplayStatView(true);
@@ -107,14 +112,16 @@ public class GameView extends SimpleApplication implements ScreenController{
         //spawning player2
         player2View = new PlayerView(getAssetManager(), player2Node, this, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
 
-        terrainView = new TerrainView(this, stageNode, groundView);
-        terrainView.createTerrain(10,5);
+        terrainView = new TerrainView(this, stageNode, groundView, world);
+        terrainView.createTerrain();
 
-        player1Control = new PlayerController(player1View,1f,2f,1f, niftyView);
-        player2Control = new PlayerController(player2View,1f,2f,1f, niftyView);
+        player1Control = new PlayerController(player1View,1f,2f,1f, niftyView, world);
+        player2Control = new PlayerController(player2View,1f,2f,1f, niftyView, world);
 
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
+
+
 
 
         //adding collision-detection to map walls, not working properly <--- still?
