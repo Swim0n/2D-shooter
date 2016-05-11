@@ -13,10 +13,10 @@ import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
-import game.core.Player;
 import game.core.World;
 import game.ctrl.AIPlayerController;
 import game.ctrl.BulletController;
+import game.ctrl.HumanPlayerController;
 import game.ctrl.PlayerController;
 
 /**
@@ -58,7 +58,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private Nifty nifty;
     private GUIView niftyView;
 
-    private boolean ai = false;
+    private boolean ai = true;
     private boolean paused = true;
 
 
@@ -98,7 +98,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         rootNode.attachChild(stageNode);
         rootNode.attachChild(terrainNode);
 
-        world = new World(20, 12);
+        world = new World(10, 5);
 
         //turn off stats gameView (you can leave it on, if you want)
         setDisplayStatView(true);
@@ -126,18 +126,16 @@ public class GameView extends SimpleApplication implements ScreenController{
         terrainView = new TerrainView(this, terrainNode, groundView, world);
         terrainView.createTerrain();
 
-        player1Control = new PlayerController(player1View,1f,2f,1f, niftyView, world);
-        player1Control.setupKeys();
+        player1Control = new HumanPlayerController(player1View,1f,2f,1f, niftyView, world);
 
         player2AIControl = new AIPlayerController(player2View,1f,2f,1f, niftyView, world);
-        player2ControlSave = new PlayerController(player2View,1f,2f,1f, niftyView, world);
+        player2ControlSave = new HumanPlayerController(player2View,1f,2f,1f, niftyView, world);
 
         if(this.ai == true){
             player2Control = player2AIControl;
         } else {
             player2Control = player2ControlSave;
         }
-        player2Control.setupKeys();
 
 
 
