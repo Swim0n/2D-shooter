@@ -23,9 +23,9 @@ public class BulletView {
     private Material bulletMaterial;
     private AssetManager assetManager;
     private Node bulletNode;
-    private GameView gameView;
     private PlayerController playerController;
     private List<Spatial> bullets;
+    private GameView gameView;
 
     public BulletView(GameView gameView, PlayerView player){
         this.gameView = gameView;

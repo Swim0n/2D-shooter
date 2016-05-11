@@ -32,6 +32,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private RigidBodyControl bulletPhy;
     private PlayerController player1Control;
     private PlayerController player2Control;
+    private PlayerController player2ControlSave;
     private AIPlayerController player2AIControl;
     private BulletAppState bulletAppState;
 
@@ -56,6 +57,9 @@ public class GameView extends SimpleApplication implements ScreenController{
     private Nifty nifty;
     private GUIView niftyView;
 
+    private boolean ai = true;
+    private boolean paused = true;
+
 
     //private World world = new World();
 
@@ -68,10 +72,11 @@ public class GameView extends SimpleApplication implements ScreenController{
         nifty = niftyDisplay.getNifty();
 
         nifty.fromXml("Interface/screen.xml", "start", this);
-        //guiViewPort.addProcessor(niftyDisplay);
+        guiViewPort.addProcessor(niftyDisplay);
 
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
         niftyView.setNiftyDisp(niftyDisplay);
+        niftyView.setGameView(this);
 
         //camera settings
         flyCam.setEnabled(false);
@@ -123,14 +128,15 @@ public class GameView extends SimpleApplication implements ScreenController{
         player1Control = new PlayerController(player1View,1f,2f,1f, niftyView, world);
         player1Control.setupKeys();
 
-        boolean ai = true;
+        player2AIControl = new AIPlayerController(player2View,1f,2f,1f, niftyView, world);
+        player2ControlSave = new PlayerController(player2View,1f,2f,1f, niftyView, world);
 
-        if(ai == true){
-            player2Control = new AIPlayerController(player2View,1f,2f,1f, niftyView, world);
+        if(this.ai == true){
+            player2Control = player2AIControl;
         } else {
-            player2Control = new PlayerController(player2View,1f,2f,1f, niftyView, world);
-            player2Control.setupKeys();
+            player2Control = player2ControlSave;
         }
+        player2Control.setupKeys();
 
 
 
@@ -212,6 +218,35 @@ public class GameView extends SimpleApplication implements ScreenController{
         bulletAppState.getPhysicsSpace().add(player1Control);
         player2View.getPlayerNode().addControl(player2Control);
         bulletAppState.getPhysicsSpace().add(player2Control);
+    }
+
+    //"pauses the game"
+    public void pauseGame(){
+        this.paused = true;
+        this.player1Control.pause();
+        this.player2Control.pause();
+    }
+
+    //"unpauses the game"
+    public void unpauseGame(){
+        this.paused = false;
+        this.player1Control.unpause();
+        this.player2Control.unpause();
+    }
+
+    public void updateGUI(){
+        niftyView.updateText();
+    }
+
+    public boolean getPaused(){
+        return this.paused;
+    }
+
+    public void setAI(boolean state){
+        this.ai = state;
+    }
+    public boolean getAI(){
+        return this.ai;
     }
 
     public Node getBulletNode(){

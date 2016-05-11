@@ -19,8 +19,15 @@ public class BulletController extends RigidBodyControl{
     }
 
     public void update(float tpf){
+        if(this.bulletView.getGameView().getPaused()){
+            spatial.removeFromParent();
+            bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
+            return;
+        }
         super.update(tpf);
         CollisionResults results = new CollisionResults();
+
+        bulletView.getGameView().updateGUI();
 
         bulletView.getGameView().getStageNode().collideWith(spatial.getWorldBound(), results);
 
@@ -36,9 +43,7 @@ public class BulletController extends RigidBodyControl{
             if (results.size() > 0){
                 spatial.removeFromParent();
                 bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
-
-                player2Control.takeDamage(player1Control.getPlayerData().getDamage());
-
+                    player2Control.takeDamage(player1Control.getPlayerData().getDamage());
             }
         } else if (bulletView.getPlayerView().getPlayerNode().equals(bulletView.getGameView().getPlayer2Node())) {
             bulletView.getGameView().getPlayer1Node().collideWith(spatial.getWorldBound(), results);
@@ -46,11 +51,8 @@ public class BulletController extends RigidBodyControl{
             if (results.size() > 0){
                 spatial.removeFromParent();
                 bulletView.getGameView().getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
-
-                player1Control.takeDamage(player2Control.getPlayerData().getDamage());
-
+                    player1Control.takeDamage(player2Control.getPlayerData().getDamage());
             }
         }
-
     }
 }

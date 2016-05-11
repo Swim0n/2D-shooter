@@ -24,6 +24,8 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     protected Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
     protected GUIView niftyView;
 
+    private boolean paused = true;
+
     public PlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, World world){
         super(radius, height, mass);
         this.view = view;
@@ -79,7 +81,12 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     @Override
     public void update(float tpf) {
+        if(this.paused){
+            setWalkDirection(lastDirection.set(0f,0f,0f));
+            return;
+        }
         super.update(tpf);
+        bulletView.getGameView().updateGUI();
         speed = playerData.getSpeed();
         if (!left && !right && !up && !down){
             setWalkDirection(new Vector3f(0f,0f,0f));
@@ -169,9 +176,19 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     public void takeDamage(float damage){
         playerData.setHealth(playerData.getHealth() - damage);
         view.setHealthBar(playerData.getHealth());
-        niftyView.updateText();
     }
 
+    public void removeMappings(){
+        inputManager.reset();
+    }
+
+    public void pause(){
+        this.paused = true;
+    }
+
+    public void unpause(){
+        this.paused = false;
+    }
     public Player getPlayerData(){
         return this.playerData;
     }

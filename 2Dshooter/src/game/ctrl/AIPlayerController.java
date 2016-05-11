@@ -17,6 +17,10 @@ import game.gameView.PlayerView;
  */
 public class AIPlayerController extends PlayerController {
 
+
+    private boolean paused = true;
+
+
     public AIPlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, World world){
         super(view,radius, height, mass, niftyView, world);
 
@@ -24,7 +28,11 @@ public class AIPlayerController extends PlayerController {
 
     @Override
     public void update(float tpf){
+        if(this.paused){
+            return;
+        }
         super.update(tpf);
+        bulletView.getGameView().updateGUI();
         speed = playerData.getSpeed();
         Vector3f directionToPlayer = view.getGameView().getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
         directionToPlayer.normalize();
@@ -50,5 +58,13 @@ public class AIPlayerController extends PlayerController {
         if(results.size() == 0) {
             shootBullet();
         }
+    }
+
+    public void pause(){
+        this.paused = true;
+    }
+
+    public void unpause(){
+        this.paused = false;
     }
 }
