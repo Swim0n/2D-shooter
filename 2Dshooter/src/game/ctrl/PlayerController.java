@@ -7,6 +7,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
 import game.core.Player;
+import game.core.World;
 import game.gameView.*;
 
 /**
@@ -14,27 +15,33 @@ import game.gameView.*;
  */
 public class PlayerController extends BetterCharacterControl implements ActionListener {
 
-    private final PlayerView view;
-    private final BulletView bulletView;
+    protected final PlayerView view;
+    protected final BulletView bulletView;
     private InputManager inputManager;
     private boolean left,right,up,down,gunLeft,gunRight;
-    private Player playerData = new Player();
-    private float speed;
-    private Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
-    private GUIView niftyView;
+    protected Player playerData;
+    protected float speed;
+    protected Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
+    protected GUIView niftyView;
 
-    public PlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView){
+    private boolean paused = true;
+
+    public PlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, World world){
         super(radius, height, mass);
         this.view = view;
         this.inputManager = view.getInputManager();
-        this.bulletView = new BulletView(view.getGameView(), this, view);
-        setupKeys();
-        this.playerData.setStandard();
+        this.bulletView = new BulletView(view.getGameView(), view);
+
+        if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())) {
+            this.playerData = world.getPlayer1();
+        } else if (view.getPlayerNode().equals(view.getGameView().getPlayer2Node())) {
+            this.playerData = world.getPlayer2();
+        }
         this.speed = playerData.getSpeed();
         this.niftyView = niftyView;
     }
 
-    private void setupKeys() {
+    public void setupKeys() {
         inputManager.addMapping("resetGame",new KeyTrigger(KeyInput.KEY_F8));
         inputManager.addListener(this, "resetGame");
         if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())) {
@@ -74,7 +81,12 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
 
     @Override
     public void update(float tpf) {
+        if(this.paused){
+            setWalkDirection(lastDirection.set(0f,0f,0f));
+            return;
+        }
         super.update(tpf);
+        bulletView.getGameView().updateGUI();
         speed = playerData.getSpeed();
         if (playerData.getHealth()==0){
 
@@ -115,10 +127,10 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
         }
         if (gunLeft){
-            view.rotateGun(tpf*-200f);
+            view.rotateGun(tpf*-140f);
         }
         if(gunRight){
-            view.rotateGun(tpf*200f);
+            view.rotateGun(tpf*140f);
         }
             warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }
@@ -175,13 +187,23 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
         niftyView.updateText();
     }
 
+    public void removeMappings(){
+        inputManager.reset();
+    }
+
+    public void pause(){
+        this.paused = true;
+    }
+
+    public void unpause(){
+        this.paused = false;
+    }
     public void resetPlayer(){
         this.warp(new Vector3f(view.getStartPos()));
         this.view.setHealthBar(100);
         this.playerData.setStandard();
         this.niftyView.updateText();
     }
-
     public Player getPlayerData(){
         return this.playerData;
     }

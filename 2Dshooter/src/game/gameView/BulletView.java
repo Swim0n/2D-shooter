@@ -23,15 +23,14 @@ public class BulletView {
     private Material bulletMaterial;
     private AssetManager assetManager;
     private Node bulletNode;
-    private GameView gameView;
     private PlayerController playerController;
     private List<Spatial> bullets;
+    private GameView gameView;
 
-    public BulletView(GameView gameView, PlayerController playerController, PlayerView player){
+    public BulletView(GameView gameView, PlayerView player){
         this.gameView = gameView;
         this.assetManager = gameView.getAssetManager();
         this.bulletNode = gameView.getBulletNode();
-        this.playerController = playerController;
         this.player = player;
         this.bullets = new ArrayList<Spatial>();
     }
@@ -57,10 +56,6 @@ public class BulletView {
 
     public List<Spatial> getBullets(){
         return this.bullets;
-    }
-
-    public PlayerController getPlayerController(){
-        return this.playerController;
     }
 
     public GameView getGameView(){

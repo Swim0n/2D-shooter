@@ -13,6 +13,8 @@ import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import game.core.World;
+import game.ctrl.AIPlayerController;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
 
@@ -30,6 +32,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     private RigidBodyControl bulletPhy;
     private PlayerController player1Control;
     private PlayerController player2Control;
+    private PlayerController player2ControlSave;
+    private AIPlayerController player2AIControl;
     private BulletAppState bulletAppState;
 
     //variables for viewer classes
@@ -42,13 +46,19 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private Node bulletNode;
     private Node stageNode;
+    private Node terrainNode;
     private Node player1Node;
     private Node player2Node;
+
+    private World world;
 
     //variables for gui
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
     private GUIView niftyView;
+
+    private boolean ai = true;
+    private boolean paused = true;
 
 
     //private World world = new World();
@@ -66,10 +76,11 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
         niftyView.setNiftyDisp(niftyDisplay);
+        niftyView.setGameView(this);
 
         //camera settings
         flyCam.setEnabled(false);
-        cam.setLocation(new Vector3f(0f,-80f,4f));
+        cam.setLocation(new Vector3f(0f,-80f,0));
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
         getFlyByCamera().setEnabled(false);
         getFlyByCamera().setMoveSpeed(50);
@@ -77,12 +88,16 @@ public class GameView extends SimpleApplication implements ScreenController{
         //init nodes
         bulletNode = new Node("bullets");
         stageNode = new Node("stage");
+        terrainNode = new Node("terrain");
         player1Node = new Node("player1");
         player2Node = new Node("player2");
         rootNode.attachChild(player1Node);
         rootNode.attachChild(player2Node);
         rootNode.attachChild(bulletNode);
         rootNode.attachChild(stageNode);
+        rootNode.attachChild(terrainNode);
+
+        world = new World(20, 12);
 
         //turn off stats gameView (you can leave it on, if you want)
         setDisplayStatView(true);
@@ -107,14 +122,28 @@ public class GameView extends SimpleApplication implements ScreenController{
         //spawning player2
         player2View = new PlayerView(getAssetManager(), player2Node, this, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
 
-        terrainView = new TerrainView(this, stageNode, groundView);
-        terrainView.createTerrain(10,5);
+        terrainView = new TerrainView(this, terrainNode, groundView, world);
+        terrainView.createTerrain();
 
-        player1Control = new PlayerController(player1View,1f,2f,1f, niftyView);
-        player2Control = new PlayerController(player2View,1f,2f,1f, niftyView);
+        player1Control = new PlayerController(player1View,1f,2f,1f, niftyView, world);
+        player1Control.setupKeys();
+
+        player2AIControl = new AIPlayerController(player2View,1f,2f,1f, niftyView, world);
+        player2ControlSave = new PlayerController(player2View,1f,2f,1f, niftyView, world);
+
+        if(this.ai == true){
+            player2Control = player2AIControl;
+        } else {
+            player2Control = player2ControlSave;
+        }
+        player2Control.setupKeys();
+
+
 
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
+
+
 
 
         //adding collision-detection to map walls, not working properly <--- still?
@@ -191,6 +220,35 @@ public class GameView extends SimpleApplication implements ScreenController{
         bulletAppState.getPhysicsSpace().add(player2Control);
     }
 
+    //"pauses the game"
+    public void pauseGame(){
+        this.paused = true;
+        this.player1Control.pause();
+        this.player2Control.pause();
+    }
+
+    //"unpauses the game"
+    public void unpauseGame(){
+        this.paused = false;
+        this.player1Control.unpause();
+        this.player2Control.unpause();
+    }
+
+    public void updateGUI(){
+        niftyView.updateText();
+    }
+
+    public boolean getPaused(){
+        return this.paused;
+    }
+
+    public void setAI(boolean state){
+        this.ai = state;
+    }
+    public boolean getAI(){
+        return this.ai;
+    }
+
     public Node getBulletNode(){
         return this.bulletNode;
     }
@@ -200,6 +258,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     public Node getStageNode(){
         return stageNode;
     }
+
+    public Node getTerrainNode() {return terrainNode;}
 
     public BulletAppState getBulletAppState(){
         return this.bulletAppState;

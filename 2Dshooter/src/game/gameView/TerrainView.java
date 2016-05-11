@@ -7,6 +7,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import game.core.World;
 
 import java.util.Random;
 
@@ -16,7 +17,7 @@ import java.util.Random;
 public class TerrainView {
     private AssetManager assetManager;
     private GroundView groundView;
-    private Node stageNode;
+    private Node terrainNode;
 
     private float groundX;
     private float groundZ;
@@ -27,63 +28,48 @@ public class TerrainView {
     private Box treeShape;
     private Geometry tree;
     private Material treeMaterial;
+    private World world;
 
     private Geometry[][] terrainGrid;
 
     private final static Random randomGenerator = new Random();
 
-    public TerrainView(Application application, Node stageNode, GroundView groundView) {
+    public TerrainView(Application application, Node terrainNode, GroundView groundView, World world) {
         this.assetManager = application.getAssetManager();
-        this.stageNode = stageNode;
+        this.terrainNode = terrainNode;
         this.groundView = groundView;
         this.groundX = groundView.getGroundShape().getWidth();
         this.groundZ = groundView.getGroundShape().getHeight();
+        this.world = world;
         terrainGrid = new Geometry[(int)groundX][(int)groundZ];
+        world.getTerrain().setPositionsAmount((int)groundX,(int)groundZ);
     }
 
-    public void createTerrain(int rocks, int trees){
+    public void createTerrain(){
         rockShape = new Box(2f,2f,2f);
         rockMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         rockMaterial.setColor("Color", ColorRGBA.DarkGray);
 
-        for (int i = 0; i < rocks; i++){
-            int x = randomGenerator.nextInt((int) (groundX-4)/4+2);
-            int z = randomGenerator.nextInt((int) (groundZ-4)/4+1);
-            while(true){
-                if(terrainGrid[x][z] != null){
-                    x = randomGenerator.nextInt((int) (groundX-4)/4+2);
-                    z = randomGenerator.nextInt((int) (groundZ-4)/4+1);
-                } else {
-                    break;
-                }
-            }
+        for (int i = 0; i < world.getTerrain().getRocksAmount(); i++){
+            int[] position = world.getTerrain().getRandomPos(groundX, groundZ, 4, 4);
             rock = new Geometry("Rock", rockShape);
             rock.setMaterial(rockMaterial);
-            terrainGrid[x][z] = rock;
-            rock.setLocalTranslation(-groundX/2+rockShape.getXExtent()+x*4,-2, -groundZ/2+rockShape.getZExtent()+z*4+0.5f);
-            stageNode.attachChild(rock);
+            terrainGrid[position[0]][position[1]] = rock;
+            rock.setLocalTranslation(-groundX/2+rockShape.getXExtent()+position[0]*4,-2, -groundZ/2+rockShape.getZExtent()+position[1]*4+0.5f);
+            terrainNode.attachChild(rock);
         }
 
         treeShape = new Box(2f,2f,2f);
         treeMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         treeMaterial.setColor("Color", ColorRGBA.Green);
 
-        for (int i = 0; i < trees; i++){
-            int x = randomGenerator.nextInt((int) (groundX-4)/4);
-            int z = randomGenerator.nextInt((int) (groundZ-4)/4);
-            while(true){
-                if(terrainGrid[x][z] != null){
-                    x = randomGenerator.nextInt((int) (groundX-4)/4);
-                    z = randomGenerator.nextInt((int) (groundZ-4)/4);
-                } else {
-                    break;
-                }
-            }
+        for (int i = 0; i < world.getTerrain().getTreesAmount(); i++){
+            int[] position = world.getTerrain().getRandomPos(groundX, groundZ, 4, 4);
             tree = new Geometry("Tree", treeShape);
             tree.setMaterial(treeMaterial);
-            terrainGrid[x][z] = tree;
-            tree.setLocalTranslation(-groundX/2+treeShape.getXExtent()+x*4,-2, -groundZ/2+treeShape.getZExtent()+z*4+0.5f);
-            stageNode.attachChild(tree);
+            terrainGrid[position[0]][position[1]] = tree;
+            tree.setLocalTranslation(-groundX/2+treeShape.getXExtent()+position[0]*4,-2, -groundZ/2+treeShape.getZExtent()+position[1]*4+0.5f);
+            terrainNode.attachChild(tree);
         }
 
 
