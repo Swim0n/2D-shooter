@@ -59,7 +59,7 @@ public class Player {
         this.mass = 1;
         this.health = 100;
         this.speed = 35;
-        this.damage = 5;
+        this.damage = 10;
     }
     public int getWins(){return wins;}
 

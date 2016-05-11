@@ -29,6 +29,7 @@ public class BulletController extends RigidBodyControl{
 
         bulletView.getGameView().updateGUI();
 
+        bulletView.getGameView().getTerrainNode().collideWith(spatial.getWorldBound(), results);
         bulletView.getGameView().getStageNode().collideWith(spatial.getWorldBound(), results);
 
         if (results.size() > 0){
