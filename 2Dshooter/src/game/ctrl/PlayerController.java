@@ -76,6 +76,17 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     public void update(float tpf) {
         super.update(tpf);
         speed = playerData.getSpeed();
+        if (playerData.getHealth()==0){
+
+            if(view.getGameView().getPlayer1Control().getPlayerData().getHealth()==0){
+                view.getGameView().getPlayer2Control().getPlayerData().incWins();
+            }else view.getGameView().getPlayer1Control().getPlayerData().incWins();
+
+            view.getGameView().getPlayer1Control().resetPlayer();
+            view.getGameView().getPlayer2Control().resetPlayer();
+            System.out.println("P1 wins: "+view.getGameView().getPlayer1Control().getPlayerData().getWins()+
+                    "\nP2 wins: "+view.getGameView().getPlayer2Control().getPlayerData().getWins());
+        }
         if (!left && !right && !up && !down){
             setWalkDirection(new Vector3f(0f,0f,0f));
         }
@@ -104,10 +115,10 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
             setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
         }
         if (gunLeft){
-            view.rotateGun(tpf*-140f);
+            view.rotateGun(tpf*-200f);
         }
         if(gunRight){
-            view.rotateGun(tpf*140f);
+            view.rotateGun(tpf*200f);
         }
             warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }
@@ -115,10 +126,7 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     public void onAction(String name, boolean isPressed, float tpf) {
         //resetting the game to its original state
         if (name.equals("resetGame") && !isPressed){
-            warp(new Vector3f(view.getStartPos()));
-            view.setHealthBar(100);
-            playerData.setStandard();
-            niftyView.updateText();
+            this.resetPlayer();
         }
         //movement of player
         if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())){
@@ -165,6 +173,13 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
         playerData.setHealth(playerData.getHealth() - damage);
         view.setHealthBar(playerData.getHealth());
         niftyView.updateText();
+    }
+
+    public void resetPlayer(){
+        this.warp(new Vector3f(view.getStartPos()));
+        this.view.setHealthBar(100);
+        this.playerData.setStandard();
+        this.niftyView.updateText();
     }
 
     public Player getPlayerData(){

@@ -213,6 +213,12 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     public Node getPlayer2Node() {return player2Node;}
 
+    public PlayerController getPlayer1Control(){
+        return player1Control;
+    }
+
+    public PlayerController getPlayer2Control(){return player2Control;}
+
     public void onEndScreen(){}
     public void onStartScreen(){}
     public void bind(Nifty nifty, Screen screen){}

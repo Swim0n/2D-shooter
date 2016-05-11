@@ -12,7 +12,7 @@ public class Player {
     private float health;
     private float speed;
     private float damage;
-
+    private int wins;
 
     public Player(){}
 
@@ -34,6 +34,10 @@ public class Player {
         this.damage = damage;
     }
 
+    public int getWins(){
+        return wins;
+    }
+
     public float getHealth(){
         return this.health;
     }
@@ -52,9 +56,12 @@ public class Player {
         this.mass = 1;
         this.health = 100;
         this.speed = 35;
-        this.damage = 5;
+        this.damage = 10;
     }
 
+    public void incWins(){
+        this.wins += 1;
+    }
 
 
 
