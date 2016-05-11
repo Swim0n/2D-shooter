@@ -13,6 +13,7 @@ import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import game.core.Player;
 import game.core.World;
 import game.ctrl.AIPlayerController;
 import game.ctrl.BulletController;
@@ -57,7 +58,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private Nifty nifty;
     private GUIView niftyView;
 
-    private boolean ai = true;
+    private boolean ai = false;
     private boolean paused = true;
 
 
@@ -273,11 +274,9 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     public Node getPlayer2Node() {return player2Node;}
 
-    public PlayerController getPlayer1Control(){
-        return player1Control;
-    }
+    public PlayerController getPlayer1Control() {return player1Control;}
 
-    public PlayerController getPlayer2Control(){return player2Control;}
+    public PlayerController getPlayer2Control() {return player2Control;}
 
     public void onEndScreen(){}
     public void onStartScreen(){}
