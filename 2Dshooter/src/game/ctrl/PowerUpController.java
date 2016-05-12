@@ -36,7 +36,7 @@ public class PowerUpController extends RigidBodyControl {
                 removeSpatial(spatial);
                 results.clear();
                 //add power up effect to player 2
-                powerUp.setEffect(gameView.getPlayer("player2"));
+                powerUp.setEffect(gameView.getWorld().getPlayer2());
                 System.out.println("hej");
 
 
@@ -47,7 +47,7 @@ public class PowerUpController extends RigidBodyControl {
                 removeSpatial(spatial);
                 results.clear();
                 //add power up effect to player 1
-                powerUp.setEffect(gameView.getPlayer("Player1"));
+                powerUp.setEffect(gameView.getWorld().getPlayer1());
                 System.out.println("Okej");
 
             }

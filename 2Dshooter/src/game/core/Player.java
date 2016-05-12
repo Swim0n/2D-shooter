@@ -12,6 +12,7 @@ public class Player {
     private float health;
     private float speed;
     private float damage;
+    private int wins;
 
 
     public Player(){
@@ -57,14 +58,10 @@ public class Player {
         this.height = 1;
         this.mass = 1;
         this.health = 100;
-        this.speed = 35;
-        this.damage = 5;
+        this.speed = 23;
+        this.damage = 10;
     }
+    public int getWins(){return wins;}
 
-
-
-
-
-
-
+    public void incWins(){this.wins += 1;}
 }

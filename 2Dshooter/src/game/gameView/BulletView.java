@@ -3,12 +3,11 @@ package game.gameView;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
-import game.ctrl.PlayerController;
+import game.ctrl.HumanPlayerController;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +22,14 @@ public class BulletView {
     private Material bulletMaterial;
     private AssetManager assetManager;
     private Node bulletNode;
-    private GameView gameView;
-    private PlayerController playerController;
+    private HumanPlayerController playerController;
     private List<Spatial> bullets;
+    private GameView gameView;
 
-    public BulletView(GameView gameView, PlayerController playerController, PlayerView player){
+    public BulletView(GameView gameView, PlayerView player){
         this.gameView = gameView;
         this.assetManager = gameView.getAssetManager();
         this.bulletNode = gameView.getBulletNode();
-        this.playerController = playerController;
         this.player = player;
         this.bullets = new ArrayList<Spatial>();
     }
@@ -57,10 +55,6 @@ public class BulletView {
 
     public List<Spatial> getBullets(){
         return this.bullets;
-    }
-
-    public PlayerController getPlayerController(){
-        return this.playerController;
     }
 
     public GameView getGameView(){
