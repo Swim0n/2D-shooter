@@ -18,9 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by Hannes on 29/04/2016.
- */
+
 public class PowerupView {
 
     private Box powerBox;
@@ -73,23 +71,24 @@ public class PowerupView {
         rootNode.attachChild(powerupGeom);
         //gameView.powerUpCollisionControl(this,powerupGeom, powerUpType);
         if (powerUpType.equalsIgnoreCase("health")){
-            new PowerUpController(this,new HealthPowerUp(),gameView);
+            gameView.powerUpCollisionControl(this, new HealthPowerUp(),powerupGeom);
         }
         if (powerUpType.equalsIgnoreCase("speed")){
-            new PowerUpController(this,new SpeedPowerUp(),gameView);
+            gameView.powerUpCollisionControl(this,new SpeedPowerUp(),powerupGeom);
         }
         System.out.println(powerUpType);
+
         powerupViewList.add(this);
 
 
     }
 
-    public void setType(String powerUp){
-        if (powerUp.equalsIgnoreCase("speed")){
+    public void setType(String powerUpType){
+        if (powerUpType.equalsIgnoreCase("speed")){
 
             boxMaterial.setColor("Color", ColorRGBA.Yellow);
         }
-        if (powerUp.equalsIgnoreCase("health")){
+        if (powerUpType.equalsIgnoreCase("health")){
            boxMaterial.setColor("Color", ColorRGBA.Cyan);
         }
     }
@@ -99,7 +98,5 @@ public class PowerupView {
         return this.gameView;
     }
 
-    public Spatial getPowerGeometry(){
-        return this.powerupGeom;
-    }
+
 }

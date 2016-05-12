@@ -13,8 +13,16 @@ import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import game.core.HealthPowerUp;
+import game.core.Player;
+import game.core.PowerUp;
+import game.core.SpeedPowerUp;
 import game.ctrl.BulletController;
 import game.ctrl.PlayerController;
+import game.ctrl.PowerUpController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by David on 2016-04-18.
@@ -28,9 +36,12 @@ public class GameView extends SimpleApplication implements ScreenController{
     private RigidBodyControl sWallPhy;
     private RigidBodyControl groundPhy;
     private RigidBodyControl bulletPhy;
+    private RigidBodyControl powerUpPhy;
     private PlayerController player1Control;
     private PlayerController player2Control;
     private BulletAppState bulletAppState;
+
+    private List <PowerUp> powerUpList = new ArrayList<PowerUp>();
 
     //variables for viewer classes
     private WallsView wallsView;
@@ -39,6 +50,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private PlayerView player2View;
     private PowerupView powerupView;
     private TerrainView terrainView;
+
 
     private Node bulletNode;
     private Node stageNode;
@@ -49,6 +61,9 @@ public class GameView extends SimpleApplication implements ScreenController{
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
     private GUIView niftyView;
+
+    private Player player1;
+    private Player player2;
 
 
     //private World world = new World();
@@ -110,8 +125,13 @@ public class GameView extends SimpleApplication implements ScreenController{
         terrainView = new TerrainView(this, stageNode, groundView);
         terrainView.createTerrain(10,5);
 
-        player1Control = new PlayerController(player1View,1f,2f,1f, niftyView);
-        player2Control = new PlayerController(player2View,1f,2f,1f, niftyView);
+        player1 = new Player();
+        player2 = new Player();
+
+
+
+        player1Control = new PlayerController(player1View,player1, niftyView);
+        player2Control = new PlayerController(player2View,player2, niftyView);
 
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
@@ -129,13 +149,44 @@ public class GameView extends SimpleApplication implements ScreenController{
         //adding collision-detection to terrain.
         terrainCollisionControl();
 
+
+
         //nullify gravity
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
 
-        //spawn a power-up of type speed
+        //spawn a power-up of type health
         powerupView = new PowerupView(this,stageNode,groundView);
-        //powerUpView.createPowerUp("speed");
+
+
+        //creates the wanted quantity of power ups,
+
+        initPowerUps(1,1);
+
+
+
     }
+
+    private void initPowerUps(int antalHealth, int antalSpeed){
+        for (int i=0; i<antalHealth;i++){
+
+            powerupView.createPowerUp("health");
+        }
+        for (int i=0; i<antalSpeed;i++){
+            powerupView.createPowerUp("speed");
+        }
+    }
+
+    public Player getPlayer(String player){
+        if (player.equalsIgnoreCase("player1")){
+            return this.player1;
+        }
+        if (player.equalsIgnoreCase("Player2")){
+            return this.player2;
+        }
+        return null;
+    }
+
+
 
     public Quad getGroundSize(){
         return groundView.getGroundShape();
@@ -176,6 +227,12 @@ public class GameView extends SimpleApplication implements ScreenController{
         }
     }
 
+    public void powerUpCollisionControl(PowerupView powerupView,PowerUp powerUp, Spatial powerUpBox){
+        powerUpPhy = new PowerUpController(powerupView, powerUp, this);
+        powerUpBox.addControl(powerUpPhy);
+
+    }
+
     public void bulletCollisionControl(BulletView bulletView, Spatial bullet){
         bulletPhy = new BulletController(bulletView, player1Control, player2Control);
         bullet.addControl(bulletPhy);
@@ -190,6 +247,21 @@ public class GameView extends SimpleApplication implements ScreenController{
         player2View.getPlayerNode().addControl(player2Control);
         bulletAppState.getPhysicsSpace().add(player2Control);
     }
+
+
+    /** måste fixas, skapa powerUpController beroende på vilken powerUp typ man vill ha
+    public void powerUpCollisionControl(PowerupView powerupView, Spatial powerUpSpatial, String powerUpType){
+        if (powerUpType.equalsIgnoreCase("health")){
+            powerUpPhy = new PowerUpController(powerupView, new SpeedPowerUp(),this);
+        }
+        if (powerUpType.equalsIgnoreCase("speed")){
+            powerUpPhy = new PowerUpController(powerupView, new HealthPowerUp(), this);
+        }
+        powerUpSpatial.addControl(powerUpPhy);
+
+        bulletAppState.getPhysicsSpace().add(powerUpPhy);
+    }
+     */
 
     public Node getBulletNode(){
         return this.bulletNode;

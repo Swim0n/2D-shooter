@@ -14,7 +14,9 @@ public class Player {
     private float damage;
 
 
-    public Player(){}
+    public Player(){
+        setStandard();
+    }
 
     public void setHealth(float health){
         if(health < 0){
@@ -45,6 +47,10 @@ public class Player {
     public float getDamage(){
         return this.damage;
     }
+
+    public float getRadius(){ return this.radius; }
+    public float getHeight() { return this.height; }
+    public float getMass() { return  this.mass; }
 
     public void setStandard(){
         this.radius = 1;

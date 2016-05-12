@@ -18,19 +18,19 @@ public class PlayerController extends BetterCharacterControl implements ActionLi
     private final BulletView bulletView;
     private InputManager inputManager;
     private boolean left,right,up,down,gunLeft,gunRight;
-    private Player playerData = new Player();
+    private Player playerData;
     private float speed;
     private Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
     private GUIView niftyView;
 
-    public PlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView){
-        super(radius, height, mass);
+    public PlayerController(PlayerView view, Player player, GUIView niftyView){
+        super(player.getRadius(), player.getHeight(), player.getMass());
         this.view = view;
         this.inputManager = view.getInputManager();
         this.bulletView = new BulletView(view.getGameView(), this, view);
         setupKeys();
-        this.playerData.setStandard();
-        this.speed = playerData.getSpeed();
+        this.playerData = player;
+        this.speed = player.getSpeed();
         this.niftyView = niftyView;
     }
 
