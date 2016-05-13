@@ -5,19 +5,19 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Spatial;
 import game.core.PowerUp;
 import game.gameView.GameView;
-import game.gameView.PowerupView;
+import game.gameView.PowerUpView;
 
 /**
  * Created by Hannes on 04/05/2016.
  */
 public class PowerUpController extends RigidBodyControl {
 
-    private PowerupView powerupView;
+    private PowerUpView powerUpView;
     private PowerUp powerUp;
     private GameView gameView;
 
-    public PowerUpController(PowerupView powerupView, PowerUp powerUp, GameView gameView){
-        this.powerupView = powerupView;
+    public PowerUpController(PowerUpView powerUpView, PowerUp powerUp, GameView gameView){
+        this.powerUpView = powerUpView;
         this.powerUp = powerUp;
         this.gameView = gameView;
     }
@@ -31,29 +31,22 @@ public class PowerUpController extends RigidBodyControl {
         CollisionResults results = new CollisionResults();
 
 
-            powerupView.getGameView().getPlayer2Node().collideWith(spatial.getWorldBound(), results);
+            powerUpView.getGameView().getPlayer2Node().collideWith(spatial.getWorldBound(), results);
             if (results.size() > 0){
                 removeSpatial(spatial);
                 results.clear();
                 //add power up effect to player 2
                 powerUp.setEffect(gameView.getWorld().getPlayer2());
                 System.out.println("hej");
-
-
             }
-
-            powerupView.getGameView().getPlayer1Node().collideWith(spatial.getWorldBound(), results);
+            powerUpView.getGameView().getPlayer1Node().collideWith(spatial.getWorldBound(), results);
             if (results.size()>0){
                 removeSpatial(spatial);
                 results.clear();
                 //add power up effect to player 1
                 powerUp.setEffect(gameView.getWorld().getPlayer1());
                 System.out.println("Okej");
-
             }
-
-
-
     }
 
     public void update(float tpf){

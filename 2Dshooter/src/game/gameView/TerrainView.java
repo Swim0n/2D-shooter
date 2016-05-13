@@ -71,9 +71,6 @@ public class TerrainView {
             tree.setLocalTranslation(-groundX/2+treeShape.getXExtent()+position[0]*4,-2, -groundZ/2+treeShape.getZExtent()+position[1]*4+0.5f);
             terrainNode.attachChild(tree);
         }
-
-
-
     }
 
     public Geometry[][] getTerrainGrid(){

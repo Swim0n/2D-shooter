@@ -18,19 +18,18 @@ public class BulletView {
 
     private Sphere bulletShape;
 
-    private PlayerView player;
+    private PlayerView playerView;
     private Material bulletMaterial;
     private AssetManager assetManager;
     private Node bulletNode;
-    private HumanPlayerController playerController;
     private List<Spatial> bullets;
     private GameView gameView;
 
-    public BulletView(GameView gameView, PlayerView player){
-        this.gameView = gameView;
-        this.assetManager = gameView.getAssetManager();
-        this.bulletNode = gameView.getBulletNode();
-        this.player = player;
+    public BulletView(PlayerView playerView){
+        this.gameView = playerView.getGameView();
+        this.assetManager = playerView.getGameView().getAssetManager();
+        this.bulletNode = playerView.getGameView().getBulletNode();
+        this.playerView = playerView;
         this.bullets = new ArrayList<Spatial>();
     }
 
@@ -46,7 +45,7 @@ public class BulletView {
         bulletNode.attachChild(bullet);
 
         //setting starting point at players pos.
-        bullet.setLocalTranslation(this.player.getPipePos());
+        bullet.setLocalTranslation(this.playerView.getPipePos());
 
         //attaching physics to bullet
         gameView.bulletCollisionControl(this, bullet);
@@ -62,6 +61,6 @@ public class BulletView {
     }
 
     public PlayerView getPlayerView(){
-        return this.player;
+        return this.playerView;
     }
 }

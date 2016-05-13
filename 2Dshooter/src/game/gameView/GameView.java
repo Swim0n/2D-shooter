@@ -15,10 +15,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import game.core.World;
 import game.ctrl.AIPlayerController;
-import game.core.HealthPowerUp;
-import game.core.Player;
 import game.core.PowerUp;
-import game.core.SpeedPowerUp;
 import game.ctrl.BulletController;
 import game.ctrl.HumanPlayerController;
 import game.ctrl.PlayerController;
@@ -53,7 +50,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private GroundView groundView;
     private PlayerView player1View;
     private PlayerView player2View;
-    private PowerupView powerupView;
+    private PowerUpView powerUpView;
     private TerrainView terrainView;
 
     private Node bulletNode;
@@ -109,6 +106,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         rootNode.attachChild(stageNode);
         rootNode.attachChild(terrainNode);
 
+        //init terrain and player models
         world = new World(10, 5);
 
         //turn off stats gameView (you can leave it on, if you want)
@@ -148,11 +146,8 @@ public class GameView extends SimpleApplication implements ScreenController{
             player2Control = player2ControlSave;
         }
 
-
-
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
-
 
         //adding collision-detection to map walls, not working properly <--- still?
         wallCollisionControl();
@@ -170,29 +165,21 @@ public class GameView extends SimpleApplication implements ScreenController{
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
 
         //spawn a power-up of type health
-        powerupView = new PowerupView(this,stageNode,groundView);
-
+        powerUpView = new PowerUpView(this,stageNode,groundView);
 
         //creates the wanted quantity of power ups,
-
         initPowerUps(1,1);
-
-
-
     }
 
     private void initPowerUps(int antalHealth, int antalSpeed){
         for (int i=0; i<antalHealth;i++){
 
-            powerupView.createPowerUp("health");
+            powerUpView.createPowerUp("health");
         }
         for (int i=0; i<antalSpeed;i++){
-            powerupView.createPowerUp("speed");
+            powerUpView.createPowerUp("speed");
         }
     }
-
-
-
 
     public Quad getGroundSize(){
         return groundView.getGroundShape();
@@ -233,8 +220,8 @@ public class GameView extends SimpleApplication implements ScreenController{
         }
     }
 
-    public void powerUpCollisionControl(PowerupView powerupView,PowerUp powerUp, Spatial powerUpBox){
-        powerUpPhy = new PowerUpController(powerupView, powerUp, this);
+    public void powerUpCollisionControl(PowerUpView powerUpView, PowerUp powerUp, Spatial powerUpBox){
+        powerUpPhy = new PowerUpController(powerUpView, powerUp, this);
         powerUpBox.addControl(powerUpPhy);
 
     }

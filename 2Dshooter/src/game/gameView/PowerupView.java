@@ -1,25 +1,20 @@
 package game.gameView;
 
-import com.jme3.app.Application;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import game.core.HealthPowerUp;
-import game.core.PowerUp;
 import game.core.SpeedPowerUp;
-import game.ctrl.PowerUpController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-public class PowerupView {
+public class PowerUpView {
 
     private Box powerBox;
     private Geometry powerupGeom;
@@ -34,12 +29,12 @@ public class PowerupView {
     private float randomX;
     private float randomZ;
 
-    private final static List<PowerupView> powerupViewList = new ArrayList<PowerupView>();
+    private final static List<PowerUpView> POWER_UP_VIEW_LIST = new ArrayList<PowerUpView>();
 
     private final static Random randomGenerator = new Random();
 
 
-    public PowerupView(GameView gameView, Node rootNode, GroundView groundView){
+    public PowerUpView(GameView gameView, Node rootNode, GroundView groundView){
         this.assetManager = gameView.getAssetManager();
         this.rootNode = rootNode;
         this.groundView =  groundView;
@@ -78,7 +73,7 @@ public class PowerupView {
         }
         System.out.println(powerUpType);
 
-        powerupViewList.add(this);
+        POWER_UP_VIEW_LIST.add(this);
 
 
     }

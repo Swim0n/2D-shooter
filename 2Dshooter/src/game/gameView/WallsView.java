@@ -31,8 +31,6 @@ public class WallsView {
         this.groundGeom = groundGeom;
     }
 
-
-
     public void createWalls(){
         verticalWallShape = new Box(0.5f,5f,27f);
         horizontalWallShape = new Box(36f, 5f,0.5f);
@@ -53,8 +51,6 @@ public class WallsView {
         eastWall.setMaterial(wallMaterial);
         northWall.setMaterial(wallMaterial);
         southWall.setMaterial(wallMaterial);
-
-
 
         stageNode.attachChild(eastWall);
         stageNode.attachChild(northWall);

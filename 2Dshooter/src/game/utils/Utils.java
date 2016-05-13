@@ -7,6 +7,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 
+import javax.vecmath.Vector3f;
+
 /**
  * Created by David on 2016-04-19.
  */
@@ -25,6 +27,14 @@ public final class Utils {
         material.setColor("Color", colorRGBA);
 
         return material;
+    }
+
+    public Vector3f JMEToVecMathVector3f(com.jme3.math.Vector3f vector3f){
+        return new Vector3f(vector3f.getX(),vector3f.getY(),vector3f.getZ());
+    }
+
+    public com.jme3.math.Vector3f VecMathToJMEVector3f(Vector3f vector3f){
+        return new com.jme3.math.Vector3f(vector3f.x,vector3f.y,vector3f.z);
     }
 
 }

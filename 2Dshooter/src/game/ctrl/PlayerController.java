@@ -12,7 +12,7 @@ import game.gameView.PlayerView;
  * Created by Simon on 2016-05-11.
  */
 public abstract class PlayerController extends BetterCharacterControl {
-    protected final PlayerView view;
+    protected final PlayerView playerView;
     protected final BulletView bulletView;
     protected Player playerData;
     protected float speed;
@@ -20,15 +20,15 @@ public abstract class PlayerController extends BetterCharacterControl {
     protected GUIView niftyView;
     protected boolean paused = true;
 
-    public PlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, World world){
+    public PlayerController(PlayerView playerView, float radius, float height, float mass, GUIView niftyView, World world){
         super(radius, height, mass);
-        if(view.getPlayerNode().equals(view.getGameView().getPlayer1Node())) {
+        if(playerView.getPlayerNode().equals(playerView.getGameView().getPlayer1Node())) {
             this.playerData = world.getPlayer1();
-        } else if (view.getPlayerNode().equals(view.getGameView().getPlayer2Node())) {
+        } else if (playerView.getPlayerNode().equals(playerView.getGameView().getPlayer2Node())) {
             this.playerData = world.getPlayer2();
         }
-        this.view = view;
-        this.bulletView = new BulletView(view.getGameView(), view);
+        this.playerView = playerView;
+        this.bulletView = new BulletView(playerView);
         this.speed = playerData.getSpeed();
         this.niftyView = niftyView;
     }
@@ -44,21 +44,21 @@ public abstract class PlayerController extends BetterCharacterControl {
         speed = playerData.getSpeed();
         if (playerData.getHealth()==0){
 
-            if(view.getGameView().getPlayer1Control().getPlayerData().getHealth()==0){
-                view.getGameView().getPlayer2Control().getPlayerData().incWins();
-            }else view.getGameView().getPlayer1Control().getPlayerData().incWins();
+            if(playerView.getGameView().getPlayer1Control().getPlayerData().getHealth()==0){
+                playerView.getGameView().getPlayer2Control().getPlayerData().incWins();
+            }else playerView.getGameView().getPlayer1Control().getPlayerData().incWins();
 
-            view.getGameView().getPlayer1Control().resetPlayer();
-            view.getGameView().getPlayer2Control().resetPlayer();
-            System.out.println("P1 wins: "+view.getGameView().getPlayer1Control().getPlayerData().getWins()+
-                    "\nP2 wins: "+view.getGameView().getPlayer2Control().getPlayerData().getWins());
+            playerView.getGameView().getPlayer1Control().resetPlayer();
+            playerView.getGameView().getPlayer2Control().resetPlayer();
+            System.out.println("P1 wins: "+ playerView.getGameView().getPlayer1Control().getPlayerData().getWins()+
+                    "\nP2 wins: "+ playerView.getGameView().getPlayer2Control().getPlayerData().getWins());
         }
         warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }
 
     public void takeDamage(float damage){
         playerData.setHealth(playerData.getHealth() - damage);
-        view.setHealthBar(playerData.getHealth());
+        playerView.setHealthBar(playerData.getHealth());
         niftyView.updateText();
     }
 
@@ -71,8 +71,8 @@ public abstract class PlayerController extends BetterCharacterControl {
     }
 
     public void resetPlayer(){
-        this.warp(new Vector3f(view.getStartPos()));
-        this.view.setHealthBar(100);
+        this.warp(new Vector3f(playerView.getStartPos()));
+        this.playerView.setHealthBar(100);
         this.playerData.setStandard();
         this.niftyView.updateText();
     }

@@ -23,19 +23,18 @@ public class AIPlayerController extends PlayerController {
     public void update(float tpf){
         super.update(tpf);
 
-        Vector3f directionToPlayer = view.getGameView().getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
-
+        Vector3f directionToPlayer = playerView.getGameView().getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
 
         //logic for always rotating the gun to face the player
-        if(!view.getGunRotation().getRotationColumn(2).equals(directionToPlayer.normalize())){
+        if(!playerView.getGunRotation().getRotationColumn(2).equals(directionToPlayer.normalize())){
             Quaternion halfPi = new Quaternion();
             halfPi.fromAngleNormalAxis(FastMath.HALF_PI, Vector3f.UNIT_Y);
             Matrix3f rotation = halfPi.toRotationMatrix();
             Vector3f compareVector = rotation.mult(directionToPlayer.normalize());
-            if(view.getGunRotation().getRotationColumn(2).angleBetween(compareVector) < FastMath.HALF_PI){
-                view.rotateGun(tpf*-140f);
+            if(playerView.getGunRotation().getRotationColumn(2).angleBetween(compareVector) < FastMath.HALF_PI){
+                playerView.rotateGun(tpf*-140f);
             } else {
-                view.rotateGun(tpf*140f);
+                playerView.rotateGun(tpf*140f);
             }
         }
 
@@ -43,7 +42,7 @@ public class AIPlayerController extends PlayerController {
         Ray ray = new Ray(spatial.getWorldTranslation(),directionToPlayer.normalize());
         ray.setLimit(directionToPlayer.length());
         CollisionResults results = new CollisionResults();
-        view.getGameView().getTerrainNode().collideWith(ray, results);
+        playerView.getGameView().getTerrainNode().collideWith(ray, results);
         if(results.size() == 0 && System.currentTimeMillis() - lastShotTime > bulletCooldown) {
             shootBullet();
             lastShotTime = System.currentTimeMillis();
@@ -59,11 +58,6 @@ public class AIPlayerController extends PlayerController {
         } else {
             setWalkDirection(new Vector3f(0f,0f,0f));
         }
-
-
-
-
-
     }
 
     public void pause(){
