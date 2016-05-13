@@ -22,8 +22,9 @@ public class Player {
     public void setHealth(float health){
         if(health < 0){
             this.health = 0;
-        }
-        else {
+        }if(health > 100){
+            this.health = 100;
+        } else {
             this.health = health;
         }
 
