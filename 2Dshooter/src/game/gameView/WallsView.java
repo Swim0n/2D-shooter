@@ -1,12 +1,14 @@
 package game.gameView;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
+import game.utils.ApplicationAssets;
 
 /**
  * Created by Hannes on 24/04/2016.
@@ -25,13 +27,18 @@ public class WallsView {
     private final Node stageNode;
     private final Geometry groundGeom;
 
-    public WallsView (AssetManager assetManager, Node stageNode, Geometry groundGeom){
-        this.assetManager = assetManager;
-        this.stageNode = stageNode;
-        this.groundGeom = groundGeom;
+    private BulletAppState bulletAppState;
+
+    public WallsView (ApplicationAssets appAssets){
+        this.assetManager = appAssets.getAssetManager();
+        this.stageNode = appAssets.getStageNode();
+        this.groundGeom = appAssets.getGameView().getGroundGeom();
+        this.bulletAppState = appAssets.getBulletAppState();
+        createWalls();
+        applyPhysics();
     }
 
-    public void createWalls(){
+    private void createWalls(){
         verticalWallShape = new Box(0.5f,5f,27f);
         horizontalWallShape = new Box(36f, 5f,0.5f);
         wallMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
@@ -56,21 +63,19 @@ public class WallsView {
         stageNode.attachChild(northWall);
         stageNode.attachChild(southWall);
         stageNode.attachChild(westWall);
-
     }
-
-
-    public Spatial getWest(){
-        return this.westWall;
+    private void applyPhysics(){
+        RigidBodyControl eWallPhy = new RigidBodyControl(0);
+        RigidBodyControl wWallPhy = new RigidBodyControl(0);
+        RigidBodyControl nWallPhy = new RigidBodyControl(0);
+        RigidBodyControl sWallPhy = new RigidBodyControl(0);
+        westWall.addControl(wWallPhy);
+        northWall.addControl(nWallPhy);
+        eastWall.addControl(eWallPhy);
+        southWall.addControl(sWallPhy);
+        bulletAppState.getPhysicsSpace().add(eWallPhy);
+        bulletAppState.getPhysicsSpace().add(wWallPhy);
+        bulletAppState.getPhysicsSpace().add(nWallPhy);
+        bulletAppState.getPhysicsSpace().add(sWallPhy);
     }
-    public Spatial getEast(){
-        return this.eastWall;
-    }
-    public Spatial getNorth(){
-        return this.northWall;
-    }
-    public Spatial getSouth(){ return this.southWall; }
-
-
-
 }

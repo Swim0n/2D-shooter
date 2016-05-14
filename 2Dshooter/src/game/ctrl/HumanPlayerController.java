@@ -5,24 +5,19 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
-import game.core.World;
 import game.gameView.*;
+import game.utils.ApplicationAssets;
 
 /**
  * Created by Simon on 2016-04-26.
  */
 public class HumanPlayerController extends PlayerController implements ActionListener {
-
-
     private InputManager inputManager;
     private boolean left,right,up,down,gunLeft,gunRight;
 
-
-
-
-    public HumanPlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, World world){
-        super(view,radius,height,mass,niftyView,world);
-        this.inputManager = view.getInputManager();
+    public HumanPlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, ApplicationAssets appAssets){
+        super(view,radius,height,mass,niftyView,appAssets.getWorld());
+        this.inputManager = appAssets.getInputManager();
         setupKeys();
     }
 
@@ -147,11 +142,5 @@ public class HumanPlayerController extends PlayerController implements ActionLis
             }
         }
     }
-
-    public void removeMappings(){
-        inputManager.reset();
-    }
-
-
 }
 

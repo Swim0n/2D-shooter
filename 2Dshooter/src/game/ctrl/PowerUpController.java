@@ -5,21 +5,22 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Spatial;
 import game.core.PowerUp;
 import game.gameView.GameView;
-import game.gameView.PowerUpView;
+import game.gameView.PowerupView;
+import game.utils.ApplicationAssets;
 
 /**
  * Created by Hannes on 04/05/2016.
  */
 public class PowerUpController extends RigidBodyControl {
 
-    private PowerUpView powerUpView;
+    private PowerupView powerUpView;
     private PowerUp powerUp;
     private GameView gameView;
 
-    public PowerUpController(PowerUpView powerUpView, PowerUp powerUp, GameView gameView){
-        this.powerUpView = powerUpView;
+    public PowerUpController(PowerUp powerUp, ApplicationAssets appAssets, PowerupView powerupView){
+        this.powerUpView = powerupView;
         this.powerUp = powerUp;
-        this.gameView = gameView;
+        this.gameView = appAssets.getGameView();
     }
 
     private void removeSpatial(Spatial spatial){

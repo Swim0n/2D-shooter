@@ -7,7 +7,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
-import game.ctrl.HumanPlayerController;
+import game.ctrl.BulletController;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +24,9 @@ public class BulletView {
     private AssetManager assetManager;
     private Node bulletNode;
     private List<Spatial> bullets;
-    private GameView gameView;
+
 
     public BulletView(PlayerView playerView){
-        this.gameView = playerView.getGameView();
         this.assetManager = playerView.getGameView().getAssetManager();
         this.bulletNode = playerView.getGameView().getBulletNode();
         this.playerView = playerView;
@@ -34,30 +34,24 @@ public class BulletView {
     }
 
     public void createBullet() {
-
         //creating the bullet
         bulletShape = new Sphere(5, 10, 0.3f);
         Geometry bullet = new Geometry("Bullet", bulletShape);
-
         bulletMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         bulletMaterial.setColor("Color", ColorRGBA.randomColor());
         bullet.setMaterial(bulletMaterial);
         bulletNode.attachChild(bullet);
-
         //setting starting point at players pos.
         bullet.setLocalTranslation(this.playerView.getPipePos());
-
-        //attaching physics to bullet
-        gameView.bulletCollisionControl(this, bullet);
+        addPhysics(bullet);
         bullets.add(bullet);
     }
 
-    public List<Spatial> getBullets(){
-        return this.bullets;
-    }
-
-    public GameView getGameView(){
-        return this.gameView;
+    private void addPhysics(Geometry bullet){
+        BulletController bulletPhy = new BulletController(this, playerView.getGameView());
+        bullet.addControl(bulletPhy);
+        bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(50));
+        playerView.getGameView().getBulletAppState().getPhysicsSpace().add(bulletPhy);
     }
 
     public PlayerView getPlayerView(){

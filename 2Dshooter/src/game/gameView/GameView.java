@@ -2,27 +2,21 @@ package game.gameView;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import game.core.World;
 import game.ctrl.AIPlayerController;
-import game.core.PowerUp;
-import game.ctrl.BulletController;
 import game.ctrl.HumanPlayerController;
 import game.ctrl.PlayerController;
-import game.ctrl.PowerUpController;
+import game.utils.ApplicationAssets;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by David on 2016-04-18.
@@ -30,28 +24,20 @@ import java.util.List;
 public class GameView extends SimpleApplication implements ScreenController{
 
     //variables for physics control
-    private RigidBodyControl eWallPhy;
-    private RigidBodyControl wWallPhy;
-    private RigidBodyControl nWallPhy;
-    private RigidBodyControl sWallPhy;
-    private RigidBodyControl groundPhy;
-    private RigidBodyControl bulletPhy;
-    private RigidBodyControl powerUpPhy;
     private PlayerController player1Control;
     private PlayerController player2Control;
     private PlayerController player2ControlSave;
     private AIPlayerController player2AIControl;
     private BulletAppState bulletAppState;
 
-    private List <PowerUp> powerUpList = new ArrayList<PowerUp>();
-
     //variables for viewer classes
     private WallsView wallsView;
     private GroundView groundView;
     private PlayerView player1View;
     private PlayerView player2View;
-    private PowerUpView powerUpView;
+    private PowerupView powerUpView;
     private TerrainView terrainView;
+
 
     private Node bulletNode;
     private Node stageNode;
@@ -60,6 +46,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     private Node player2Node;
 
     private World world;
+
+    private ApplicationAssets appAssets;
 
     //variables for gui
     private NiftyJmeDisplay niftyDisplay;
@@ -70,30 +58,84 @@ public class GameView extends SimpleApplication implements ScreenController{
     private boolean paused = true;
 
 
-    //private World world = new World();
-
     public void simpleInitApp() {
-        //gui initialization
-        niftyDisplay = new NiftyJmeDisplay(assetManager,
-                inputManager,
-                audioRenderer,
-                guiViewPort);
-        nifty = niftyDisplay.getNifty();
+        initiateCamera();
+        initiateNodes();
+        initiatePhysics();
 
+        world = new World(10, 5);
+        appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
+
+        initiateGUI();
+        initiateStage();
+        initiatePlayers();
+
+        niftyView.setP1ctr(player1Control);
+        niftyView.setP2ctr(player2Control);
+    }
+
+    private void initiateStage(){
+        //creating a "ground floor" for levels
+        groundView = new GroundView(appAssets);
+        //adding walls for the surface
+        wallsView = new WallsView(appAssets);
+        //generate terrain
+        terrainView = new TerrainView(appAssets);
+        //for now creates two powerups
+        powerUpView = new PowerupView(appAssets);
+        //spawning player1
+        player1View = new PlayerView(appAssets, player1Node, ColorRGBA.Red, new Vector3f(-4f,-2f,0f));
+        //spawning player2
+        player2View = new PlayerView(appAssets, player2Node, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
+    }
+
+    private void initiatePlayers(){
+        player1Control = new HumanPlayerController(player1View,1f,2f,1f, niftyView, appAssets);
+        player2AIControl = new AIPlayerController(player2View,1f,2f,1f, niftyView, world);
+        player2ControlSave = new HumanPlayerController(player2View,1f,2f,1f, niftyView, appAssets);
+        if(this.ai == true){
+            player2Control = player2AIControl;
+        } else {
+            player2Control = player2ControlSave;
+        }
+        player1Node.addControl(player1Control);
+        bulletAppState.getPhysicsSpace().add(player1Control);
+        player2Node.addControl(player2Control);
+        bulletAppState.getPhysicsSpace().add(player2Control);
+    }
+
+    private void initiateGUI(){
+        //gui initialization
+        niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
+        nifty = niftyDisplay.getNifty();
         nifty.fromXml("Interface/screen.xml", "start", this);
         guiViewPort.addProcessor(niftyDisplay);
-
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
         niftyView.setNiftyDisp(niftyDisplay);
         niftyView.setGameView(this);
 
+    }
+
+    private void initiatePhysics(){
+        //set up physics
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(false);
+    }
+
+    private void initiateCamera(){
         //camera settings
         flyCam.setEnabled(false);
         cam.setLocation(new Vector3f(0f,-80f,0));
         cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
         getFlyByCamera().setEnabled(false);
         getFlyByCamera().setMoveSpeed(50);
+        //turn off stats gameView (you can leave it on, if you want)
+        setDisplayStatView(true);
+        setDisplayFps(true);
+    }
 
+    private void initiateNodes(){
         //init nodes
         bulletNode = new Node("bullets");
         stageNode = new Node("stage");
@@ -105,142 +147,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         rootNode.attachChild(bulletNode);
         rootNode.attachChild(stageNode);
         rootNode.attachChild(terrainNode);
-
-        //init terrain and player models
-        world = new World(10, 5);
-
-        //turn off stats gameView (you can leave it on, if you want)
-        setDisplayStatView(true);
-        setDisplayFps(true);
-
-        //set up physics
-        bulletAppState = new BulletAppState();
-        stateManager.attach(bulletAppState);
-        bulletAppState.setDebugEnabled(false);
-
-        //creating a "ground floor" for levels
-        groundView = new GroundView(getAssetManager(),stageNode);
-        groundView.createGround();
-
-        //adding walls for the surface
-        wallsView = new WallsView(getAssetManager(), stageNode, groundView.getGroundGeom());
-        wallsView.createWalls();
-
-        //spawning player1
-        player1View = new PlayerView(getAssetManager(), player1Node, this, ColorRGBA.Red, new Vector3f(-4f,-2f,0f));
-
-        //spawning player2
-        player2View = new PlayerView(getAssetManager(), player2Node, this, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
-
-        terrainView = new TerrainView(this, terrainNode, groundView, world);
-        terrainView.createTerrain();
-
-        player1Control = new HumanPlayerController(player1View,1f,2f,1f, niftyView, world);
-
-        player2AIControl = new AIPlayerController(player2View,1f,2f,1f, niftyView, world);
-        player2ControlSave = new HumanPlayerController(player2View,1f,2f,1f, niftyView, world);
-
-        if(this.ai == true){
-            player2Control = player2AIControl;
-        } else {
-            player2Control = player2ControlSave;
-        }
-
-        niftyView.setP1ctr(player1Control);
-        niftyView.setP2ctr(player2Control);
-
-        //adding collision-detection to map walls, not working properly <--- still?
-        wallCollisionControl();
-
-        //adding collision-detection to ground
-        groundCollisionControl();
-
-        //adding collision-detection to player.
-        playerCollisionControl();
-
-        //adding collision-detection to terrain.
-        terrainCollisionControl();
-
-        //nullify gravity
-        bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
-
-        //spawn a power-up of type health
-        powerUpView = new PowerUpView(this,stageNode,groundView);
-
-        //creates the wanted quantity of power ups,
-        initPowerUps(1,1);
     }
-
-    private void initPowerUps(int antalHealth, int antalSpeed){
-        for (int i=0; i<antalHealth;i++){
-
-            powerUpView.createPowerUp("health");
-        }
-        for (int i=0; i<antalSpeed;i++){
-            powerUpView.createPowerUp("speed");
-        }
-    }
-
-    public Quad getGroundSize(){
-        return groundView.getGroundShape();
-    }
-
-    //CollisionControl methods to give objects physic bodies and properties
-    public void groundCollisionControl(){
-        groundPhy = new RigidBodyControl(0);
-        groundView.getGroundGeom().addControl(groundPhy);
-        bulletAppState.getPhysicsSpace().add(groundPhy);
-    }
-
-    public void wallCollisionControl(){
-        eWallPhy = new RigidBodyControl(0);
-        wWallPhy = new RigidBodyControl(0);
-        nWallPhy = new RigidBodyControl(0);
-        sWallPhy = new RigidBodyControl(0);
-        wallsView.getWest().addControl(wWallPhy);
-        wallsView.getNorth().addControl(nWallPhy);
-        wallsView.getEast().addControl(eWallPhy);
-        wallsView.getSouth().addControl(sWallPhy);
-        bulletAppState.getPhysicsSpace().add(eWallPhy);
-        bulletAppState.getPhysicsSpace().add(wWallPhy);
-        bulletAppState.getPhysicsSpace().add(nWallPhy);
-        bulletAppState.getPhysicsSpace().add(sWallPhy);
-    }
-
-    public void terrainCollisionControl(){
-        Geometry[][] terrainGrid = terrainView.getTerrainGrid();
-        for (int i = 0; i < terrainGrid.length; i++){
-            for (int j = 0; j<terrainGrid[i].length; j++){
-                if (terrainGrid[i][j] != null) {
-                    RigidBodyControl terrainPhy = new RigidBodyControl(0);
-                    terrainGrid[i][j].addControl(terrainPhy);
-                    bulletAppState.getPhysicsSpace().add(terrainPhy);
-                }
-            }
-        }
-    }
-
-    public void powerUpCollisionControl(PowerUpView powerUpView, PowerUp powerUp, Spatial powerUpBox){
-        powerUpPhy = new PowerUpController(powerUpView, powerUp, this);
-        powerUpBox.addControl(powerUpPhy);
-
-    }
-
-    public void bulletCollisionControl(BulletView bulletView, Spatial bullet){
-        bulletPhy = new BulletController(bulletView, player1Control, player2Control);
-        bullet.addControl(bulletPhy);
-
-        bulletPhy.setLinearVelocity(bulletView.getPlayerView().getGunRotation().getRotationColumn(2).mult(50));
-        bulletAppState.getPhysicsSpace().add(bulletPhy);
-    }
-
-    public void playerCollisionControl(){
-        player1View.getPlayerNode().addControl(player1Control);
-        bulletAppState.getPhysicsSpace().add(player1Control);
-        player2View.getPlayerNode().addControl(player2Control);
-        bulletAppState.getPhysicsSpace().add(player2Control);
-    }
-
 
     //"pauses the game"
     public void pauseGame(){
@@ -259,50 +166,37 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void updateGUI(){
         niftyView.updateText();
     }
-
     public boolean getPaused(){
         return this.paused;
     }
-
     public void setAI(boolean state){
         this.ai = state;
     }
     public boolean getAI(){
         return this.ai;
     }
-
     public Node getBulletNode(){
         return this.bulletNode;
     }
-
     public void simpleUpdate(float tpf){}
-
     public Node getStageNode(){
         return stageNode;
     }
-
     public Node getTerrainNode() {return terrainNode;}
-
     public BulletAppState getBulletAppState(){
         return this.bulletAppState;
     }
-
-    public WallsView getWallsView(){
-        return wallsView;
-    }
-
     public Node getPlayer1Node() {return player1Node;}
-
     public Node getPlayer2Node() {return player2Node;}
-
     public PlayerController getPlayer1Control() {return player1Control;}
-
     public PlayerController getPlayer2Control() {return player2Control;}
-
+    public Quad getGroundSize(){
+        return groundView.getGroundShape();
+    }
+    public Geometry getGroundGeom() {return groundView.getGroundGeom();}
     public void onEndScreen(){}
     public void onStartScreen(){}
     public void bind(Nifty nifty, Screen screen){}
-
     public World getWorld(){
         return world;
     }

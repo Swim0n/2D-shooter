@@ -1,12 +1,15 @@
 package game.gameView;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture;
+import game.utils.ApplicationAssets;
 
 /**
  * Created by Hannes on 24/04/2016.
@@ -17,12 +20,16 @@ public class GroundView {
     private Node stageNode;
     private AssetManager assetManager;
     private Quad groundShape;
+    private BulletAppState bulletAppState;
 
-    GroundView(AssetManager assetManager, Node stageNode){
-        this.stageNode = stageNode;
-        this.assetManager = assetManager;
+    GroundView(ApplicationAssets appAssets){
+        this.stageNode = appAssets.getStageNode();
+        this.assetManager = appAssets.getAssetManager();
+        this.bulletAppState = appAssets.getBulletAppState();
+        createGround();
+        applyPhysics();
     }
-    void createGround(){
+    private void createGround(){
 
         groundShape = new Quad(71f, 53f); //quad to represent ground in game
         groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
@@ -33,8 +40,12 @@ public class GroundView {
         groundGeom.setMaterial(groundMat);
         groundGeom.rotate(FastMath.HALF_PI,0,0);
         groundGeom.setLocalTranslation(-groundShape.getWidth()/2, 0, -groundShape.getHeight()/2);
-
         stageNode.attachChild(groundGeom);
+    }
+    private void applyPhysics(){
+        RigidBodyControl groundPhy = new RigidBodyControl(0);
+        groundGeom.addControl(groundPhy);
+        bulletAppState.getPhysicsSpace().add(groundPhy);
     }
     Geometry getGroundGeom(){return this.groundGeom;}
     Quad getGroundShape(){return this.groundShape;}

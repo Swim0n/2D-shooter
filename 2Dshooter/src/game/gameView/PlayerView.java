@@ -10,13 +10,14 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.shape.Quad;
+import game.utils.ApplicationAssets;
 import game.utils.Utils;
 
 /**
  * Created by Simon on 2016-04-26.
  */
 public class PlayerView {
-    private final Geometry pipe;
+    private Geometry pipe;
     private final Node pipeNode = new Node("pipeNode");
     private final Vector3f startPos;
     private Geometry player;
@@ -31,15 +32,21 @@ public class PlayerView {
     private float lastRotation;
     private Quaternion gunRot = new Quaternion();
     private Vector3f axisY=Vector3f.UNIT_Y;//for rotation around Y-axis
+    private ColorRGBA colorRGBA;
 
     //colorRGBA is just a placeholder until textures are in place
-    public PlayerView(AssetManager assetManager, Node playerNode, GameView gameView, ColorRGBA colorRGBA, Vector3f startPos){
-        this.assetManager = assetManager;
-        this.gameView = gameView;
+    public PlayerView(ApplicationAssets appAssets, Node playerNode, ColorRGBA colorRGBA, Vector3f startPos){
+        this.assetManager = appAssets.getAssetManager();
+        this.gameView = appAssets.getGameView();
         this.playerNode = playerNode;
         this.inputManager = gameView.getInputManager();
         this.startPos = startPos;
+        this.colorRGBA = colorRGBA;
+        createPlayer();
+        createHealthBar();
+    }
 
+    private void createPlayer(){
         //creating player
         player = Utils.getBox(1f,1f,1f);
         player.setMaterial(Utils.getMaterial(assetManager,colorRGBA));
@@ -60,7 +67,9 @@ public class PlayerView {
         pipe.setLocalTranslation(0f,0.3f,-0.4f);
         pipeNode.attachChild(pipe);
         gunNode.attachChild(pipeNode);
+    }
 
+    private void createHealthBar(){
         //creating a health bar
         BillboardControl backCtrl = new BillboardControl();
         BillboardControl healthCtrl = new BillboardControl();
@@ -93,8 +102,6 @@ public class PlayerView {
             healthBar.setLocalScale(-0.1f, 1f, 1f);
         }
     }
-
-    public InputManager getInputManager(){return this.inputManager;}
     public Node getPlayerNode(){return this.playerNode;}
     public Vector3f getPipePos(){return this.pipeNode.getWorldTranslation();}
     public Vector3f getStartPos(){return startPos;}

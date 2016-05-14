@@ -2,12 +2,15 @@ package game.gameView;
 
 import com.jme3.app.Application;
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import game.core.World;
+import game.utils.ApplicationAssets;
 
 import java.util.Random;
 
@@ -16,7 +19,6 @@ import java.util.Random;
  */
 public class TerrainView {
     private AssetManager assetManager;
-    private GroundView groundView;
     private Node terrainNode;
 
     private float groundX;
@@ -30,22 +32,25 @@ public class TerrainView {
     private Material treeMaterial;
     private World world;
 
+    private BulletAppState bulletAppState;
+
     private Geometry[][] terrainGrid;
 
-    private final static Random randomGenerator = new Random();
 
-    public TerrainView(Application application, Node terrainNode, GroundView groundView, World world) {
-        this.assetManager = application.getAssetManager();
-        this.terrainNode = terrainNode;
-        this.groundView = groundView;
-        this.groundX = groundView.getGroundShape().getWidth();
-        this.groundZ = groundView.getGroundShape().getHeight();
-        this.world = world;
+    public TerrainView(ApplicationAssets appAssets) {
+        this.assetManager = appAssets.getAssetManager();
+        this.terrainNode = appAssets.getTerrainNode();
+        this.groundX = appAssets.getGameView().getGroundSize().getWidth();
+        this.groundZ = appAssets.getGameView().getGroundSize().getHeight();
+        this.world = appAssets.getWorld();
+        this.bulletAppState = appAssets.getBulletAppState();
         terrainGrid = new Geometry[(int)groundX][(int)groundZ];
         world.getTerrain().setPositionsAmount((int)groundX,(int)groundZ);
+        createTerrain();
+        applyPhysics();
     }
 
-    public void createTerrain(){
+    private void createTerrain(){
         rockShape = new Box(2f,2f,2f);
         rockMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         rockMaterial.setColor("Color", ColorRGBA.DarkGray);
@@ -72,8 +77,15 @@ public class TerrainView {
             terrainNode.attachChild(tree);
         }
     }
-
-    public Geometry[][] getTerrainGrid(){
-        return this.terrainGrid;
+    private void applyPhysics(){
+        for (int i = 0; i < terrainGrid.length; i++){
+            for (int j = 0; j<terrainGrid[i].length; j++){
+                if (terrainGrid[i][j] != null) {
+                    RigidBodyControl terrainPhy = new RigidBodyControl(0);
+                    terrainGrid[i][j].addControl(terrainPhy);
+                    bulletAppState.getPhysicsSpace().add(terrainPhy);
+                }
+            }
+        }
     }
 }
