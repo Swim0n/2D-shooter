@@ -1,6 +1,9 @@
 package game.ctrl;
 
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.math.FastMath;
+import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import game.core.Player;
 import game.core.World;
@@ -62,26 +65,43 @@ public abstract class PlayerController extends BetterCharacterControl {
         niftyView.updateText();
     }
 
-    public void pause(){
-        this.paused = true;
-    }
-
-    public void unpause(){
-        this.paused = false;
-    }
-
     public void resetPlayer(){
         this.warp(new Vector3f(playerView.getStartPos()));
         this.playerView.setHealthBar(100);
         this.playerData.setStandard();
         this.niftyView.updateText();
     }
-    public Player getPlayerData(){
-        return this.playerData;
-    }
 
     //creates a new bullet specific to the player who fired it
     public void shootBullet(){
         bulletView.createBullet();
+    }
+
+    public Vector3f getDashDirection(boolean leftTrue){
+        System.out.println("init");
+
+        //direction of gun
+        Vector3f gunRot = playerView.getGunRotation().getRotationColumn(2);
+
+        //direction of dash
+        Quaternion halfPi = new Quaternion();
+        if(leftTrue) {
+            halfPi.fromAngleNormalAxis(-FastMath.HALF_PI, Vector3f.UNIT_Y);
+        }else{
+            halfPi.fromAngleNormalAxis(FastMath.HALF_PI, Vector3f.UNIT_Y);}
+        Matrix3f rotation = halfPi.toRotationMatrix();
+        Vector3f dashDirection = rotation.mult(gunRot.normalize());
+        return dashDirection;
+    }
+    public Player getPlayerData(){
+        return this.playerData;
+    }
+
+    public void pause(){
+        this.paused = true;
+    }
+
+    public void unpause(){
+        this.paused = false;
     }
 }
