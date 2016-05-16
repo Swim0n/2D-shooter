@@ -70,6 +70,8 @@ public class GameView extends SimpleApplication implements ScreenController{
         initiateStage();
         initiatePlayers();
 
+        bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,0,0));
+
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
     }
