@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public class HumanPlayerController extends PlayerController implements ActionListener {
     private InputManager inputManager;
-    private boolean left,right,up,down,gunLeft,gunRight,dashing,dashLeft;
+    private boolean left,right,up,down,gunLeft,gunRight,dashing;
     private KeyMappings keys;
     String[] mapNames;
 
@@ -60,35 +60,35 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     public void update(float tpf) {
         super.update(tpf);
         if (dashing){
-            setWalkDirection(getDashDirection(dashLeft).mult(playerData.getDashSpeed()));
+            setWalkDirection(lastDirection.normalize().mult(playerData.getDashSpeed()));
             return;
         }
         if (!left && !right && !up && !down && !dashing ){
-            setWalkDirection(new Vector3f(0f,0f,0f));
+            setWalkDirection(lastDirection.set(0f,0f,0f));
         }
         if (left){
-            setWalkDirection(lastDirection.set(speed*-1f,0f,0f));
+            setWalkDirection(lastDirection.set(-speed,0f,0f));
         }
         if (right){
-            setWalkDirection(lastDirection.set(speed*1f,0f,0f));
+            setWalkDirection(lastDirection.set(speed,0f,0f));
         }
         if (up){
-            setWalkDirection(lastDirection.set(0f,0f,speed*1f));
+            setWalkDirection(lastDirection.set(0f,0f,speed));
         }
         if (down){
-            setWalkDirection(lastDirection.set(0f,0f,speed*-1f));
+            setWalkDirection(lastDirection.set(0f,0f,-speed));
         }
         if (left && up){
-            setWalkDirection(lastDirection.set(speed*-0.707f,0f,speed*0.707f));
+            setWalkDirection(lastDirection.set(-diagonalSpeed,0f,diagonalSpeed));
         }
         if (left && down){
-            setWalkDirection(lastDirection.set(speed*-0.707f,0f,speed*-0.707f));
+            setWalkDirection(lastDirection.set(-diagonalSpeed,0f,-diagonalSpeed));
         }
         if (right && up){
-            setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*0.707f));
+            setWalkDirection(lastDirection.set(diagonalSpeed,0f,diagonalSpeed));
         }
         if (right && down){
-            setWalkDirection(lastDirection.set(speed*0.707f,0f,speed*-0.707f));
+            setWalkDirection(lastDirection.set(diagonalSpeed,0f,-diagonalSpeed));
         }
         if (gunLeft){
             playerView.rotateGun(tpf*-140f);
@@ -124,7 +124,6 @@ public class HumanPlayerController extends PlayerController implements ActionLis
         }
         if(name.equals(mapNames[7]) && !isPressed && !dashing){
             dashing = true;
-            dashLeft = true;
             dashTimer(playerData.getDashMillis());
         }
     }
@@ -133,7 +132,6 @@ public class HumanPlayerController extends PlayerController implements ActionLis
         Timer timer = new Timer(millis, new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dashing = false;
-                dashLeft = false;
             }
         });
         timer.setRepeats(false);
