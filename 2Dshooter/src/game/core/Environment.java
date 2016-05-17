@@ -16,6 +16,8 @@ public class Environment {
         this.treesAmount = trees;
     }
 
+    public Environment(){}
+
     public int[] getRandomPos(float terrainWidth, float terrainHeight, float positionWidth, float positionHeight){
         int x = randomGenerator.nextInt((int) ((terrainWidth-positionWidth)/positionWidth+positionWidth/2));
         int z = randomGenerator.nextInt((int) ((terrainHeight-positionHeight)/positionHeight+positionHeight/2-0.5));

@@ -9,4 +9,7 @@ public interface PowerUp {
 
     void setEffect(Player player);
 
+    int getX();
+    int getZ();
+
 }

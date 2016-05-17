@@ -47,7 +47,7 @@ public class GUIView implements ScreenController {
 
         // find old text
         Element niftyElement = nifty.getCurrentScreen().findElementByName("text");
-// swap old with new text
+        // swap old with new text
         String p1hp = Float.toString(this.p1ctr.getPlayerData().getHealth());
         String p2hp = Float.toString(this.p2ctr.getPlayerData().getHealth());
 
@@ -68,7 +68,7 @@ public class GUIView implements ScreenController {
         nifty.fromXml("Interface/screen.xml", "pause", this);
         nifty.gotoScreen("pause");
         if(!gameView.getPaused()){
-        this.gameView.pauseGame();}
+            this.gameView.pauseGame();}
     }
 
     //called when back button is clicked when in the menu
@@ -85,10 +85,10 @@ public class GUIView implements ScreenController {
         gameView.setAI(!gameView.getAI());
         if(gameView.getAI()){
             niftyElement.getRenderer(TextRenderer.class).setText(
-                   "AI: ON");
-                }else{niftyElement.getRenderer(TextRenderer.class).setText(
-                    "AI: OFF");
-                    }
+                    "AI: ON");
+        }else{niftyElement.getRenderer(TextRenderer.class).setText(
+                "AI: OFF");
+        }
 
     }
 

@@ -8,6 +8,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import game.core.HealthPowerUp;
+import game.core.PowerUp;
 import game.core.SpeedPowerUp;
 import game.ctrl.PowerUpController;
 import game.utils.ApplicationAssets;
@@ -24,79 +25,72 @@ public class PowerupView {
     private Material boxMaterial;
 
     private AssetManager assetManager;
-    private Node stageNode;
+    private Node terrainNode;
 
     private Quad groundShape;
     private GameView gameView;
     private ApplicationAssets appAssets;
 
-    private float randomX;
-    private float randomZ;
 
-    private final static List<PowerupView> POWER_UP_VIEW_LIST = new ArrayList<PowerupView>();
+        private final static List<PowerupView> POWER_UP_VIEW_LIST = new ArrayList<PowerupView>();
 
-    private final static Random randomGenerator = new Random();
+
 
 
     public PowerupView(ApplicationAssets appAssets){
         this.appAssets = appAssets;
         this.assetManager = appAssets.getAssetManager();
-        this.stageNode = appAssets.getStageNode();
+        this.terrainNode = appAssets.getTerrainNode();
         this.groundShape =  appAssets.getGameView().getGroundSize();
         this.gameView = appAssets.getGameView();
         powerBox = new Box(1f,1f,1f);
         powerupGeom = new Geometry("Power up", powerBox);
 
-        createPowerUp("health");
-        createPowerUp("speed");
+        //createPowerUp("health");
+        //createPowerUp("speed");
     }
 
-    /**sets the possible x and z range for box.*/
-    private void setRandomPos(){
-        float maximumX = groundShape.getWidth();
-        float maximumZ = groundShape.getHeight();
-
-        randomX = randomGenerator.nextInt((int)(maximumX)) - maximumX/2;
-        randomZ = randomGenerator.nextInt((int)(maximumZ)) - maximumZ/2;
-    }
 
     /**creates a power up at random position. Have to set type of power up.*/
-    public void createPowerUp(String powerUpType){
-        setRandomPos();
+    public void createPowerUp(PowerUp powerUpType, float xPos, float zPos){
+        //setRandomPos();
         powerupGeom = new Geometry("Box", powerBox);
         boxMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         setType(powerUpType);
         powerupGeom.setMaterial(boxMaterial);
-        powerupGeom.setLocalTranslation(randomX, -1, randomZ);
-        stageNode.attachChild(powerupGeom);
-        //gameView.powerUpCollisionControl(this,powerupGeom, powerUpType);
-        if (powerUpType.equalsIgnoreCase("health")){
+        powerupGeom.setLocalTranslation(xPos, -1, zPos);
+        terrainNode.attachChild(powerupGeom);
+
+        /**
+       if (powerUpType instanceof HealthPowerUp){
             PowerUpController powerUpPhy = new PowerUpController(new HealthPowerUp(), appAssets, this);
             powerupGeom.addControl(powerUpPhy);
         }
-        if (powerUpType.equalsIgnoreCase("speed")){
+        if (powerUpType instanceof SpeedPowerUp){
             PowerUpController powerUpPhy = new PowerUpController(new SpeedPowerUp(), appAssets, this);
             powerupGeom.addControl(powerUpPhy);
         }
-        System.out.println(powerUpType);
+        */
 
         POWER_UP_VIEW_LIST.add(this);
 
 
     }
 
-    private void setType(String powerUpType){
-        if (powerUpType.equalsIgnoreCase("speed")){
+    private void setType(PowerUp powerUp){
+        if (powerUp instanceof HealthPowerUp){
 
             boxMaterial.setColor("Color", ColorRGBA.Yellow);
         }
-        if (powerUpType.equalsIgnoreCase("health")){
+        if (powerUp instanceof SpeedPowerUp){
            boxMaterial.setColor("Color", ColorRGBA.Cyan);
         }
     }
 
 
-
+    public Geometry getPowerupGeom(){
+        return powerupGeom;
+    }
 
     public GameView getGameView(){
         return this.gameView;

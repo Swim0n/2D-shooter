@@ -11,11 +11,17 @@ import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import game.core.HealthPowerUp;
+import game.core.SpeedPowerUp;
 import game.core.World;
 import game.ctrl.AIPlayerController;
 import game.ctrl.HumanPlayerController;
 import game.ctrl.PlayerController;
+import game.ctrl.PowerUpController;
 import game.utils.ApplicationAssets;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -29,6 +35,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private PlayerController player2ControlSave;
     private AIPlayerController player2AIControl;
     private BulletAppState bulletAppState;
+    private List<PowerUpController> PowerUpControllerList = new ArrayList<PowerUpController>();
 
     //variables for viewer classes
     private WallsView wallsView;
@@ -85,10 +92,13 @@ public class GameView extends SimpleApplication implements ScreenController{
         terrainView = new TerrainView(appAssets);
         //for now creates two powerups
         powerUpView = new PowerupView(appAssets);
+
         //spawning player1
         player1View = new PlayerView(appAssets, player1Node, ColorRGBA.Red, new Vector3f(-4f,-2f,0f));
         //spawning player2
         player2View = new PlayerView(appAssets, player2Node, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
+        new PowerUpController(new HealthPowerUp(appAssets),appAssets,powerUpView);
+        new PowerUpController(new SpeedPowerUp(appAssets), appAssets, powerUpView);
     }
 
     private void initiatePlayers(){
