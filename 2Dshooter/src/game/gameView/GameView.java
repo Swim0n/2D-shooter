@@ -2,6 +2,7 @@ package game.gameView;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.input.KeyInput;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
@@ -19,6 +20,7 @@ import game.ctrl.HumanPlayerController;
 import game.ctrl.PlayerController;
 import game.ctrl.PowerUpController;
 import game.utils.ApplicationAssets;
+import game.utils.KeyMappings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,9 +104,11 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
 
     private void initiatePlayers(){
-        player1Control = new HumanPlayerController(player1View,1f,2f,1f, niftyView, appAssets);
+        player1Control = new HumanPlayerController(player1View,1f,2f,1f, niftyView, appAssets, new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
+                KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0));
         player2AIControl = new AIPlayerController(player2View,1f,2f,1f, niftyView, world);
-        player2ControlSave = new HumanPlayerController(player2View,1f,2f,1f, niftyView, appAssets);
+        player2ControlSave = new HumanPlayerController(player2View,1f,2f,1f, niftyView, appAssets, new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
+                KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE));
         if(this.ai == true){
             player2Control = player2AIControl;
         } else {

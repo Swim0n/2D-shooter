@@ -7,62 +7,63 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
 import game.gameView.*;
 import game.utils.ApplicationAssets;
+import game.utils.KeyMappings;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.UUID;
 
 /**
  * Created by Simon on 2016-04-26.
  */
 public class HumanPlayerController extends PlayerController implements ActionListener {
     private InputManager inputManager;
-    private boolean left,right,up,down,gunLeft,gunRight;
+    private boolean left,right,up,down,gunLeft,gunRight,dashing,dashLeft;
+    private KeyMappings keys;
+    String[] mapNames;
 
-    public HumanPlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, ApplicationAssets appAssets){
+
+    public HumanPlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, ApplicationAssets appAssets, KeyMappings keys){
         super(view,radius,height,mass,niftyView,appAssets.getWorld());
         this.inputManager = appAssets.getInputManager();
+        this.keys = keys;
+        this.mapNames = new String[8];
         setupKeys();
     }
 
     private void setupKeys() {
         inputManager.addMapping("resetGame",new KeyTrigger(KeyInput.KEY_F8));
         inputManager.addListener(this, "resetGame");
-        if(playerView.getPlayerNode().equals(playerView.getGameView().getPlayer1Node())) {
-            inputManager.addMapping("p1left", new KeyTrigger(KeyInput.KEY_LEFT));
-            inputManager.addMapping("p1right", new KeyTrigger(KeyInput.KEY_RIGHT));
-            inputManager.addMapping("p1up", new KeyTrigger(KeyInput.KEY_UP));
-            inputManager.addMapping("p1down", new KeyTrigger(KeyInput.KEY_DOWN));
-            inputManager.addMapping("p1shoot", new KeyTrigger(KeyInput.KEY_NUMPAD5), new KeyTrigger(KeyInput.KEY_RETURN));
-            inputManager.addMapping("p1GunLeft", new KeyTrigger(KeyInput.KEY_O),new KeyTrigger(KeyInput.KEY_NUMPAD4));
-            inputManager.addMapping("p1GunRight", new KeyTrigger(KeyInput.KEY_P),new KeyTrigger(KeyInput.KEY_NUMPAD6));
-
-            inputManager.addListener(this, "p1left");
-            inputManager.addListener(this, "p1right");
-            inputManager.addListener(this, "p1up");
-            inputManager.addListener(this, "p1down");
-            inputManager.addListener(this, "p1shoot");
-            inputManager.addListener(this, "p1GunLeft");
-            inputManager.addListener(this, "p1GunRight");
+        //generating random strings as names for the mappings, allowing for multiple instances of this controller
+        for(int i = 0; i < mapNames.length; i++){
+            mapNames[i] = UUID.randomUUID().toString();
         }
-        if(playerView.getPlayerNode().equals(playerView.getGameView().getPlayer2Node())) {
-            inputManager.addMapping("p2left", new KeyTrigger(KeyInput.KEY_A));
-            inputManager.addMapping("p2right", new KeyTrigger(KeyInput.KEY_D));
-            inputManager.addMapping("p2up", new KeyTrigger(KeyInput.KEY_W));
-            inputManager.addMapping("p2down", new KeyTrigger(KeyInput.KEY_S));
-            inputManager.addMapping("p2shoot", new KeyTrigger(KeyInput.KEY_SPACE),new KeyTrigger(KeyInput.KEY_H));
-            inputManager.addMapping("p2GunLeft", new KeyTrigger(KeyInput.KEY_G));
-            inputManager.addMapping("p2GunRight", new KeyTrigger(KeyInput.KEY_J));
-            inputManager.addListener(this, "p2left");
-            inputManager.addListener(this, "p2right");
-            inputManager.addListener(this, "p2up");
-            inputManager.addListener(this, "p2down");
-            inputManager.addListener(this, "p2shoot");
-            inputManager.addListener(this, "p2GunLeft");
-            inputManager.addListener(this, "p2GunRight");
-        }
+        inputManager.addMapping(mapNames[0], keys.getLeft());
+        inputManager.addMapping(mapNames[1], keys.getRight());
+        inputManager.addMapping(mapNames[2], keys.getUp());
+        inputManager.addMapping(mapNames[3], keys.getDown());
+        inputManager.addMapping(mapNames[4], keys.getShoot());
+        inputManager.addMapping(mapNames[5], keys.getGunLeft());
+        inputManager.addMapping(mapNames[6], keys.getGunRight());
+        inputManager.addMapping(mapNames[7], keys.getDash());
+        inputManager.addListener(this, mapNames[0]);
+        inputManager.addListener(this, mapNames[1]);
+        inputManager.addListener(this, mapNames[2]);
+        inputManager.addListener(this, mapNames[3]);
+        inputManager.addListener(this, mapNames[4]);
+        inputManager.addListener(this, mapNames[5]);
+        inputManager.addListener(this, mapNames[6]);
+        inputManager.addListener(this, mapNames[7]);
     }
 
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        if (!left && !right && !up && !down){
+        if (dashing){
+            setWalkDirection(getDashDirection(dashLeft).mult(playerData.getDashSpeed()));
+            return;
+        }
+        if (!left && !right && !up && !down && !dashing ){
             setWalkDirection(new Vector3f(0f,0f,0f));
         }
         if (left){
@@ -103,44 +104,40 @@ public class HumanPlayerController extends PlayerController implements ActionLis
             this.resetPlayer();
         }
         //movement of player
-        if(playerView.getPlayerNode().equals(playerView.getGameView().getPlayer1Node())){
-            if (name.equals("p1left")) {
-                left = isPressed;
-            } else if (name.equals("p1right")) {
-                right = isPressed;
-            } else if (name.equals("p1up")) {
-                up = isPressed;
-            } else if (name.equals("p1down")) {
-                down = isPressed;
-            }
-            if (name.equals("p1shoot") && isPressed){
-                shootBullet();
-            }
-            if(name.equals("p1GunLeft")){
-                gunLeft = isPressed;
-            }else if(name.equals("p1GunRight")){
-                gunRight = isPressed;
-            }
+
+        if (name.equals(mapNames[0])) {
+            left = isPressed;
+        } else if (name.equals(mapNames[1])) {
+            right = isPressed;
+        } else if (name.equals(mapNames[2])) {
+            up = isPressed;
+        } else if (name.equals(mapNames[3])) {
+            down = isPressed;
         }
-        else if(playerView.getPlayerNode().equals(playerView.getGameView().getPlayer2Node())){
-            if (name.equals("p2left")) {
-                left = isPressed;
-            } else if (name.equals("p2right")) {
-                right = isPressed;
-            } else if (name.equals("p2up")) {
-                up = isPressed;
-            } else if (name.equals("p2down")) {
-                down = isPressed;
-            }
-            if (name.equals("p2shoot") && isPressed){
-                shootBullet();
-            }
-            if(name.equals("p2GunLeft")){
-                gunLeft = isPressed;
-            }else if(name.equals("p2GunRight")){
-                gunRight = isPressed;
-            }
+        if (name.equals(mapNames[4]) && isPressed){
+            shootBullet();
         }
+        if(name.equals(mapNames[5])){
+            gunLeft = isPressed;
+        }else if(name.equals(mapNames[6])){
+            gunRight = isPressed;
+        }
+        if(name.equals(mapNames[7]) && !isPressed && !dashing){
+            dashing = true;
+            dashLeft = true;
+            dashTimer(playerData.getDashMillis());
+        }
+    }
+
+    public void dashTimer(int millis){
+        Timer timer = new Timer(millis, new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dashing = false;
+                dashLeft = false;
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 }
 
