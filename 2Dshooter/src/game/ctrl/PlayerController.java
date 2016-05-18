@@ -17,10 +17,8 @@ import game.gameView.PlayerView;
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     protected final BulletView bulletView;
-    protected float gunRotationSpeed;
     protected float speed;
     protected Player playerData;
-    protected Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
     protected GUIView niftyView;
     protected boolean paused = true;
 
@@ -30,14 +28,13 @@ public abstract class PlayerController extends BetterCharacterControl {
         this.playerView = playerView;
         this.bulletView = new BulletView(playerView);
         this.speed = playerData.getSpeed();
-        this.gunRotationSpeed = playerData.getGunRotationSpeed();
         this.niftyView = niftyView;
     }
 
     @Override
     public void update(float tpf){
         if(this.paused){
-            setWalkDirection(lastDirection.set(0f,0f,0f));
+            setWalkDirection(new Vector3f(0,0,0));
             return;
         }
         super.update(tpf);
