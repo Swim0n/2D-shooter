@@ -5,6 +5,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
+import game.core.Player;
 import game.gameView.*;
 import game.utils.ApplicationAssets;
 import game.utils.KeyMappings;
@@ -23,8 +24,8 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     String[] mapNames;
 
 
-    public HumanPlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, ApplicationAssets appAssets, KeyMappings keys){
-        super(view,radius,height,mass,niftyView,appAssets.getWorld());
+    public HumanPlayerController(PlayerView view, Player player, GUIView niftyView, ApplicationAssets appAssets, KeyMappings keys){
+        super(view,player,niftyView);
         this.inputManager = appAssets.getInputManager();
         this.keys = keys;
         this.mapNames = new String[8];

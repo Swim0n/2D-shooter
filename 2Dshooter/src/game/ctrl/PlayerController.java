@@ -25,13 +25,9 @@ public abstract class PlayerController extends BetterCharacterControl {
     protected GUIView niftyView;
     protected boolean paused = true;
 
-    public PlayerController(PlayerView playerView, float radius, float height, float mass, GUIView niftyView, World world){
-        super(radius, height, mass);
-        if(playerView.getPlayerNode().equals(playerView.getGameView().getPlayer1Node())) {
-            this.playerData = world.getPlayer1();
-        } else if (playerView.getPlayerNode().equals(playerView.getGameView().getPlayer2Node())) {
-            this.playerData = world.getPlayer2();
-        }
+    public PlayerController(PlayerView playerView, Player player, GUIView niftyView){
+        super(player.getRadius(), player.getHeight(), player.getMass());
+        this.playerData = player;
         this.playerView = playerView;
         this.bulletView = new BulletView(playerView);
         this.speed = playerData.getSpeed();

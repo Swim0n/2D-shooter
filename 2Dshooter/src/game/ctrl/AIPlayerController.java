@@ -2,6 +2,7 @@ package game.ctrl;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.*;
+import game.core.Player;
 import game.core.World;
 import game.gameView.GUIView;
 import game.gameView.PlayerView;
@@ -14,8 +15,8 @@ public class AIPlayerController extends PlayerController {
     private float bulletCooldown = 200f;
     private long lastShotTime = 0;
 
-    public AIPlayerController(PlayerView view, float radius, float height, float mass, GUIView niftyView, World world){
-        super(view,radius, height, mass, niftyView, world);
+    public AIPlayerController(PlayerView view, Player player, GUIView niftyView, World world){
+        super(view, player, niftyView, world);
 
     }
 
