@@ -29,11 +29,11 @@ public final class Utils {
         return material;
     }
 
-    public Vector3f JMEToVecMathVector3f(com.jme3.math.Vector3f vector3f){
+    public static Vector3f JMEToVecMathVector3f(com.jme3.math.Vector3f vector3f){
         return new Vector3f(vector3f.getX(),vector3f.getY(),vector3f.getZ());
     }
 
-    public com.jme3.math.Vector3f VecMathToJMEVector3f(Vector3f vector3f){
+    public static com.jme3.math.Vector3f vecMathToJMEVector3f(Vector3f vector3f){
         return new com.jme3.math.Vector3f(vector3f.x,vector3f.y,vector3f.z);
     }
 

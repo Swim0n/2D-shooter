@@ -15,8 +15,8 @@ public class AIPlayerController extends PlayerController {
     private float bulletCooldown = 200f;
     private long lastShotTime = 0;
 
-    public AIPlayerController(PlayerView view, Player player, GUIView niftyView, World world){
-        super(view, player, niftyView, world);
+    public AIPlayerController(PlayerView view, Player player, GUIView niftyView){
+        super(view, player, niftyView);
 
     }
 

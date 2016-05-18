@@ -18,7 +18,6 @@ public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     protected final BulletView bulletView;
     protected float gunRotationSpeed;
-    protected float diagonalSpeed;
     protected float speed;
     protected Player playerData;
     protected Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
@@ -31,7 +30,6 @@ public abstract class PlayerController extends BetterCharacterControl {
         this.playerView = playerView;
         this.bulletView = new BulletView(playerView);
         this.speed = playerData.getSpeed();
-        this.diagonalSpeed = playerData.getDiagonalSpeed();
         this.gunRotationSpeed = playerData.getGunRotationSpeed();
         this.niftyView = niftyView;
     }
