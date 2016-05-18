@@ -63,10 +63,6 @@ public class Player {
     }
 
     public Vector3f getWalkingDirection(){
-        if(dashing){
-            direction.normalize();
-            direction.scale(dashSpeed);
-        }
         if(!left && !right && !up && !down && !dashing){
             direction.set(0,0,0);
         }
@@ -93,6 +89,10 @@ public class Player {
         }
         if (right && down){
             direction.set(getDiagonalSpeed(),0,-getDiagonalSpeed());
+        }
+        if(dashing){
+            direction.normalize();
+            direction.scale(dashSpeed);
         }
         return direction;
     }
