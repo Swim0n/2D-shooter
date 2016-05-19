@@ -17,19 +17,14 @@ import game.gameView.PlayerView;
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     protected final BulletView bulletView;
-    protected Player playerData;
     protected float speed;
-    protected Vector3f lastDirection = new Vector3f(0f,0f,20f); //last direction this player moved, start value is a placeholder until real movement
+    protected Player playerData;
     protected GUIView niftyView;
     protected boolean paused = true;
 
-    public PlayerController(PlayerView playerView, float radius, float height, float mass, GUIView niftyView, World world){
-        super(radius, height, mass);
-        if(playerView.getPlayerNode().equals(playerView.getGameView().getPlayer1Node())) {
-            this.playerData = world.getPlayer1();
-        } else if (playerView.getPlayerNode().equals(playerView.getGameView().getPlayer2Node())) {
-            this.playerData = world.getPlayer2();
-        }
+    public PlayerController(PlayerView playerView, Player player, GUIView niftyView){
+        super(player.getRadius(), player.getHeight(), player.getMass());
+        this.playerData = player;
         this.playerView = playerView;
         this.bulletView = new BulletView(playerView);
         this.speed = playerData.getSpeed();
@@ -39,7 +34,7 @@ public abstract class PlayerController extends BetterCharacterControl {
     @Override
     public void update(float tpf){
         if(this.paused){
-            setWalkDirection(lastDirection.set(0f,0f,0f));
+            setWalkDirection(new Vector3f(0,0,0));
             return;
         }
         super.update(tpf);
@@ -81,22 +76,6 @@ public abstract class PlayerController extends BetterCharacterControl {
         bulletView.createBullet();
     }
 
-    public Vector3f getDashDirection(boolean leftTrue){
-        System.out.println("init");
-
-        //direction of gun
-        Vector3f gunRot = playerView.getGunRotation().getRotationColumn(2);
-
-        //direction of dash
-        Quaternion halfPi = new Quaternion();
-        if(leftTrue) {
-            halfPi.fromAngleNormalAxis(-FastMath.HALF_PI, Vector3f.UNIT_Y);
-        }else{
-            halfPi.fromAngleNormalAxis(FastMath.HALF_PI, Vector3f.UNIT_Y);}
-        Matrix3f rotation = halfPi.toRotationMatrix();
-        Vector3f dashDirection = rotation.mult(gunRot.normalize());
-        return dashDirection;
-    }
     public Player getPlayerData(){
         return this.playerData;
     }
