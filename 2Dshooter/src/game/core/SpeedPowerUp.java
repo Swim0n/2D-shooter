@@ -21,9 +21,9 @@ public class SpeedPowerUp implements PowerUp {
 
 
     public void setPosition() {
-        position = applicationAssets.getWorld().getTerrain().getRandomPos(groundModel.getWidth(),groundModel.getHeight(),4,4);
-        x = position[0];
-        z = position[1];
+        //position = applicationAssets.getWorld().getTerrain().getRandomPos(groundModel.getWidth(),groundModel.getHeight(),4,4);
+        //x = position[0];
+        //z = position[1];
 
     }
 

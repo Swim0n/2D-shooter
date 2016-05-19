@@ -6,12 +6,16 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import game.core.World;
 import game.utils.ApplicationAssets;
+import game.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -23,6 +27,8 @@ public class TerrainView {
 
     private float groundX;
     private float groundZ;
+    private float tileWidth;
+    private float tileHeight;
 
     private Box rockShape;
     private Geometry rock;
@@ -34,58 +40,59 @@ public class TerrainView {
 
     private BulletAppState bulletAppState;
 
-    private Geometry[][] terrainGrid;
+    private ArrayList<Geometry> terrainGrid;
 
 
-    public TerrainView(ApplicationAssets appAssets) {
+    public TerrainView(ApplicationAssets appAssets, float tileWidth, float tileHeight) {
         this.assetManager = appAssets.getAssetManager();
         this.terrainNode = appAssets.getTerrainNode();
         this.groundX = appAssets.getGameView().getGroundSize().getWidth();
         this.groundZ = appAssets.getGameView().getGroundSize().getHeight();
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
         this.world = appAssets.getWorld();
         this.bulletAppState = appAssets.getBulletAppState();
-        terrainGrid = new Geometry[(int)groundX][(int)groundZ];
-        world.getTerrain().setPositionsAmount((int)groundX,(int)groundZ);
+        this.terrainGrid = new ArrayList<Geometry>();
+        world.getTerrain().setPositions(groundX, groundZ, tileWidth, tileHeight);
         createTerrain();
         applyPhysics();
     }
 
     private void createTerrain(){
-        rockShape = new Box(2f,2f,2f);
+        rockShape = new Box(tileWidth/2,2f,tileHeight/2);
         rockMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         rockMaterial.setColor("Color", ColorRGBA.DarkGray);
 
         for (int i = 0; i < world.getTerrain().getRocksAmount(); i++){
-            int[] position = world.getTerrain().getRandomPos(groundX, groundZ, 4, 4);
+            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
             rock = new Geometry("Rock", rockShape);
             rock.setMaterial(rockMaterial);
-            terrainGrid[position[0]][position[1]] = rock;
-            rock.setLocalTranslation(-groundX/2+rockShape.getXExtent()+position[0]*4,-2, -groundZ/2+rockShape.getZExtent()+position[1]*4+0.5f);
+            terrainGrid.add(rock);
+            rock.setLocalTranslation(position.getX(),-2, position.getZ());
+            rock.move(tileWidth/2, 0, tileHeight/2);
             terrainNode.attachChild(rock);
         }
 
-        treeShape = new Box(2f,2f,2f);
+        treeShape = new Box(tileWidth/2,2f,tileHeight/2);
         treeMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         treeMaterial.setColor("Color", ColorRGBA.Green);
 
         for (int i = 0; i < world.getTerrain().getTreesAmount(); i++){
-            int[] position = world.getTerrain().getRandomPos(groundX, groundZ, 4, 4);
+            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
             tree = new Geometry("Tree", treeShape);
             tree.setMaterial(treeMaterial);
-            terrainGrid[position[0]][position[1]] = tree;
-            tree.setLocalTranslation(-groundX/2+treeShape.getXExtent()+position[0]*4,-2, -groundZ/2+treeShape.getZExtent()+position[1]*4+0.5f);
+            terrainGrid.add(tree);
+            tree.setLocalTranslation(position.getX(),-2, position.getZ());
+            tree.move(tileWidth/2, 0, tileHeight/2);
             terrainNode.attachChild(tree);
         }
     }
+
     private void applyPhysics(){
-        for (int i = 0; i < terrainGrid.length; i++){
-            for (int j = 0; j<terrainGrid[i].length; j++){
-                if (terrainGrid[i][j] != null) {
-                    RigidBodyControl terrainPhy = new RigidBodyControl(0);
-                    terrainGrid[i][j].addControl(terrainPhy);
-                    bulletAppState.getPhysicsSpace().add(terrainPhy);
-                }
-            }
+        for (int i = 0; i < terrainGrid.size(); i++){
+            RigidBodyControl terrainPhy = new RigidBodyControl(0);
+            terrainGrid.get(i).addControl(terrainPhy);
+            bulletAppState.getPhysicsSpace().add(terrainPhy);
         }
     }
 }

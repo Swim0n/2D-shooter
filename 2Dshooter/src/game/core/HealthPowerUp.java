@@ -22,11 +22,11 @@ public class HealthPowerUp implements PowerUp {
     public void setPosition() {
         //position =
         //-groundX/2+treeShape.getXExtent()+position[0]*4,-2, -groundZ/2+treeShape.getZExtent()+position[1]*4+0.5f
-        position = applicationAssets.getWorld().getTerrain().getRandomPos(groundModel.getWidth(),groundModel.getHeight(),2,2);
+        //position = applicationAssets.getWorld().getTerrain().getRandomPos(groundModel.getWidth(),groundModel.getHeight(),2,2);
 
 
-        x = position[0];
-        z = position[1];
+        //x = position[0];
+        //z = position[1];
 
     }
 

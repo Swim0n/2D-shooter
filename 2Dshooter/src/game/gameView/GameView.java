@@ -73,7 +73,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         initiateNodes();
         initiatePhysics();
 
-        world = new World(10, 5, true);
+        world = new World(15, 10, false);
         appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
 
         initiateCamera();
@@ -96,7 +96,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         //adding walls for the surface
         wallsView = new WallsView(appAssets);
         //generate terrain
-        terrainView = new TerrainView(appAssets);
+        terrainView = new TerrainView(appAssets, 4, 4);
         //Creates power ups, spawns two new every 15sec
         powerUpView = new PowerupView(appAssets);
 

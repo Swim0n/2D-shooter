@@ -1,5 +1,6 @@
 package game.core;
 
+import javax.vecmath.Vector3f;
 import java.util.Random;
 
 /**
@@ -8,6 +9,7 @@ import java.util.Random;
 public class Environment {
     private final static Random randomGenerator = new Random();
     private Boolean[][] occupiedTerrain;
+    private Vector3f[][] positions;
     private int rocksAmount;
     private int treesAmount;
 
@@ -18,23 +20,29 @@ public class Environment {
 
     public Environment(){}
 
-    public int[] getRandomPos(float terrainWidth, float terrainHeight, float positionWidth, float positionHeight){
-        int x = randomGenerator.nextInt((int) ((terrainWidth-positionWidth)/positionWidth+positionWidth/2));
-        int z = randomGenerator.nextInt((int) ((terrainHeight-positionHeight)/positionHeight+positionHeight/2-0.5));
+    public Vector3f getRandomPos(){
+        int x = randomGenerator.nextInt(positions.length);
+        int z = randomGenerator.nextInt(positions[0].length);
         while(true){
             if(occupiedTerrain[x][z] != null){
-                x = randomGenerator.nextInt((int) ((terrainWidth-positionWidth)/positionWidth+positionWidth/2));
-                z = randomGenerator.nextInt((int) ((terrainHeight-positionHeight)/positionHeight+positionHeight/2-0.5));
+                x = randomGenerator.nextInt(positions.length);
+                z = randomGenerator.nextInt(positions[0].length);
             } else {
                 break;
             }
         }
         occupiedTerrain[x][z] = true;
-        return new int[] {x, z};
+        return positions[x][z];
     }
 
-    public void setPositionsAmount(int width, int height){
-        occupiedTerrain = new Boolean[width][height];
+    public void setPositions(float terrainWidth, float terrainHeight, float tileWidth, float tileHeight){
+        occupiedTerrain = new Boolean[(int) (terrainWidth/tileWidth)+1][(int) (terrainHeight/tileHeight)];
+        positions = new Vector3f[(int) (terrainWidth/tileWidth)+1][(int) (terrainHeight/tileHeight)];
+        for (int i = 0; i < positions.length; i++) {
+            for (int j = 0; j < positions[i].length; j++) {
+                positions[i][j] = new Vector3f(i*tileWidth-terrainWidth/2, 0, j*tileHeight-terrainHeight/2);
+            }
+        }
     }
 
     public int getRocksAmount() {
