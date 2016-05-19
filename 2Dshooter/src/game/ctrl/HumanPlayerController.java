@@ -4,12 +4,12 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.math.Vector3f;
 import game.gameView.*;
 import game.utils.ApplicationAssets;
 import game.utils.KeyMappings;
+import game.utils.Utils;
 
-import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.util.UUID;
 
@@ -59,6 +59,7 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     @Override
     public void update(float tpf) {
         super.update(tpf);
+        playerData.setPosition(Utils.JMEToVecMathVector3f(playerView.getPosition()));
         if (dashing){
             setWalkDirection(lastDirection.normalize().mult(playerData.getDashSpeed()));
             return;

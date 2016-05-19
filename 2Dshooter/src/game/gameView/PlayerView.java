@@ -107,6 +107,5 @@ public class PlayerView {
     public Vector3f getStartPos(){return startPos;}
     public GameView getGameView(){return this.gameView;}
     public Quaternion getGunRotation(){return gunRot;}
-
-
+    public Vector3f getPosition(){return this.getPlayerNode().getLocalTranslation();}
 }

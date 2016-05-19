@@ -6,8 +6,10 @@ import com.jme3.input.KeyInput;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.control.CameraControl;
 import com.jme3.scene.shape.Quad;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
@@ -15,29 +17,25 @@ import de.lessvoid.nifty.screen.ScreenController;
 import game.core.HealthPowerUp;
 import game.core.SpeedPowerUp;
 import game.core.World;
-import game.ctrl.AIPlayerController;
-import game.ctrl.HumanPlayerController;
-import game.ctrl.PlayerController;
-import game.ctrl.PowerUpController;
+import game.ctrl.*;
 import game.utils.ApplicationAssets;
 import game.utils.KeyMappings;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Created by David on 2016-04-18.
  */
 public class GameView extends SimpleApplication implements ScreenController{
 
-    //variables for physics control
+    //variables for controls
     private PlayerController player1Control;
     private PlayerController player2Control;
     private PlayerController player2ControlSave;
     private AIPlayerController player2AIControl;
     private BulletAppState bulletAppState;
     private List<PowerUpController> PowerUpControllerList = new ArrayList<PowerUpController>();
+    private CameraController camControl;
 
     //variables for viewer classes
     private WallsView wallsView;
@@ -46,10 +44,12 @@ public class GameView extends SimpleApplication implements ScreenController{
     private PlayerView player2View;
     private PowerupView powerUpView;
     private TerrainView terrainView;
+    private CameraView cameraView;
 
 
     private Node bulletNode;
     private Node stageNode;
+    private CameraNode camNode;
     private Node terrainNode;
     private Node player1Node;
     private Node player2Node;
@@ -68,13 +68,13 @@ public class GameView extends SimpleApplication implements ScreenController{
 
 
     public void simpleInitApp() {
-        initiateCamera();
         initiateNodes();
         initiatePhysics();
 
-        world = new World(10, 5);
+        world = new World(10, 5, true);
         appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
 
+        initiateCamera();
         initiateGUI();
         initiateStage();
         initiatePlayers();
@@ -83,6 +83,9 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
+        //for developing purposes only, remove before release to the waiting masses
+        setDisplayStatView(true);
+        setDisplayFps(true);
     }
 
     private void initiateStage(){
@@ -141,20 +144,15 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private void initiateCamera(){
         //camera settings
-        flyCam.setEnabled(false);
-        cam.setLocation(new Vector3f(0f,-80f,0));
-        cam.lookAtDirection(new Vector3f(0,1,0), new Vector3f(0,0,1));
-        getFlyByCamera().setEnabled(false);
-        getFlyByCamera().setMoveSpeed(50);
-        //turn off stats gameView (you can leave it on, if you want)
-        setDisplayStatView(true);
-        setDisplayFps(true);
+        camControl = new CameraController(appAssets);
+        cameraView = new CameraView(appAssets);
     }
 
     private void initiateNodes(){
         //init nodes
         bulletNode = new Node("bullets");
         stageNode = new Node("stage");
+        camNode = new CameraNode("cameraNode",cam);
         terrainNode = new Node("terrain");
         player1Node = new Node("player1");
         player2Node = new Node("player2");
@@ -163,6 +161,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         rootNode.attachChild(bulletNode);
         rootNode.attachChild(stageNode);
         rootNode.attachChild(terrainNode);
+        rootNode.attachChild(camNode);
     }
 
     //"pauses the game"
@@ -213,7 +212,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void onEndScreen(){}
     public void onStartScreen(){}
     public void bind(Nifty nifty, Screen screen){}
-    public World getWorld(){
-        return world;
-    }
+    public CameraView getCameraView() {return cameraView;}
+    public CameraNode getCameraNode() {return camNode;}
+    public CameraControl getCameraControl() {return camControl;}
+
 }
