@@ -70,7 +70,6 @@ public class GameView extends SimpleApplication implements ScreenController{
 
 
     public void simpleInitApp() {
-        initiateCamera();
         initiateNodes();
         initiatePhysics();
 
