@@ -9,6 +9,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture;
+import game.core.Ground;
 import game.utils.ApplicationAssets;
 
 /**
@@ -21,6 +22,7 @@ public class GroundView {
     private AssetManager assetManager;
     private Quad groundShape;
     private BulletAppState bulletAppState;
+    private Ground groundModel = new Ground();
 
     GroundView(ApplicationAssets appAssets){
         this.stageNode = appAssets.getStageNode();
@@ -31,7 +33,7 @@ public class GroundView {
     }
     private void createGround(){
 
-        groundShape = new Quad(71f, 53f); //quad to represent ground in game
+        groundShape = new Quad(groundModel.getWidth(), groundModel.getHeight()); //quad to represent ground in game
         groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
         Material groundMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); //material for ground
         Texture dirt = assetManager.loadTexture("Textures/dirt.jpg");

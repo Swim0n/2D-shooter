@@ -18,8 +18,8 @@ import game.ctrl.PlayerController;
  */
 public class GUIView implements ScreenController {
 
-    private static PlayerController p1ctr;
-    private static PlayerController p2ctr;
+    private PlayerController p1ctr;
+    private PlayerController p2ctr;
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
     private GameView gameView;

@@ -17,57 +17,55 @@ public class PowerUpController extends RigidBodyControl {
 
     private PowerupView powerUpView;
     private PowerUp powerUp;
-    private GameView gameView;
     private ApplicationAssets applicationAssets;
-    private int x;
-    private int z;
+    private boolean hasCollided = false;
 
     /** initialize a PowerUpController to create and init a power up*/
     public PowerUpController(PowerUp powerUp, ApplicationAssets applicationAssets, PowerupView powerupView){
         this.applicationAssets = applicationAssets;
         this.powerUpView = powerupView;
         this.powerUp = powerUp;
-        //this.gameView = appAssets.getGameView();
-        createPowerUp(powerUp);
-        addPhyControl();
-
-
     }
-
-    /** Give location information to power up view*/
-    private void createPowerUp(PowerUp powerUp){
-        x = powerUp.getX();
-        z = powerUp.getZ();
-        powerUpView.createPowerUp(powerUp,x,z);
-    }
-
-    private void addPhyControl(){
-        powerUpView.getPowerupGeom().addControl(this);
-    }
-
-
 
     /** Check for collision, if it happens, give player the correct power up */
     private void collisionCheck(){
         CollisionResults results = new CollisionResults();
         powerUpView.getGameView().getPlayer2Node().collideWith(spatial.getWorldBound(), results);
         if (results.size() > 0){
-            spatial.removeFromParent();
-            results.clear();
-            //add power up effect to player 2
-            powerUp.setEffect(applicationAssets.getWorld().getPlayer2());
-            //applicationAssets.getGameView().updateGUI();
+            if (hasCollided==false){
+                //add power up effect to player 2
+                powerUp.setEffect(applicationAssets.getWorld().getPlayer2());
+                applicationAssets.getGameView().getPlayer2Control().getPlayerView().setHealthBar(applicationAssets.getWorld().getPlayer2().getHealth());
+                spatial.removeFromParent();
+                results.clear();
+                hasCollided=true;
+                if (powerUpView.getPowerUpList().size()>0){
+                    powerUpView.getPowerUpList().remove(0);
+                }
+
+
+            }
 
         }
         powerUpView.getGameView().getPlayer1Node().collideWith(spatial.getWorldBound(), results);
         if (results.size()>0){
-            spatial.removeFromParent();
-            results.clear();
-            //add power up effect to player 1
-            powerUp.setEffect(applicationAssets.getWorld().getPlayer1());
-            //applicationAssets.getGameView().updateGUI();
+            if (hasCollided==false){
+                //add power up effect to player 1
+                powerUp.setEffect(applicationAssets.getWorld().getPlayer1());
+                applicationAssets.getGameView().getPlayer1Control().getPlayerView().setHealthBar(applicationAssets.getWorld().getPlayer1().getHealth());
+                spatial.removeFromParent();
+                results.clear();
+                hasCollided=true;
+                if (powerUpView.getPowerUpList().size()>0){
+                    powerUpView.getPowerUpList().remove(0);
+                }
+
+            }
+
         }
     }
+
+
 
 
 

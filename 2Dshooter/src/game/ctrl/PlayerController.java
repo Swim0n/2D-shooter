@@ -72,6 +72,10 @@ public abstract class PlayerController extends BetterCharacterControl {
         this.niftyView.updateText();
     }
 
+    public PlayerView getPlayerView(){
+        return this.playerView;
+    }
+
     //creates a new bullet specific to the player who fired it
     public void shootBullet(){
         bulletView.createBullet();

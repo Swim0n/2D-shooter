@@ -1,5 +1,6 @@
 package game.gameView;
 
+import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.input.KeyInput;
@@ -13,6 +14,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import game.core.HealthPowerUp;
+import game.core.PowerUp;
 import game.core.SpeedPowerUp;
 import game.core.World;
 import game.ctrl.AIPlayerController;
@@ -22,8 +24,11 @@ import game.ctrl.PowerUpController;
 import game.utils.ApplicationAssets;
 import game.utils.KeyMappings;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -37,7 +42,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private PlayerController player2ControlSave;
     private AIPlayerController player2AIControl;
     private BulletAppState bulletAppState;
-    private List<PowerUpController> PowerUpControllerList = new ArrayList<PowerUpController>();
+    private List<PowerUp> PowerUp = new ArrayList<PowerUp>();
 
     //variables for viewer classes
     private WallsView wallsView;
@@ -46,6 +51,9 @@ public class GameView extends SimpleApplication implements ScreenController{
     private PlayerView player2View;
     private PowerupView powerUpView;
     private TerrainView terrainView;
+
+
+    private static Timer timer = new Timer();
 
 
     private Node bulletNode;
@@ -83,6 +91,8 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
+
+
     }
 
     private void initiateStage(){
@@ -92,16 +102,17 @@ public class GameView extends SimpleApplication implements ScreenController{
         wallsView = new WallsView(appAssets);
         //generate terrain
         terrainView = new TerrainView(appAssets);
-        //for now creates two powerups
+        //Creates power ups, spawns two new every 15sec
         powerUpView = new PowerupView(appAssets);
-
         //spawning player1
         player1View = new PlayerView(appAssets, player1Node, ColorRGBA.Red, new Vector3f(-4f,-2f,0f));
         //spawning player2
         player2View = new PlayerView(appAssets, player2Node, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
-        new PowerUpController(new HealthPowerUp(appAssets),appAssets,powerUpView);
-        new PowerUpController(new SpeedPowerUp(appAssets), appAssets, powerUpView);
+
     }
+
+
+
 
     private void initiatePlayers(){
         player1Control = new HumanPlayerController(player1View,1f,2f,1f, niftyView, appAssets, new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,

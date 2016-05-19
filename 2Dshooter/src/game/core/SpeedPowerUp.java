@@ -23,14 +23,13 @@ public class SpeedPowerUp implements PowerUp {
     public void setPosition() {
         position = applicationAssets.getWorld().getTerrain().getRandomPos(groundModel.getWidth(),groundModel.getHeight(),4,4);
         x = position[0];
-        System.out.println(x);
         z = position[1];
-        System.out.println(z);
+
     }
 
 
     public void setEffect(Player player) {
-        player.setSpeed(player.getSpeed()+10);
+        player.setSpeed(player.getSpeed()+3);
     }
 
     public int getX() {

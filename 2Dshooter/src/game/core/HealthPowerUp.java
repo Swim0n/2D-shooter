@@ -26,13 +26,14 @@ public class HealthPowerUp implements PowerUp {
 
 
         x = position[0];
-        System.out.println(x);
         z = position[1];
-        System.out.println(z);
+
     }
 
     public void setEffect(Player player) {
         player.setHealth(player.getHealth()+20);
+
+
     }
     public int getX(){
         return this.x;

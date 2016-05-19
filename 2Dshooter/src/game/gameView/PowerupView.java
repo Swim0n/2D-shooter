@@ -13,9 +13,7 @@ import game.core.SpeedPowerUp;
 import game.ctrl.PowerUpController;
 import game.utils.ApplicationAssets;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class PowerupView {
@@ -31,12 +29,13 @@ public class PowerupView {
     private GameView gameView;
     private ApplicationAssets appAssets;
 
-
-        private final static List<PowerupView> POWER_UP_VIEW_LIST = new ArrayList<PowerupView>();
-
-
+    private PowerUpController powerUpPhy;
+    private static Timer timer = new Timer();
 
 
+    private final static List<PowerupView> POWER_UP_VIEW_LIST = new ArrayList<PowerupView>();
+
+    /** initializes two power ups and then spawn two new every 15 seconds*/
     public PowerupView(ApplicationAssets appAssets){
         this.appAssets = appAssets;
         this.assetManager = appAssets.getAssetManager();
@@ -46,32 +45,41 @@ public class PowerupView {
         powerBox = new Box(1f,1f,1f);
         powerupGeom = new Geometry("Power up", powerBox);
 
-        //createPowerUp("health");
-        //createPowerUp("speed");
+
+        createPowerUp(new HealthPowerUp(appAssets));
+        createPowerUp(new SpeedPowerUp(appAssets));
+        startTimer();
+
+    }
+
+    private TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            if (gameView.getPaused()==true){
+            }else{
+                if (POWER_UP_VIEW_LIST.size()<6){
+                    createPowerUp(new HealthPowerUp(appAssets));
+                    createPowerUp(new SpeedPowerUp(appAssets));
+                }
+            }
+        }
+    };
+
+    private void startTimer(){
+        timer.scheduleAtFixedRate(task,15000,15000);
     }
 
 
     /**creates a power up at random position. Have to set type of power up.*/
-    public void createPowerUp(PowerUp powerUpType, float xPos, float zPos){
-        //setRandomPos();
+    public void createPowerUp(PowerUp powerUpType){
         powerupGeom = new Geometry("Box", powerBox);
         boxMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         setType(powerUpType);
         powerupGeom.setMaterial(boxMaterial);
-        powerupGeom.setLocalTranslation(xPos, -1, zPos);
+        powerupGeom.setLocalTranslation(powerUpType.getX(), -1, powerUpType.getZ());
         terrainNode.attachChild(powerupGeom);
-
-        /**
-       if (powerUpType instanceof HealthPowerUp){
-            PowerUpController powerUpPhy = new PowerUpController(new HealthPowerUp(), appAssets, this);
-            powerupGeom.addControl(powerUpPhy);
-        }
-        if (powerUpType instanceof SpeedPowerUp){
-            PowerUpController powerUpPhy = new PowerUpController(new SpeedPowerUp(), appAssets, this);
-            powerupGeom.addControl(powerUpPhy);
-        }
-        */
-
+        powerUpPhy = new PowerUpController(powerUpType,appAssets,this);
+        powerupGeom.addControl(powerUpPhy);
         POWER_UP_VIEW_LIST.add(this);
 
 
@@ -87,14 +95,15 @@ public class PowerupView {
         }
     }
 
-
-    public Geometry getPowerupGeom(){
-        return powerupGeom;
+    public List getPowerUpList(){
+        return this.POWER_UP_VIEW_LIST;
     }
 
     public GameView getGameView(){
         return this.gameView;
     }
+
+
 
 
 }
