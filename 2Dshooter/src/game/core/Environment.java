@@ -40,7 +40,7 @@ public class Environment {
         positions = new Vector3f[(int) (terrainWidth/tileWidth)+1][(int) (terrainHeight/tileHeight)];
         for (int i = 0; i < positions.length; i++) {
             for (int j = 0; j < positions[i].length; j++) {
-                positions[i][j] = new Vector3f(i*tileWidth-terrainWidth/2, 0, j*tileHeight-terrainHeight/2);
+                positions[i][j] = new Vector3f(i*tileWidth-terrainWidth/2+tileWidth/2, 0, j*tileHeight-terrainHeight/2+tileWidth/2);
             }
         }
     }

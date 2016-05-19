@@ -69,7 +69,6 @@ public class TerrainView {
             rock.setMaterial(rockMaterial);
             terrainGrid.add(rock);
             rock.setLocalTranslation(position.getX(),-2, position.getZ());
-            rock.move(tileWidth/2, 0, tileHeight/2);
             terrainNode.attachChild(rock);
         }
 
@@ -83,7 +82,6 @@ public class TerrainView {
             tree.setMaterial(treeMaterial);
             terrainGrid.add(tree);
             tree.setLocalTranslation(position.getX(),-2, position.getZ());
-            tree.move(tileWidth/2, 0, tileHeight/2);
             terrainNode.attachChild(tree);
         }
     }
