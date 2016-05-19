@@ -44,11 +44,11 @@ public class CameraController extends CameraControl implements ActionListener {
     }
 
     private void updateLookAt() {
-        lookAt = Utils.VecMathToJMEVector3f(cameraData.getLookAt(player1.getPosition(),player2.getPosition()));
+        lookAt = Utils.vecMathToJMEVector3f(cameraData.getLookAt(player1.getPosition(),player2.getPosition()));
     }
 
     private void updatePosition() {
-        position = Utils.VecMathToJMEVector3f(cameraData.getPosition(player1.getPosition(), player2.getPosition()));
+        position = Utils.vecMathToJMEVector3f(cameraData.getPosition(player1.getPosition(), player2.getPosition()));
     }
 
     public void onAction(String s, boolean b, float v) {}
