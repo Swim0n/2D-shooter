@@ -77,6 +77,7 @@ public class PowerupView {
         setType(powerUpType);
         powerupGeom.setMaterial(boxMaterial);
         powerupGeom.setLocalTranslation(powerUpType.getX(), -1, powerUpType.getZ());
+
         terrainNode.attachChild(powerupGeom);
         powerUpPhy = new PowerUpController(powerUpType,appAssets,this);
         powerupGeom.addControl(powerUpPhy);

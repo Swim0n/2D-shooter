@@ -3,16 +3,17 @@ package game.core;
 import game.gameView.GroundView;
 import game.utils.ApplicationAssets;
 
+import javax.vecmath.Vector3f;
+
 /**
  * Created by Hannes on 10/05/2016.
  */
 public class SpeedPowerUp implements PowerUp {
 
     private ApplicationAssets applicationAssets;
-    Ground groundModel = new Ground();
-    private int [] position;
-    private int x;
-    private int z;
+    private Vector3f position;
+    private float x;
+    private float z;
 
     public SpeedPowerUp(ApplicationAssets applicationAssets){
         this.applicationAssets = applicationAssets;
@@ -21,9 +22,9 @@ public class SpeedPowerUp implements PowerUp {
 
 
     public void setPosition() {
-        //position = applicationAssets.getWorld().getTerrain().getRandomPos(groundModel.getWidth(),groundModel.getHeight(),4,4);
-        //x = position[0];
-        //z = position[1];
+        position = applicationAssets.getWorld().getTerrain().getRandomPos();
+        x = position.x;
+        z = position.z;
 
     }
 
@@ -32,11 +33,11 @@ public class SpeedPowerUp implements PowerUp {
         player.setSpeed(player.getSpeed()+3);
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getZ() {
+    public float getZ() {
         return z;
     }
 }

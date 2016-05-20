@@ -2,17 +2,18 @@ package game.core;
 
 import game.utils.ApplicationAssets;
 
+import javax.vecmath.Vector3f;
+
 /**
  * Created by Hannes on 10/05/2016.
  */
 public class HealthPowerUp implements PowerUp {
 
-    Ground groundModel = new Ground();
     private ApplicationAssets applicationAssets;
 
-    private int [] position;
-    private int x;
-    private int z;
+    private Vector3f position;
+    private float x;
+    private float z;
 
     public HealthPowerUp(ApplicationAssets applicationAssets){
         this.applicationAssets = applicationAssets;
@@ -20,13 +21,9 @@ public class HealthPowerUp implements PowerUp {
     }
 
     public void setPosition() {
-        //position =
-        //-groundX/2+treeShape.getXExtent()+position[0]*4,-2, -groundZ/2+treeShape.getZExtent()+position[1]*4+0.5f
-        //position = applicationAssets.getWorld().getTerrain().getRandomPos(groundModel.getWidth(),groundModel.getHeight(),2,2);
-
-
-        //x = position[0];
-        //z = position[1];
+        position = applicationAssets.getWorld().getTerrain().getRandomPos();
+        this.x = position.x;
+        this.z= position.z;
 
     }
 
@@ -35,10 +32,10 @@ public class HealthPowerUp implements PowerUp {
 
 
     }
-    public int getX(){
+    public float getX(){
         return this.x;
     }
-    public int getZ(){
+    public float getZ(){
         return this.z;
     }
 }
