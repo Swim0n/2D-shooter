@@ -3,6 +3,7 @@ package game.gameView;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.input.KeyInput;
+import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
@@ -85,6 +86,27 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
+
+        DirectionalLight dl = new DirectionalLight();
+        dl.setColor(ColorRGBA.White);
+        dl.setDirection(new Vector3f(1,1,1).normalize());
+        rootNode.addLight(dl);
+
+        DirectionalLight dl1 = new DirectionalLight();
+        dl1.setColor(ColorRGBA.White);
+        dl1.setDirection(new Vector3f(-1,1,1).normalize());
+        rootNode.addLight(dl1);
+
+        DirectionalLight dl2 = new DirectionalLight();
+        dl2.setColor(ColorRGBA.White);
+        dl2.setDirection(new Vector3f(-1,1,-1).normalize());
+        rootNode.addLight(dl2);
+
+        DirectionalLight dl3 = new DirectionalLight();
+        dl3.setColor(ColorRGBA.White);
+        dl3.setDirection(new Vector3f(1,1,-1).normalize());
+        rootNode.addLight(dl3);
+
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
         setDisplayFps(true);

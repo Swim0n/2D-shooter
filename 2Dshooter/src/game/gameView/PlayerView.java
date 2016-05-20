@@ -8,6 +8,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.shape.Quad;
 import game.utils.ApplicationAssets;
@@ -20,14 +21,16 @@ public class PlayerView {
     private Geometry pipe;
     private final Node pipeNode = new Node("pipeNode");
     private final Vector3f startPos;
-    private Geometry player;
-    private Geometry gun;
+    private Spatial player;
+    private Spatial gun;
     private Geometry backgroundBar;
     private Geometry healthBar;
     private AssetManager assetManager;
     private GameView gameView;
     private Node playerNode;
-    private Node gunNode = new Node("gun");
+    private Node headNode = new Node("head");
+    private Node bodyNode = new Node("body");
+    private Node healthBarNode = new Node("healthbar");
     private InputManager inputManager;
     private float lastRotation;
     private Quaternion gunRot = new Quaternion();
@@ -47,26 +50,25 @@ public class PlayerView {
     }
 
     private void createPlayer(){
-        //creating player
-        player = Utils.getBox(1f,1f,1f);
-        player.setMaterial(Utils.getMaterial(assetManager,colorRGBA));
         playerNode.setLocalTranslation(startPos);
-        playerNode.attachChild(player);
 
         //creating gun attached to player
-        gun = Utils.getBox(0.3f,0.3f,1.5f);
-        gun.setMaterial(Utils.getMaterial(assetManager,colorRGBA.DarkGray));
-        gun.setLocalTranslation(0,0,0.75f);
-        gunNode.attachChild(gun);
-        playerNode.attachChild(gunNode);
+        gun = assetManager.loadModel("Models/p1head.mesh.xml");
+        gun.setMaterial(assetManager.loadMaterial("Materials/p1headmat.j3m"));
+        gun.rotate(-FastMath.HALF_PI,FastMath.PI,0);
+        headNode.setLocalTranslation(0,-1.6f,0);
+        headNode.attachChild(gun);
+        playerNode.attachChild(headNode);
 
-        //creating pipe for bullet exit
-        pipe = Utils.getBox(0.1f,0.1f,0.2f);
-        pipe.setMaterial(Utils.getMaterial(assetManager,colorRGBA.Green));
-        pipeNode.setLocalTranslation(0f,0.3f,3f);
-        pipe.setLocalTranslation(0f,0.3f,-0.4f);
-        pipeNode.attachChild(pipe);
-        gunNode.attachChild(pipeNode);
+        //creating player
+        player = assetManager.loadModel("Models/p1body.mesh.xml");
+        player.setMaterial(assetManager.loadMaterial("Materials/p1bodymat.j3m"));
+        player.rotate(-FastMath.HALF_PI,FastMath.PI,0);
+        bodyNode.move(0,0,0);
+        bodyNode.attachChild(player);
+        playerNode.attachChild(bodyNode);
+
+
     }
 
     private void createHealthBar(){
@@ -81,18 +83,20 @@ public class PlayerView {
         healthBar.rotate(FastMath.HALF_PI,0,0);
         backgroundBar.center();
         healthBar.center();
-        backgroundBar.move(0,0,3f);
-        healthBar.move(0,0,3f);
+        backgroundBar.move(0,-3.5f,1);
+        healthBar.move(0,-3.5f,1);
         backgroundBar.addControl(backCtrl);
         healthBar.addControl(healthCtrl);
-        playerNode.attachChild(backgroundBar);
-        playerNode.attachChild(healthBar);
+        healthBarNode.attachChild(backgroundBar);
+        healthBarNode.attachChild(healthBar);
+        playerNode.attachChild(healthBarNode);
+
     }
 
     public void rotateGun(float step){
         lastRotation += step;
         gunRot.fromAngleAxis(FastMath.PI*lastRotation/180, axisY);
-        gunNode.setLocalRotation(gunRot);
+        headNode.setLocalRotation(gunRot);
     }
 
     public void setHealthBar(float percent){
@@ -103,7 +107,10 @@ public class PlayerView {
         }
     }
     public Node getPlayerNode(){return this.playerNode;}
-    public Vector3f getPipePos(){return this.pipeNode.getWorldTranslation();}
+    public Node getBodyNode(){
+        return this.bodyNode;
+    }
+    public Vector3f getPipePos(){return this.headNode.getWorldTranslation();}
     public Vector3f getStartPos(){return startPos;}
     public GameView getGameView(){return this.gameView;}
     public Quaternion getGunRotation(){return gunRot;}

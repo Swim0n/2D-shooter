@@ -33,7 +33,7 @@ public class CameraView {
     }
     private void initiateFixedCamera(){
         camNode.removeControl(applicationAssets.getGameView().getCameraControl());
-        camNode.setLocalTranslation(new Vector3f(0f,-80f,0));
+        camNode.setLocalTranslation(new Vector3f(0f,-60f,-40));
         camNode.lookAt(new Vector3f(0,1,0), new Vector3f(0,0,1));
     }
 

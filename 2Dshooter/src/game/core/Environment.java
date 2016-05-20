@@ -35,6 +35,8 @@ public class Environment {
         return positions[x][z];
     }
 
+    //creates an array with the amount of tiles as the grid. it then fills the array with every tile position.
+    //this method assumes that the game engine maps the center of the spatial to the position
     public void setPositions(float terrainWidth, float terrainHeight, float tileWidth, float tileHeight){
         occupiedTerrain = new Boolean[(int) (terrainWidth/tileWidth)+1][(int) (terrainHeight/tileHeight)];
         positions = new Vector3f[(int) (terrainWidth/tileWidth)+1][(int) (terrainHeight/tileHeight)];

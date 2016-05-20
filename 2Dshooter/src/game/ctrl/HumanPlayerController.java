@@ -4,6 +4,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import game.core.Player;
 import game.gameView.*;
 import game.utils.ApplicationAssets;
@@ -54,8 +55,12 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     @Override
     public void update(float tpf) {
         super.update(tpf);
+        Vector3f newDirection = Utils.vecMathToJMEVector3f(playerData.getWalkingDirection());
         playerData.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
-        setWalkDirection(Utils.vecMathToJMEVector3f(playerData.getWalkingDirection()));
+        if(!newDirection.equals(Vector3f.ZERO)){
+            playerView.getBodyNode().lookAt(playerView.getPlayerNode().getLocalTranslation().add(newDirection), new Vector3f(0,1,0));
+        }
+        setWalkDirection(newDirection);
         playerView.rotateGun(playerData.getGunRotation()*tpf);
     }
 
