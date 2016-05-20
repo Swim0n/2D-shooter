@@ -27,8 +27,8 @@ public class Player {
     }
 
     public void setStandard(){
-        this.radius = 1;
-        this.height = 2;
+        this.radius = 1.2f;
+        this.height = 1;
         this.mass = 1;
         this.health = 100;
         this.speed = 23;
