@@ -40,7 +40,7 @@ public abstract class PlayerController extends BetterCharacterControl {
         super.update(tpf);
         playerView.getGameView().updateGUI();
         speed = playerData.getSpeed();
-        if (playerData.getHealth()==0){
+        if (playerData.getHealth()<=0){
 
             if(playerView.getGameView().getPlayer1Control().getPlayerData().getHealth()==0){
                 playerView.getGameView().getPlayer2Control().getPlayerData().incWins();
