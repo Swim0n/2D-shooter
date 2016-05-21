@@ -10,6 +10,7 @@ import com.jme3.scene.shape.Quad;
 import game.core.HealthPowerUp;
 import game.core.PowerUp;
 import game.core.SpeedPowerUp;
+import game.core.WeaponPowerUp;
 import game.ctrl.PowerUpController;
 import game.utils.ApplicationAssets;
 
@@ -48,6 +49,7 @@ public class PowerupView {
 
         createPowerUp(new HealthPowerUp(appAssets));
         createPowerUp(new SpeedPowerUp(appAssets));
+        createPowerUp(new WeaponPowerUp(appAssets));
         startTimer();
 
     }
@@ -60,6 +62,7 @@ public class PowerupView {
                 if (POWER_UP_VIEW_LIST.size()<6){
                     createPowerUp(new HealthPowerUp(appAssets));
                     createPowerUp(new SpeedPowerUp(appAssets));
+                    createPowerUp(new WeaponPowerUp(appAssets));
                 }
             }
         }
@@ -93,6 +96,9 @@ public class PowerupView {
         }
         if (powerUp instanceof SpeedPowerUp){
            boxMaterial.setColor("Color", ColorRGBA.Cyan);
+        }
+        if (powerUp instanceof WeaponPowerUp){
+            boxMaterial.setColor("Color", ColorRGBA.Black);
         }
     }
 
