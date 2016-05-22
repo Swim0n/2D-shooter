@@ -57,6 +57,7 @@ public abstract class PlayerController extends BetterCharacterControl {
     public void takeDamage(float damage){
         playerData.setHealth(playerData.getHealth() - damage);
         playerView.setHealthBar(playerData.getHealth());
+        playerView.emitSparks();
         niftyView.updateText();
     }
 

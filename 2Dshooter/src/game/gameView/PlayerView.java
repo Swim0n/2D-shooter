@@ -1,7 +1,11 @@
 package game.gameView;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.effect.ParticleEmitter;
+import com.jme3.effect.ParticleMesh;
+import com.jme3.effect.shapes.EmitterSphereShape;
 import com.jme3.input.InputManager;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
@@ -36,6 +40,7 @@ public class PlayerView {
     private Quaternion gunRot = new Quaternion();
     private Vector3f axisY=Vector3f.UNIT_Y;//for rotation around Y-axis
     private ColorRGBA colorRGBA;
+    private ParticleEmitter sparks;
 
     //colorRGBA is just a placeholder until textures are in place
     public PlayerView(ApplicationAssets appAssets, Node playerNode, ColorRGBA colorRGBA, Vector3f startPos){
@@ -47,6 +52,7 @@ public class PlayerView {
         this.colorRGBA = colorRGBA;
         createPlayer();
         createHealthBar();
+        createParticleEmitter();
     }
 
     private void createPlayer(){
@@ -93,10 +99,34 @@ public class PlayerView {
 
     }
 
+    private void createParticleEmitter(){
+        sparks = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 15);
+        Material sparkMaterial = new Material(assetManager, "Common/MatDefs/Misc/Particle.j3md");
+        sparkMaterial.setTexture("Texture", assetManager.loadTexture("Effects/flash.png"));
+        sparks.setMaterial(sparkMaterial);
+        sparks.setShape(new EmitterSphereShape(Vector3f.ZERO, 2f));
+        sparks.setImagesX(2);
+        sparks.setImagesY(2);
+        sparks.setParticlesPerSec(0);
+        sparks.setStartColor(ColorRGBA.Magenta);
+        sparks.setEndColor(ColorRGBA.White);
+        sparks.setStartSize(0.8f);
+        sparks.setEndSize(0);
+        sparks.setHighLife(0.5f);
+        sparks.setLowLife(0.2f);
+        sparks.setSelectRandomImage(true);
+        sparks.setLocalTranslation(gun.getLocalTranslation());
+        playerNode.attachChild(sparks);
+    }
+
     public void rotateGun(float step){
         lastRotation += step;
         gunRot.fromAngleAxis(FastMath.PI*lastRotation/180, axisY);
         headNode.setLocalRotation(gunRot);
+    }
+
+    public void emitSparks(){
+        sparks.emitAllParticles();
     }
 
     public void setHealthBar(float percent){
