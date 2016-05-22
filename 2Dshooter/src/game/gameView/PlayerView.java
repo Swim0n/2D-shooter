@@ -1,10 +1,12 @@
 package game.gameView;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioNode;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
 import com.jme3.effect.shapes.EmitterSphereShape;
 import com.jme3.input.InputManager;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -35,6 +37,7 @@ public class PlayerView {
     private Node headNode = new Node("head");
     private Node bodyNode = new Node("body");
     private Node healthBarNode = new Node("healthbar");
+    private AudioNode powerUpAudio;
     private InputManager inputManager;
     private float lastRotation;
     private Quaternion gunRot = new Quaternion();
@@ -53,6 +56,7 @@ public class PlayerView {
         createPlayer();
         createHealthBar();
         createParticleEmitter();
+        initSounds();
     }
 
     private void createPlayer(){
@@ -117,6 +121,18 @@ public class PlayerView {
         sparks.setSelectRandomImage(true);
         sparks.setLocalTranslation(gun.getLocalTranslation());
         playerNode.attachChild(sparks);
+    }
+
+    private void initSounds(){
+        powerUpAudio = new AudioNode(assetManager, "Sound/powerUpSound.wav");
+        powerUpAudio.setPositional(false);
+        powerUpAudio.setLooping(false);
+        powerUpAudio.setVolume(2);
+        playerNode.attachChild(powerUpAudio);
+    }
+
+    public void playPowerUpSound(){
+        powerUpAudio.playInstance();
     }
 
     public void rotateGun(float step){
