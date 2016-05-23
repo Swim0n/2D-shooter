@@ -89,6 +89,7 @@ public class HumanPlayerController extends PlayerController implements ActionLis
         }
         if(name.equals(mapNames[7]) && !isPressed && !playerData.dashing){
             playerData.dashing = true;
+            playerView.playDashSound();
             dashTimer(playerData.getDashMillis());
         }
     }

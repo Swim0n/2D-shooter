@@ -58,6 +58,7 @@ public abstract class PlayerController extends BetterCharacterControl {
         playerData.setHealth(playerData.getHealth() - damage);
         playerView.setHealthBar(playerData.getHealth());
         playerView.emitSparks();
+        playerView.playPlayerHitSound();
         niftyView.updateText();
     }
 
@@ -75,6 +76,7 @@ public abstract class PlayerController extends BetterCharacterControl {
     //creates a new bullet specific to the player who fired it
     public void shootBullet(){
         bulletView.createBullet();
+        playerView.playShotSound();
     }
 
     public Player getPlayerData(){

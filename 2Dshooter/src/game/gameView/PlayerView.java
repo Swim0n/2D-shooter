@@ -38,6 +38,9 @@ public class PlayerView {
     private Node bodyNode = new Node("body");
     private Node healthBarNode = new Node("healthbar");
     private AudioNode powerUpAudio;
+    private AudioNode shotAudio;
+    private AudioNode dashAudio;
+    private AudioNode hitAudio;
     private InputManager inputManager;
     private float lastRotation;
     private Quaternion gunRot = new Quaternion();
@@ -129,10 +132,37 @@ public class PlayerView {
         powerUpAudio.setLooping(false);
         powerUpAudio.setVolume(2);
         playerNode.attachChild(powerUpAudio);
+        shotAudio = new AudioNode(assetManager, "Sound/shot.wav");
+        shotAudio.setPositional(false);
+        shotAudio.setLooping(false);
+        shotAudio.setVolume(2);
+        playerNode.attachChild(shotAudio);
+        dashAudio = new AudioNode(assetManager, "Sound/dash.wav");
+        dashAudio.setPositional(false);
+        dashAudio.setLooping(false);
+        dashAudio.setVolume(2);
+        playerNode.attachChild(dashAudio);
+        hitAudio = new AudioNode(assetManager, "Sound/playerHit.wav");
+        hitAudio.setPositional(false);
+        hitAudio.setLooping(false);
+        hitAudio.setVolume(0.3f);
+        playerNode.attachChild(hitAudio);
     }
 
     public void playPowerUpSound(){
         powerUpAudio.playInstance();
+    }
+
+    public void playShotSound(){
+        shotAudio.playInstance();
+    }
+
+    public void playDashSound(){
+        dashAudio.playInstance();
+    }
+
+    public void playPlayerHitSound(){
+        hitAudio.playInstance();
     }
 
     public void rotateGun(float step){
