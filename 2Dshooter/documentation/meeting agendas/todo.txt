@@ -1,0 +1,13 @@
+Göra klart AI.
+
+Implementera bättre paus funktion om det är möjligt.
+
+Se ifall det är möjligt att få bättre kontroll över trådarna.
+
+Finjustera olika delar av applikationen, däribland grafik,
+
+Fixa tester för två olika metoder.
+
+Fixa klart flödesdiagram, rapport samt sdd.
+
+Kolla på att implementera meny och inställningar för användarna.

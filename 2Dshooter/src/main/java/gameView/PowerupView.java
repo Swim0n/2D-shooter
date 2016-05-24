@@ -13,8 +13,8 @@ import core.WeaponPowerUp;
 import ctrl.PowerUpController;
 import core.SpeedPowerUp;
 import utils.ApplicationAssets;
-
 import java.util.*;
+import java.util.Timer;
 
 
 public class PowerupView {
@@ -51,13 +51,12 @@ public class PowerupView {
         createPowerUp(new SpeedPowerUp(appAssets));
         createPowerUp(new WeaponPowerUp(appAssets));
         startTimer();
-
     }
 
     private TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            if (gameView.getPaused()==true){
+            if (gameView.getPaused()){
             }else{
                 if (POWER_UP_VIEW_LIST.size()<6){
                     createPowerUp(new HealthPowerUp(appAssets));
@@ -70,8 +69,12 @@ public class PowerupView {
 
     private void startTimer(){
         timer.scheduleAtFixedRate(task,15000,15000);
+
     }
 
+    public void stopTimer(){
+        timer.cancel();
+    }
 
     /**creates a power up at random position. Have to set type of power up.*/
     public void createPowerUp(PowerUp powerUpType){
@@ -85,8 +88,6 @@ public class PowerupView {
         powerUpPhy = new PowerUpController(powerUpType,appAssets,this);
         powerupGeom.addControl(powerUpPhy);
         POWER_UP_VIEW_LIST.add(this);
-
-
     }
 
     private void setType(PowerUp powerUp){
@@ -109,8 +110,4 @@ public class PowerupView {
     public GameView getGameView(){
         return this.gameView;
     }
-
-
-
-
 }
