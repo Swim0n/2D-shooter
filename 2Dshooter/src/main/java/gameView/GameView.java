@@ -240,4 +240,20 @@ public class GameView extends SimpleApplication implements ScreenController{
     public CameraNode getCameraNode() {return camNode;}
     public CameraControl getCameraControl() {return camControl;}
 
+
+
+    //automatically called on app exit, notifies other threads
+    @Override
+    public void destroy() {
+        super.destroy();
+        world.setRunning(false);
+        powerUpView.stopTimer();
+    }
+    //called on window close
+    @Override
+    public void requestClose(boolean esc) {
+        super.requestClose(esc);
+        world.setRunning(false);
+        powerUpView.stopTimer();
+    }
 }
