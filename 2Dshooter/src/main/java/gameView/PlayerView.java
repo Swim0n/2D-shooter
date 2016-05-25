@@ -12,6 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -116,6 +117,7 @@ public class PlayerView {
         healthBar.addControl(healthCtrl);
         healthBarNode.attachChild(backgroundBar);
         healthBarNode.attachChild(healthBar);
+        healthBarNode.setShadowMode(RenderQueue.ShadowMode.Off);
         playerNode.attachChild(healthBarNode);
 
     }
