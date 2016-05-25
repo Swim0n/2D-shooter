@@ -22,7 +22,8 @@ public class CameraModel {
         position.set((
                 (player1Pos.x+player2Pos.x)/2),
                 (-getCamHeight(player1Pos,player2Pos)),
-                ((player1Pos.z+player2Pos.z)/2));
+                ((player1Pos.z+player2Pos.z)/2-40f
+                ));
         if(position.equals(null)){
             position.set(staticPosition);
         }

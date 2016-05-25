@@ -3,8 +3,8 @@ package ctrl;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.*;
 import core.Player;
-import gameView.GUIView;
 import gameView.PlayerView;
+import utils.ApplicationAssets;
 
 /**
  * Created by Simon on 2016-05-10.
@@ -14,8 +14,9 @@ public class AIPlayerController extends PlayerController {
     private float bulletCooldown = 200f;
     private long lastShotTime = 0;
 
-    public AIPlayerController(PlayerView view, Player player, GUIView niftyView){
-        super(view, player, niftyView);
+    public AIPlayerController(PlayerView view, Player player, ApplicationAssets appAssets){
+        super(view, player,appAssets);
+        this.niftyView = appAssets.getGameView().getNiftyView();
 
     }
 

@@ -88,7 +88,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <!-- Will create executable jar -->
-                            <mainClass>core.Main</mainClass>
+                            <mainClass>Main</mainClass>
                         </manifest>
 
                     </archive>

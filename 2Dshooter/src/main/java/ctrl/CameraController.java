@@ -34,6 +34,7 @@ public class CameraController extends CameraControl implements ActionListener {
         this.player1 = appAssets.getWorld().getPlayer1();
         this.player2 = appAssets.getWorld().getPlayer2();
         this.cameraNode = appAssets.getGameView().getCameraNode();
+        cameraNode.addControl(this);
     }
 
     public void update(float tpf) {

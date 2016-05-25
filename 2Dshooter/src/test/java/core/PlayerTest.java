@@ -2,8 +2,6 @@ package core;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Hannes on 24/05/2016.
  */

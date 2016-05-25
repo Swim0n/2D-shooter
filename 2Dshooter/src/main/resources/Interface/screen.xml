@@ -12,7 +12,7 @@
             <panel id="panel" height="50%" width="100%" align="center" valign="top" backgroundColor="#d3d3" childLayout="center" visibleToMouse="true">
                 <interact onClick="quit()"/>
                 <control name="button" label="Start" id="StartButton" align="center" valign="bottom"
-                         visibleToMouse="true" focusable="false">
+                         visibleToMouse="true" focusable="true">
                     <interact onClick="startGame();"/>
                 </control>
             </panel>

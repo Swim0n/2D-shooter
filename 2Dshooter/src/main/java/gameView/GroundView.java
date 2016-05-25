@@ -3,12 +3,10 @@ package gameView;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
-import com.jme3.texture.Texture;
 import core.Ground;
 import utils.ApplicationAssets;
 

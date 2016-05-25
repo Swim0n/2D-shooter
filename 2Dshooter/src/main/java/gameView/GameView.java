@@ -4,7 +4,6 @@ import com.jme3.app.SimpleApplication;
 
 import com.jme3.bullet.BulletAppState;
 import com.jme3.input.KeyInput;
-import com.jme3.light.DirectionalLight;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -14,8 +13,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.CameraControl;
 import com.jme3.scene.shape.Quad;
-import core.HealthPowerUp;
-import core.SpeedPowerUp;
 import core.World;
 import ctrl.*;
 import de.lessvoid.nifty.Nifty;
@@ -23,8 +20,6 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import utils.ApplicationAssets;
 import utils.KeyMappings;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -38,7 +33,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     private PlayerController player2ControlSave;
     private AIPlayerController player2AIControl;
     private BulletAppState bulletAppState;
-    private List<PowerUpController> PowerUpControllerList = new ArrayList<PowerUpController>();
     private CameraController camControl;
 
     //variables for viewer classes
@@ -69,19 +63,22 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private boolean ai = false;
     private boolean paused = true;
+    //all views initiated
+    private boolean initiated;
 
 
     public void simpleInitApp() {
         initiateNodes();
         initiatePhysics();
 
-        world = new World(40, 30, false);
+        world = new World(40, 30, true);
         appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
-
+        world.setRunning(true);
         initiateCamera();
         initiateGUI();
         initiateStage();
         initiatePlayers();
+
 
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,0,0));
 
@@ -94,26 +91,8 @@ public class GameView extends SimpleApplication implements ScreenController{
         lamp_light.setPosition(new Vector3f(0,-20,0));
         rootNode.addLight(lamp_light);
 
-//        DirectionalLight dl = new DirectionalLight();
-//        dl.setColor(ColorRGBA.White);
-//        dl.setDirection(new Vector3f(1,1,1).normalize());
-//        rootNode.addLight(dl);
-//
-//        DirectionalLight dl1 = new DirectionalLight();
-//        dl1.setColor(ColorRGBA.White);
-//        dl1.setDirection(new Vector3f(-1,1,1).normalize());
-//        rootNode.addLight(dl1);
-//
-//        DirectionalLight dl2 = new DirectionalLight();
-//        dl2.setColor(ColorRGBA.White);
-//        dl2.setDirection(new Vector3f(-1,1,-1).normalize());
-//        rootNode.addLight(dl2);
-//
-//        DirectionalLight dl3 = new DirectionalLight();
-//        dl3.setColor(ColorRGBA.White);
-//        dl3.setDirection(new Vector3f(1,1,-1).normalize());
-//        rootNode.addLight(dl3);
 
+        initiated = true;
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
         setDisplayFps(true);
@@ -133,15 +112,13 @@ public class GameView extends SimpleApplication implements ScreenController{
         player1View = new PlayerView(appAssets, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m", ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f));
         //spawning player2
         player2View = new PlayerView(appAssets, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m", ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f));
-        new PowerUpController(new HealthPowerUp(appAssets),appAssets,powerUpView);
-        new PowerUpController(new SpeedPowerUp(appAssets), appAssets, powerUpView);
     }
 
     private void initiatePlayers(){
-        player1Control = new HumanPlayerController(player1View,world.getPlayer1(), niftyView, appAssets, new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
+        player1Control = new HumanPlayerController(player1View,world.getPlayer1(), appAssets, new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
                 KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0));
-        player2AIControl = new AIPlayerController(player2View,world.getPlayer2(), niftyView);
-        player2ControlSave = new HumanPlayerController(player2View,world.getPlayer2(), niftyView, appAssets, new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
+        player2AIControl = new AIPlayerController(player2View,world.getPlayer2(),appAssets);
+        player2ControlSave = new HumanPlayerController(player2View,world.getPlayer2(), appAssets, new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
                 KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE));
         if(this.ai == true){
             player2Control = player2AIControl;
@@ -163,7 +140,6 @@ public class GameView extends SimpleApplication implements ScreenController{
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
         niftyView.setNiftyDisp(niftyDisplay);
         niftyView.setGameView(this);
-
     }
 
     private void initiatePhysics(){
@@ -175,7 +151,7 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private void initiateCamera(){
         //camera settings
-        camControl = new CameraController(appAssets);
+        //camControl = new CameraController(appAssets);
         cameraView = new CameraView(appAssets);
     }
 
@@ -262,5 +238,29 @@ public class GameView extends SimpleApplication implements ScreenController{
         super.requestClose(esc);
         world.setRunning(false);
         powerUpView.stopTimer();
+    }
+
+    public ApplicationAssets getAppAssets() {
+        return appAssets;
+    }
+
+    public PlayerView getPlayer1View() {
+        return player1View;
+    }
+
+    public GUIView getNiftyView() {
+        return niftyView;
+    }
+
+    public PlayerView getPlayer2View() {
+        return player2View;
+    }
+
+    public PowerupView getPowerUpView() {
+        return powerUpView;
+    }
+
+    public boolean isInitiated() {
+        return initiated;
     }
 }

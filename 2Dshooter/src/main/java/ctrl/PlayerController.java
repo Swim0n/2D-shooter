@@ -6,6 +6,7 @@ import core.Player;
 import gameView.BulletView;
 import gameView.GUIView;
 import gameView.PlayerView;
+import utils.ApplicationAssets;
 
 /**
  * Created by Simon on 2016-05-11.
@@ -13,18 +14,20 @@ import gameView.PlayerView;
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     protected final BulletView bulletView;
+    private final ApplicationAssets appAssets;
     protected float speed;
     protected Player playerData;
     protected GUIView niftyView;
     protected boolean paused = true;
 
-    public PlayerController(PlayerView playerView, Player player, GUIView niftyView){
+    public PlayerController(PlayerView playerView, Player player, ApplicationAssets appAssets){
         super(player.getRadius(), player.getHeight(), player.getMass());
+        this.appAssets = appAssets;
+        this.niftyView = appAssets.getGameView().getNiftyView();
         this.playerData = player;
         this.playerView = playerView;
         this.bulletView = new BulletView(playerView);
         this.speed = playerData.getSpeed();
-        this.niftyView = niftyView;
     }
 
     @Override

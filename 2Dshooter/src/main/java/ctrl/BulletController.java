@@ -3,7 +3,6 @@ package ctrl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.collision.CollisionResults;
 import com.jme3.light.PointLight;
-import com.jme3.scene.control.LightControl;
 import gameView.BulletView;
 import gameView.GameView;
 
