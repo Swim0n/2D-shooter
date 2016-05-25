@@ -35,11 +35,7 @@ public class GroundView {
 
         groundShape = new Quad(groundModel.getWidth(), groundModel.getHeight()); //quad to represent ground in java
         groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
-        Material groundMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); //material for ground
-        Texture dirt = assetManager.loadTexture("Textures/dirt.jpg");
-        dirt.setWrap(Texture.WrapMode.Repeat);
-        groundMat.setTexture("ColorMap", dirt);
-        groundGeom.setMaterial(groundMat);
+        groundGeom.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
         groundGeom.rotate(FastMath.HALF_PI,0,0);
         groundGeom.setLocalTranslation(-groundShape.getWidth()/2, 0, -groundShape.getHeight()/2);
         stageNode.attachChild(groundGeom);

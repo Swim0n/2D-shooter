@@ -41,10 +41,7 @@ public class WallsView {
     private void createWalls(){
         verticalWallShape = new Box(0.5f,5f,27f);
         horizontalWallShape = new Box(36f, 5f,0.5f);
-        wallMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        Texture brick = assetManager.loadTexture("Textures/BrickWall.jpg");
-        brick.setWrap(Texture.WrapMode.Repeat);
-        wallMaterial.setTexture("ColorMap", brick);
+        wallMaterial = assetManager.loadMaterial("Materials/block2mat.j3m");
         westWall = new Geometry("westWall", verticalWallShape);
         eastWall = new Geometry("eastWall", verticalWallShape);
         northWall = new Geometry("northWall", horizontalWallShape);

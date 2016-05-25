@@ -5,6 +5,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.input.KeyInput;
 import com.jme3.light.DirectionalLight;
+import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
@@ -74,7 +75,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         initiateNodes();
         initiatePhysics();
 
-        world = new World(15, 10, false);
+        world = new World(40, 30, false);
         appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
 
         initiateCamera();
@@ -87,25 +88,31 @@ public class GameView extends SimpleApplication implements ScreenController{
         niftyView.setP1ctr(player1Control);
         niftyView.setP2ctr(player2Control);
 
-        DirectionalLight dl = new DirectionalLight();
-        dl.setColor(ColorRGBA.White);
-        dl.setDirection(new Vector3f(1,1,1).normalize());
-        rootNode.addLight(dl);
+        PointLight lamp_light = new PointLight();
+        lamp_light.setColor(ColorRGBA.White.mult(2));
+        lamp_light.setRadius(150f);
+        lamp_light.setPosition(new Vector3f(0,-20,0));
+        rootNode.addLight(lamp_light);
 
-        DirectionalLight dl1 = new DirectionalLight();
-        dl1.setColor(ColorRGBA.White);
-        dl1.setDirection(new Vector3f(-1,1,1).normalize());
-        rootNode.addLight(dl1);
-
-        DirectionalLight dl2 = new DirectionalLight();
-        dl2.setColor(ColorRGBA.White);
-        dl2.setDirection(new Vector3f(-1,1,-1).normalize());
-        rootNode.addLight(dl2);
-
-        DirectionalLight dl3 = new DirectionalLight();
-        dl3.setColor(ColorRGBA.White);
-        dl3.setDirection(new Vector3f(1,1,-1).normalize());
-        rootNode.addLight(dl3);
+//        DirectionalLight dl = new DirectionalLight();
+//        dl.setColor(ColorRGBA.White);
+//        dl.setDirection(new Vector3f(1,1,1).normalize());
+//        rootNode.addLight(dl);
+//
+//        DirectionalLight dl1 = new DirectionalLight();
+//        dl1.setColor(ColorRGBA.White);
+//        dl1.setDirection(new Vector3f(-1,1,1).normalize());
+//        rootNode.addLight(dl1);
+//
+//        DirectionalLight dl2 = new DirectionalLight();
+//        dl2.setColor(ColorRGBA.White);
+//        dl2.setDirection(new Vector3f(-1,1,-1).normalize());
+//        rootNode.addLight(dl2);
+//
+//        DirectionalLight dl3 = new DirectionalLight();
+//        dl3.setColor(ColorRGBA.White);
+//        dl3.setDirection(new Vector3f(1,1,-1).normalize());
+//        rootNode.addLight(dl3);
 
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
@@ -123,9 +130,9 @@ public class GameView extends SimpleApplication implements ScreenController{
         powerUpView = new PowerupView(appAssets);
 
         //spawning player1
-        player1View = new PlayerView(appAssets, player1Node, ColorRGBA.Red, new Vector3f(-4f,-2f,0f));
+        player1View = new PlayerView(appAssets, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m", ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f));
         //spawning player2
-        player2View = new PlayerView(appAssets, player2Node, ColorRGBA.Black, new Vector3f(4f,-2f,0f));
+        player2View = new PlayerView(appAssets, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m", ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f));
         new PowerUpController(new HealthPowerUp(appAssets),appAssets,powerUpView);
         new PowerUpController(new SpeedPowerUp(appAssets), appAssets, powerUpView);
     }

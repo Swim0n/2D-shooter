@@ -6,6 +6,7 @@ import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
 import com.jme3.effect.shapes.EmitterSphereShape;
 import com.jme3.input.InputManager;
+import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -15,6 +16,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.BillboardControl;
+import com.jme3.scene.control.LightControl;
 import com.jme3.scene.shape.Quad;
 import utils.ApplicationAssets;
 import utils.Utils;
@@ -44,17 +46,23 @@ public class PlayerView {
     private float lastRotation;
     private Quaternion gunRot = new Quaternion();
     private Vector3f axisY=Vector3f.UNIT_Y;//for rotation around Y-axis
-    private ColorRGBA colorRGBA;
+    private String headMaterialPath;
+    private String bodyMaterialPath;
+    private ColorRGBA bodyColor;
+    private ColorRGBA emitColor;
     private ParticleEmitter sparks;
 
     //colorRGBA is just a placeholder until textures are in place
-    public PlayerView(ApplicationAssets appAssets, Node playerNode, ColorRGBA colorRGBA, Vector3f startPos){
+    public PlayerView(ApplicationAssets appAssets, Node playerNode, String headMaterialPath, String bodyMaterialPath, ColorRGBA bodyColor, ColorRGBA emitColor, Vector3f startPos){
         this.assetManager = appAssets.getAssetManager();
         this.gameView = appAssets.getGameView();
         this.playerNode = playerNode;
         this.inputManager = gameView.getInputManager();
         this.startPos = startPos;
-        this.colorRGBA = colorRGBA;
+        this.headMaterialPath = headMaterialPath;
+        this.bodyMaterialPath = bodyMaterialPath;
+        this.bodyColor = bodyColor;
+        this.emitColor = emitColor;
         createPlayer();
         createHealthBar();
         createParticleEmitter();
@@ -66,7 +74,7 @@ public class PlayerView {
 
         //creating gun attached to player
         gun = assetManager.loadModel("Models/p1head.mesh.xml");
-        gun.setMaterial(assetManager.loadMaterial("Materials/p1headmat.j3m"));
+        gun.setMaterial(assetManager.loadMaterial(headMaterialPath));
         gun.rotate(-FastMath.HALF_PI,FastMath.PI,0);
         headNode.setLocalTranslation(0,-1.6f,0);
         headNode.attachChild(gun);
@@ -74,12 +82,19 @@ public class PlayerView {
 
         //creating player
         player = assetManager.loadModel("Models/p1body.mesh.xml");
-        player.setMaterial(assetManager.loadMaterial("Materials/p1bodymat.j3m"));
+        player.setMaterial(assetManager.loadMaterial(bodyMaterialPath));
         player.rotate(-FastMath.HALF_PI,FastMath.PI,0);
         bodyNode.move(0,0,0);
         bodyNode.attachChild(player);
         playerNode.attachChild(bodyNode);
 
+        //creating light
+        PointLight lamp_light = new PointLight();
+        lamp_light.setColor(bodyColor.mult(5));
+        lamp_light.setRadius(9f);
+        gameView.getRootNode().addLight(lamp_light);
+        LightControl lightControl = new LightControl(lamp_light);
+        gun.addControl(lightControl);
 
     }
 
@@ -89,8 +104,8 @@ public class PlayerView {
         BillboardControl healthCtrl = new BillboardControl();
         backgroundBar = new Geometry("backgroundBar", new Quad(4f, 0.6f));
         healthBar = new Geometry("healthBar", new Quad(4f, 0.6f));
-        backgroundBar.setMaterial(Utils.getMaterial(assetManager,colorRGBA.Red));
-        healthBar.setMaterial(Utils.getMaterial(assetManager,colorRGBA.Green));
+        backgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Red));
+        healthBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Green));
         backgroundBar.rotate(FastMath.HALF_PI,0,0);
         healthBar.rotate(FastMath.HALF_PI,0,0);
         backgroundBar.center();
@@ -114,7 +129,7 @@ public class PlayerView {
         sparks.setImagesX(2);
         sparks.setImagesY(2);
         sparks.setParticlesPerSec(0);
-        sparks.setStartColor(ColorRGBA.Magenta);
+        sparks.setStartColor(emitColor);
         sparks.setEndColor(ColorRGBA.White);
         sparks.setStartSize(0.8f);
         sparks.setEndSize(0);
@@ -134,7 +149,7 @@ public class PlayerView {
         shotAudio = new AudioNode(assetManager, "Sound/shot.wav");
         shotAudio.setPositional(false);
         shotAudio.setLooping(false);
-        shotAudio.setVolume(2);
+        shotAudio.setVolume(0.6f);
         playerNode.attachChild(shotAudio);
         dashAudio = new AudioNode(assetManager, "Sound/dash.wav");
         dashAudio.setPositional(false);
@@ -190,4 +205,10 @@ public class PlayerView {
     public GameView getGameView(){return this.gameView;}
     public Quaternion getGunRotation(){return gunRot;}
     public Vector3f getPosition(){return this.getPlayerNode().getLocalTranslation();}
+    public String getBodyMaterialPath(){
+        return this.bodyMaterialPath;
+    }
+    public ColorRGBA getBodyColor(){
+        return this.bodyColor;
+    }
 }

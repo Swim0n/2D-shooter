@@ -76,7 +76,7 @@ public class Player {
         if (right && down){
             direction.set(getDiagonalSpeed(),0,-getDiagonalSpeed());
         }
-        if(dashing){
+        if(dashing && (up || down  || right || left)){
             direction.normalize();
             direction.scale(dashSpeed);
         }

@@ -5,9 +5,11 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import core.World;
 import utils.ApplicationAssets;
@@ -27,17 +29,11 @@ public class TerrainView {
     private float tileWidth;
     private float tileHeight;
 
-    private Box rockShape;
-    private Geometry rock;
-    private Material rockMaterial;
-    private Box treeShape;
-    private Geometry tree;
-    private Material treeMaterial;
     private World world;
 
     private BulletAppState bulletAppState;
 
-    private ArrayList<Geometry> terrainGrid;
+    private ArrayList<Spatial> terrainGrid;
 
 
     public TerrainView(ApplicationAssets appAssets, float tileWidth, float tileHeight) {
@@ -49,36 +45,33 @@ public class TerrainView {
         this.tileHeight = tileHeight;
         this.world = appAssets.getWorld();
         this.bulletAppState = appAssets.getBulletAppState();
-        this.terrainGrid = new ArrayList<Geometry>();
+        this.terrainGrid = new ArrayList<Spatial>();
         world.getTerrain().setPositions(groundX, groundZ, tileWidth, tileHeight);
         createTerrain();
         applyPhysics();
     }
 
     private void createTerrain(){
-        rockShape = new Box(tileWidth/2,2f,tileHeight/2);
-        rockMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        rockMaterial.setColor("Color", ColorRGBA.DarkGray);
-
         for (int i = 0; i < world.getTerrain().getRocksAmount(); i++){
             Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
-            rock = new Geometry("Rock", rockShape);
-            rock.setMaterial(rockMaterial);
+            Spatial rock = assetManager.loadModel("Models/block.mesh.xml");
+            rock.setMaterial(assetManager.loadMaterial("Materials/block1mat.j3m"));
             terrainGrid.add(rock);
             rock.setLocalTranslation(position.getX(),-2, position.getZ());
+            rock.rotate(FastMath.PI,0,0);
+            rock.scale(2);
+            rock.move(-4,0,0);
             terrainNode.attachChild(rock);
         }
-
-        treeShape = new Box(tileWidth/2,2f,tileHeight/2);
-        treeMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        treeMaterial.setColor("Color", ColorRGBA.Green);
-
         for (int i = 0; i < world.getTerrain().getTreesAmount(); i++){
             Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
-            tree = new Geometry("Tree", treeShape);
-            tree.setMaterial(treeMaterial);
+            Spatial tree = assetManager.loadModel("Models/block.mesh.xml");
+            tree.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
             terrainGrid.add(tree);
             tree.setLocalTranslation(position.getX(),-2, position.getZ());
+            tree.rotate(FastMath.PI,0,0);
+            tree.scale(2);
+            tree.move(-4,0,0);
             terrainNode.attachChild(tree);
         }
     }
