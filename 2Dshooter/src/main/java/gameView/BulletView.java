@@ -26,14 +26,12 @@ public class BulletView {
     private Material bulletMaterial;
     private AssetManager assetManager;
     private Node bulletNode;
-    private List<Spatial> bullets;
 
 
     public BulletView(PlayerView playerView){
         this.assetManager = playerView.getGameView().getAssetManager();
         this.bulletNode = playerView.getGameView().getBulletNode();
         this.playerView = playerView;
-        this.bullets = new ArrayList<Spatial>();
     }
 
     public void createBullet() {
@@ -53,7 +51,6 @@ public class BulletView {
         playerView.getGameView().getRootNode().addLight(lamp_light);
         addPhysics(bullet, lamp_light);
         bullet.addControl(lightControl);
-        bullets.add(bullet);
     }
 
     private void addPhysics(Geometry bullet, PointLight light){

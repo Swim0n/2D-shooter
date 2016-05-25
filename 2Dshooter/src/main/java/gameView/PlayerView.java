@@ -105,8 +105,8 @@ public class PlayerView {
         BillboardControl healthCtrl = new BillboardControl();
         backgroundBar = new Geometry("backgroundBar", new Quad(4f, 0.6f));
         healthBar = new Geometry("healthBar", new Quad(4f, 0.6f));
-        backgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Red));
-        healthBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Green));
+        backgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
+        healthBar.setMaterial(Utils.getMaterial(assetManager,bodyColor));
         backgroundBar.rotate(FastMath.HALF_PI,0,0);
         healthBar.rotate(FastMath.HALF_PI,0,0);
         backgroundBar.center();
