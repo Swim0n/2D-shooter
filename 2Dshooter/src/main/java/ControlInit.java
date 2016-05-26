@@ -23,14 +23,13 @@ public class ControlInit {
     private PlayerController player2Control;
     private BulletAppState bulletAppState;
     private CameraController camControl;
-    private boolean paused;
-    private boolean ai;
+    private boolean ai = false;
 
-    private KeyMappings player1Mappings = new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
-            KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0);
-    private KeyMappings player2Mappings = new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
+
+    private KeyMappings player1Mappings = new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
             KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE);
-
+    private KeyMappings player2Mappings = new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
+            KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0);
     public ControlInit(ViewInit viewInit){
        this.viewInit = viewInit;
        this.gameView = viewInit.getGameView();
@@ -43,14 +42,14 @@ public class ControlInit {
 
        initiatePlayerControls();
 
-       //initiateGUI();
+       initiateGUI();
 
-       initiateCameraControls();
+       //initiateCameraControls();
    }
 
     private void initiateGUI() {
-        appAssets.getGameView().getNiftyView().setP1ctr(player1Control);
-        appAssets.getGameView().getNiftyView().setP2ctr(player2Control);
+        appAssets.getGameView().getNiftyView().setPlayer1(appAssets.getWorld().getPlayer1());
+        appAssets.getGameView().getNiftyView().setPlayer2(appAssets.getWorld().getPlayer2());
     }
 
     private void initiateCameraControls() {
@@ -58,44 +57,27 @@ public class ControlInit {
     }
 
     private void initiatePlayerControls(){
-        player1Control = new HumanPlayerController(gameView.getPlayer1View(),world.getPlayer1(), appAssets, player1Mappings);
+        player1Control = new HumanPlayerController(gameView.getPlayer1View(), world.getPlayer1(), appAssets, player1Mappings);
+       // player2Control = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
 
-        AIPlayerController player2AIControl = new AIPlayerController(gameView.getPlayer2View(), world.getPlayer2(),appAssets);
+        //AIPlayerController player2AIControl = new AIPlayerController(gameView.getPlayer2View(), world.getPlayer2(),appAssets);
 
-        PlayerController player2ControlSave = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
+        //PlayerController player2ControlSave = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
 
-        if(this.ai == true){
-            player2Control = player2AIControl;
-        } else {
-            player2Control = player2ControlSave;
-        }
+        //if(this.ai == true){
+           // player2Control = player2AIControl;
+        //} else {
+            //player2Control = player2ControlSave;
+        //}
 
         gameView.getPlayer1Node().addControl(player1Control);
         bulletAppState.getPhysicsSpace().add(player1Control);
-        gameView.getPlayer2Node().addControl(player2Control);
-        bulletAppState.getPhysicsSpace().add(player2Control);
+        //gameView.getPlayer2Node().addControl(player2Control);
+        //bulletAppState.getPhysicsSpace().add(player2Control);
     }
-
 
     private void initiatePowerUpControls(){
         new PowerUpController(new HealthPowerUp(appAssets),appAssets, gameView.getPowerUpView());
         new PowerUpController(new SpeedPowerUp(appAssets), appAssets, gameView.getPowerUpView());
     }
-
-    //"pauses the game"
-    public void pauseGame(){
-        this.paused = true;
-        this.player1Control.pause();
-        this.player2Control.pause();
-    }
-
-    //"unpauses the game"
-    public void unpauseGame(){
-        this.paused = false;
-        this.player1Control.unpause();
-        this.player2Control.unpause();
-    }
-
-    public PlayerController getPlayer1Control() {return player1Control;}
-    public PlayerController getPlayer2Control() {return player2Control;}
 }

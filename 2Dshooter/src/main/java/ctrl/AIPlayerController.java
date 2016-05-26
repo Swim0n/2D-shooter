@@ -60,12 +60,4 @@ public class AIPlayerController extends PlayerController {
             setWalkDirection(new Vector3f(0f,0f,0f));
         }
     }
-
-    public void pause(){
-        this.paused = true;
-    }
-
-    public void unpause(){
-        this.paused = false;
-    }
 }

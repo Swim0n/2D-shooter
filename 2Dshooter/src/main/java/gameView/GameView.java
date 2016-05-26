@@ -3,7 +3,6 @@ package gameView;
 import com.jme3.app.SimpleApplication;
 
 import com.jme3.bullet.BulletAppState;
-import com.jme3.input.KeyInput;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -11,15 +10,12 @@ import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.control.CameraControl;
 import com.jme3.scene.shape.Quad;
 import core.World;
-import ctrl.*;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import utils.ApplicationAssets;
-import utils.KeyMappings;
 
 
 /**
@@ -27,16 +23,8 @@ import utils.KeyMappings;
  */
 public class GameView extends SimpleApplication implements ScreenController{
 
-    //variables for controls
-    /*
-    private PlayerController player1Control;
-    private PlayerController player2Control;
-    private PlayerController player2ControlSave;
-    private AIPlayerController player2AIControl;
-    private CameraController camControl;
-    */
-
     private BulletAppState bulletAppState;
+
     //variables for viewer classes
     private WallsView wallsView;
     private GroundView groundView;
@@ -45,7 +33,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     private PowerupView powerUpView;
     private TerrainView terrainView;
     private CameraView cameraView;
-
 
     private Node bulletNode;
     private Node stageNode;
@@ -64,7 +51,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private GUIView niftyView;
 
     private boolean ai = false;
-    private boolean paused = false;
+    private boolean paused = true;
     //all views initiated
     private boolean initiated;
 
@@ -75,17 +62,12 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         world = new World(40, 30, true);
         appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
-        world.setRunning(true);
-        initiateCamera();
-        //initiateGUI();
-        initiateStage();
-        //initiatePlayers();
 
+        initiateCamera();
+        initiateGUI();
+        initiateStage();
 
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,0,0));
-
-        //niftyView.setP1ctr(player1Control);
-        //niftyView.setP2ctr(player2Control);
 
         PointLight lamp_light = new PointLight();
         lamp_light.setColor(ColorRGBA.White.mult(2));
@@ -95,6 +77,7 @@ public class GameView extends SimpleApplication implements ScreenController{
 
 
         initiated = true;
+
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
         setDisplayFps(true);
@@ -118,25 +101,6 @@ public class GameView extends SimpleApplication implements ScreenController{
                 ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f),appAssets.getWorld().getPlayer2());
     }
 
-    /*
-    private void initiatePlayers(){
-        player1Control = new HumanPlayerController(player1View,world.getPlayer1(), appAssets, new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
-                KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0));
-        player2AIControl = new AIPlayerController(player2View,world.getPlayer2(),appAssets);
-        player2ControlSave = new HumanPlayerController(player2View,world.getPlayer2(), appAssets, new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
-                KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE));
-        if(this.ai == true){
-            player2Control = player2AIControl;
-        } else {
-            player2Control = player2ControlSave;
-        }
-        player1Node.addControl(player1Control);
-        bulletAppState.getPhysicsSpace().add(player1Control);
-        player2Node.addControl(player2Control);
-        bulletAppState.getPhysicsSpace().add(player2Control);
-    }
-    */
-
     private void initiateGUI(){
         //gui initialization
         niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
@@ -144,7 +108,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         nifty.fromXml("Interface/screen.xml", "start", this);
         guiViewPort.addProcessor(niftyDisplay);
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
-        niftyView.setNiftyDisp(niftyDisplay);
+        niftyView.setNiftyDisplay(niftyDisplay);
         niftyView.setGameView(this);
     }
 
@@ -177,20 +141,6 @@ public class GameView extends SimpleApplication implements ScreenController{
         rootNode.attachChild(camNode);
     }
 
-    //"pauses the java"
-    public void pauseGame(){
-        this.paused = true;
-        //this.player1Control.pause();
-        //this.player2Control.pause();
-    }
-
-    //"unpauses the java"
-    public void unpauseGame(){
-        this.paused = false;
-        //this.player1Control.unpause();
-        //this.player2Control.unpause();
-    }
-
     public void updateGUI(){
         niftyView.updateText();
     }
@@ -216,8 +166,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
     public Node getPlayer1Node() {return player1Node;}
     public Node getPlayer2Node() {return player2Node;}
-    //public PlayerController getPlayer1Control() {return player1Control;}
-    //public PlayerController getPlayer2Control() {return player2Control;}
     public Quad getGroundSize(){
         return groundView.getGroundShape();
     }
@@ -225,24 +173,18 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void onEndScreen(){}
     public void onStartScreen(){}
     public void bind(Nifty nifty, Screen screen){}
-    public CameraView getCameraView() {return cameraView;}
     public CameraNode getCameraNode() {return camNode;}
-    //public CameraControl getCameraControl() {return camControl;}
-
-
 
     //automatically called on app exit, notifies other threads
     @Override
     public void destroy() {
         super.destroy();
-        world.setRunning(false);
         powerUpView.stopTimer();
     }
     //called on window close
     @Override
     public void requestClose(boolean esc) {
         super.requestClose(esc);
-        world.setRunning(false);
         powerUpView.stopTimer();
     }
 
@@ -268,5 +210,12 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     public boolean isInitiated() {
         return initiated;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+    public boolean isPaused() {
+        return paused;
     }
 }

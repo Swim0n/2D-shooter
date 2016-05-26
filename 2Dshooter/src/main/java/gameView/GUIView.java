@@ -6,6 +6,7 @@
 package gameView;
 
 import com.jme3.niftygui.NiftyJmeDisplay;
+import core.Player;
 import ctrl.PlayerController;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
@@ -18,23 +19,24 @@ import de.lessvoid.nifty.screen.ScreenController;
  */
 public class GUIView implements ScreenController {
 
-    private PlayerController p1ctr;
-    private PlayerController p2ctr;
+    private Player player1;
+    private Player player2;
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
     private GameView gameView;
+    private Element niftyElement;
 
     public GUIView(){
     }
 
-    public void setP1ctr(PlayerController p1){
-        this.p1ctr = p1;
+    public void setPlayer1(Player p1){
+        this.player1 = p1;
     }
 
-    public void setP2ctr(PlayerController p2){
-        this.p2ctr = p2;
+    public void setPlayer2(Player p2){
+        this.player2 = p2;
     }
-    public void setNiftyDisp(NiftyJmeDisplay nd){
+    public void setNiftyDisplay(NiftyJmeDisplay nd){
         this.niftyDisplay = nd;
         this.nifty = nd.getNifty();
     }
@@ -46,20 +48,23 @@ public class GUIView implements ScreenController {
     public void updateText(){
 
         // find old text
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("text");
-        // swap old with new text
-        String p1hp = Float.toString(this.p1ctr.getPlayerData().getHealth());
-        String p2hp = Float.toString(this.p2ctr.getPlayerData().getHealth());
+        niftyElement = nifty.getCurrentScreen().findElementById("text");
 
-        niftyElement.getRenderer(TextRenderer.class).setText(
-                "P1 HP: " + p1hp  + "    " + "P2 HP: " + p2hp);
+        // swap old with new text
+        String p1hp = Float.toString(player1.getHealth());
+        String p2hp = Float.toString(player2.getHealth());
+
+        if(niftyElement!=null) {
+            niftyElement.getRenderer(TextRenderer.class).setText(
+                    "P1 HP: " + p1hp + "    " + "P2 HP: " + p2hp);
+        }
     }
 
     //called when startgame button is clicked
     public void startGame(){
         nifty.fromXml("Interface/screen.xml", "gamegui", this);
         nifty.gotoScreen("gamegui");
-        this.gameView.unpauseGame();
+        this.gameView.setPaused(false);
     }
 
     // called when menu button is clicked
@@ -67,21 +72,23 @@ public class GUIView implements ScreenController {
         nifty.removeScreen("start");
         nifty.fromXml("Interface/screen.xml", "pause", this);
         nifty.gotoScreen("pause");
-        if(!gameView.getPaused()){
-            this.gameView.pauseGame();}
+        if(!gameView.getPaused()) {
+            this.gameView.setPaused(true);
+        }
     }
 
     //called when back button is clicked when in the menu
     public void closeMenu(){
         nifty.fromXml("Interface/screen.xml", "start", this);
         nifty.gotoScreen("start");
-        if(!gameView.getPaused()){
-            this.gameView.pauseGame();}
+        if(!gameView.getPaused()) {
+            this.gameView.setPaused(true);
+        }
     }
 
     //turns the ai variable on/off when called, !!!not working!!!
     public void toggleAI(){
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("aitext");
+        Element niftyElement = nifty.getCurrentScreen().findElementById("aitext");
         gameView.setAI(!gameView.getAI());
         if(gameView.getAI()){
             niftyElement.getRenderer(TextRenderer.class).setText(
@@ -89,20 +96,13 @@ public class GUIView implements ScreenController {
         }else{niftyElement.getRenderer(TextRenderer.class).setText(
                 "AI: OFF");
         }
-
     }
-
-
 
     public void onStartScreen() {
-
     }
-
     public void onEndScreen() {
-
     }
     public void bind(Nifty nifty, Screen screen) {
-
     }
 }
 

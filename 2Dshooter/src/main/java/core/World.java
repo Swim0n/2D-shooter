@@ -11,7 +11,7 @@ public class World {
     private final Player player2;
     private final Environment terrain;
     private final CameraModel cameraData;
-    private boolean isRunning;
+    private boolean gameOver;
 
     public World(int rocks, int trees, boolean dynamicCamEnabled){
         this.player1 = new Player();
@@ -25,11 +25,10 @@ public class World {
     public Environment getTerrain(){return terrain;}
     public CameraModel getCameraData() {return cameraData;}
 
-    public boolean getIsRunning() {
-        return isRunning;
+    public boolean gameOver() {
+        return gameOver;
     }
-
-    public void setRunning(boolean running) {
-        isRunning = running;
+    public void setGameOver(boolean gameOver){
+        this.gameOver = gameOver;
     }
 }

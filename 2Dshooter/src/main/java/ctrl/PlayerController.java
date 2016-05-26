@@ -20,7 +20,6 @@ public abstract class PlayerController extends BetterCharacterControl {
     protected float speed;
     protected Player playerData;
     protected GUIView niftyView;
-    protected boolean paused = false;
 
     public PlayerController(PlayerView playerView, Player player, ApplicationAssets appAssets){
         super(player.getRadius(), player.getHeight(), player.getMass());
@@ -34,44 +33,37 @@ public abstract class PlayerController extends BetterCharacterControl {
 
     @Override
     public void update(float tpf){
-        //if(this.paused){
-        //    setWalkDirection(new Vector3f(0,0,0));
-        //    return;
-        //}
         super.update(tpf);
-        //playerView.getGameView().updateGUI();
+        if(appAssets.getGameView().getPaused()){
+            setWalkDirection(new Vector3f(0,0,0));
+            return;
+        }
+        appAssets.getGameView().updateGUI();
         speed = playerData.getSpeed();
-        if (playerData.getHealth()<=0){
 
+        if(appAssets.getWorld().gameOver()){
+            resetPlayer();
+            appAssets.getWorld().setGameOver(false);
+        }
+
+
+        if (playerData.getHealth()<=0){
+            appAssets.getWorld().setGameOver(true);
             if(appAssets.getWorld().getPlayer1().getHealth()==0){
                 appAssets.getWorld().getPlayer2().incWins();
             }else appAssets.getWorld().getPlayer1().incWins();
 
-            // playerView.getGameView().getPlayer1Control().resetPlayer();
-            // playerView.getGameView().getPlayer2Control().resetPlayer();
-            //System.out.println("P1 wins: "+ playerView.getGameView().getPlayer1Control().getPlayerData().getWins()+
-            //        "\nP2 wins: "+ playerView.getGameView().getPlayer2Control().getPlayerData().getWins());
+            System.out.println("P1 wins: "+ appAssets.getWorld().getPlayer1().getWins()+
+                    "\nP2 wins: "+ appAssets.getWorld().getPlayer2().getWins());
         }
         warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }
 
-    public void takeDamage(float damage){
-        playerData.setHealth(playerData.getHealth() - damage);
-        playerView.setHealthBar(playerData.getHealth());
-        playerView.emitSparks();
-        playerView.playPlayerHitSound();
-        //niftyView.updateText();
-    }
-
     public void resetPlayer(){
-        this.warp(new Vector3f(playerView.getStartPos()));
-        this.playerView.setHealthBar(100);
-        this.playerData.setStandard();
-        //this.niftyView.updateText();
-    }
-
-    public PlayerView getPlayerView(){
-        return this.playerView;
+        warp(new Vector3f(playerView.getStartPos()));
+        playerView.setHealthBar(100);
+        playerData.setStandard();
+        niftyView.updateText();
     }
 
     //creates a new bullet specific to the player who fired it
@@ -94,18 +86,5 @@ public abstract class PlayerController extends BetterCharacterControl {
         bullet.getBullet().addControl(lightControl);//TBR
 
         playerView.playShotSound();
-    }
-
-
-    public Player getPlayerData(){
-        return this.playerData;
-    }
-
-    public void pause(){
-        this.paused = true;
-    }
-
-    public void unpause(){
-        this.paused = false;
     }
 }
