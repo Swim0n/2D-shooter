@@ -32,8 +32,8 @@ public class PowerUpController extends RigidBodyControl {
             if (hasCollided==false){
                 //add power up effect to player 2
                 powerUp.setEffect(applicationAssets.getWorld().getPlayer2());
-                applicationAssets.getGameView().getPlayer2Control().getPlayerView().setHealthBar(applicationAssets.getWorld().getPlayer2().getHealth());
-                applicationAssets.getGameView().getPlayer2Control().getPlayerView().playPowerUpSound();
+                applicationAssets.getGameView().getPlayer2View().setHealthBar(applicationAssets.getWorld().getPlayer2().getHealth());
+                applicationAssets.getGameView().getPlayer2View().playPowerUpSound();
                 spatial.removeFromParent();
                 results.clear();
                 hasCollided=true;
@@ -50,8 +50,8 @@ public class PowerUpController extends RigidBodyControl {
             if (hasCollided==false){
                 //add power up effect to player 1
                 powerUp.setEffect(applicationAssets.getWorld().getPlayer1());
-                applicationAssets.getGameView().getPlayer1Control().getPlayerView().setHealthBar(applicationAssets.getWorld().getPlayer1().getHealth());
-                applicationAssets.getGameView().getPlayer2Control().getPlayerView().playPowerUpSound();
+                applicationAssets.getGameView().getPlayer1View().setHealthBar(applicationAssets.getWorld().getPlayer1().getHealth());
+                applicationAssets.getGameView().getPlayer1View().playPowerUpSound();
                 spatial.removeFromParent();
                 results.clear();
                 hasCollided=true;

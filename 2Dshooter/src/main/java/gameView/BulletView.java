@@ -9,6 +9,8 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.LightControl;
 import com.jme3.scene.shape.Sphere;
 import ctrl.BulletController;
+import utils.ApplicationAssets;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import java.util.List;
  */
 public class BulletView {
 
+    private final ApplicationAssets appAssets;
     private Sphere bulletShape;
 
     private PlayerView playerView;
@@ -24,19 +27,34 @@ public class BulletView {
     private AssetManager assetManager;
     private Node bulletNode;
     private List<Spatial> bullets;
+    private Geometry bullet;
 
 
-    public BulletView(PlayerView playerView){
-        this.assetManager = playerView.getGameView().getAssetManager();
-        this.bulletNode = playerView.getGameView().getBulletNode();
+    public BulletView(PlayerView playerView, ApplicationAssets appAssets){
+        this.appAssets = appAssets;
+        this.assetManager = appAssets.getAssetManager();
+        this.bulletNode = appAssets.getGameView().getBulletNode();
         this.playerView = playerView;
-        this.bullets = new ArrayList<Spatial>();
+        this.bullets = new ArrayList<>();
+
+        //creating the bullet
+        bulletShape = new Sphere(5, 10, 0.3f);
+        bullet = new Geometry("Bullet", bulletShape);
+        bulletMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        bulletMaterial.setColor("Color", playerView.getBodyColor());
+        bullet.setMaterial(bulletMaterial);
+        bulletNode.attachChild(bullet);
+        //setting starting point at players pos.
+        bullet.setLocalTranslation(this.playerView.getPipePos());
+
+
+        bullets.add(bullet);
     }
 
     public void createBullet() {
         //creating the bullet
         bulletShape = new Sphere(5, 10, 0.3f);
-        Geometry bullet = new Geometry("Bullet", bulletShape);
+        bullet = new Geometry("Bullet", bulletShape);
         bulletMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         bulletMaterial.setColor("Color", playerView.getBodyColor());
         bullet.setMaterial(bulletMaterial);
@@ -45,16 +63,27 @@ public class BulletView {
         bullet.setLocalTranslation(this.playerView.getPipePos());
         PointLight lamp_light = new PointLight();
         lamp_light.setColor(playerView.getBodyColor().mult(5));
+
         lamp_light.setRadius(3.5f);
-        LightControl lightControl = new LightControl(lamp_light);
+
+
+
+
+        LightControl lightControl = new LightControl(lamp_light); //TBR
         playerView.getGameView().getRootNode().addLight(lamp_light);
+
+
+
         addPhysics(bullet, lamp_light);
-        bullet.addControl(lightControl);
+
+        bullet.addControl(lightControl);//TBR
+
         bullets.add(bullet);
     }
 
+
     private void addPhysics(Geometry bullet, PointLight light){
-        BulletController bulletPhy = new BulletController(this, playerView.getGameView(), light);
+        BulletController bulletPhy = new BulletController(this, appAssets, light);
         bullet.addControl(bulletPhy);
         bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(50));
         playerView.getGameView().getBulletAppState().getPhysicsSpace().add(bulletPhy);
@@ -62,5 +91,9 @@ public class BulletView {
 
     public PlayerView getPlayerView(){
         return this.playerView;
+    }
+
+    public Geometry getBullet() {
+        return bullet;
     }
 }

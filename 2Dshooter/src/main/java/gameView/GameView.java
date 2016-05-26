@@ -28,13 +28,15 @@ import utils.KeyMappings;
 public class GameView extends SimpleApplication implements ScreenController{
 
     //variables for controls
+    /*
     private PlayerController player1Control;
     private PlayerController player2Control;
     private PlayerController player2ControlSave;
     private AIPlayerController player2AIControl;
-    private BulletAppState bulletAppState;
     private CameraController camControl;
+    */
 
+    private BulletAppState bulletAppState;
     //variables for viewer classes
     private WallsView wallsView;
     private GroundView groundView;
@@ -62,7 +64,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private GUIView niftyView;
 
     private boolean ai = false;
-    private boolean paused = true;
+    private boolean paused = false;
     //all views initiated
     private boolean initiated;
 
@@ -75,15 +77,15 @@ public class GameView extends SimpleApplication implements ScreenController{
         appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
         world.setRunning(true);
         initiateCamera();
-        initiateGUI();
+        //initiateGUI();
         initiateStage();
-        initiatePlayers();
+        //initiatePlayers();
 
 
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,0,0));
 
-        niftyView.setP1ctr(player1Control);
-        niftyView.setP2ctr(player2Control);
+        //niftyView.setP1ctr(player1Control);
+        //niftyView.setP2ctr(player2Control);
 
         PointLight lamp_light = new PointLight();
         lamp_light.setColor(ColorRGBA.White.mult(2));
@@ -109,11 +111,14 @@ public class GameView extends SimpleApplication implements ScreenController{
         powerUpView = new PowerupView(appAssets);
 
         //spawning player1
-        player1View = new PlayerView(appAssets, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m", ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f));
+        player1View = new PlayerView(appAssets, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
+                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f),appAssets.getWorld().getPlayer1());
         //spawning player2
-        player2View = new PlayerView(appAssets, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m", ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f));
+        player2View = new PlayerView(appAssets, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m",
+                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f),appAssets.getWorld().getPlayer2());
     }
 
+    /*
     private void initiatePlayers(){
         player1Control = new HumanPlayerController(player1View,world.getPlayer1(), appAssets, new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
                 KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0));
@@ -130,6 +135,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         player2Node.addControl(player2Control);
         bulletAppState.getPhysicsSpace().add(player2Control);
     }
+    */
 
     private void initiateGUI(){
         //gui initialization
@@ -174,15 +180,15 @@ public class GameView extends SimpleApplication implements ScreenController{
     //"pauses the java"
     public void pauseGame(){
         this.paused = true;
-        this.player1Control.pause();
-        this.player2Control.pause();
+        //this.player1Control.pause();
+        //this.player2Control.pause();
     }
 
     //"unpauses the java"
     public void unpauseGame(){
         this.paused = false;
-        this.player1Control.unpause();
-        this.player2Control.unpause();
+        //this.player1Control.unpause();
+        //this.player2Control.unpause();
     }
 
     public void updateGUI(){
@@ -210,8 +216,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
     public Node getPlayer1Node() {return player1Node;}
     public Node getPlayer2Node() {return player2Node;}
-    public PlayerController getPlayer1Control() {return player1Control;}
-    public PlayerController getPlayer2Control() {return player2Control;}
+    //public PlayerController getPlayer1Control() {return player1Control;}
+    //public PlayerController getPlayer2Control() {return player2Control;}
     public Quad getGroundSize(){
         return groundView.getGroundShape();
     }
@@ -221,7 +227,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void bind(Nifty nifty, Screen screen){}
     public CameraView getCameraView() {return cameraView;}
     public CameraNode getCameraNode() {return camNode;}
-    public CameraControl getCameraControl() {return camControl;}
+    //public CameraControl getCameraControl() {return camControl;}
 
 
 

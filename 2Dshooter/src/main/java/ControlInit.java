@@ -30,7 +30,8 @@ public class ControlInit {
             KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0);
     private KeyMappings player2Mappings = new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
             KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE);
-   public ControlInit(ViewInit viewInit){
+
+    public ControlInit(ViewInit viewInit){
        this.viewInit = viewInit;
        this.gameView = viewInit.getGameView();
        this.appAssets = gameView.getAppAssets();
@@ -40,10 +41,18 @@ public class ControlInit {
 
        initiatePowerUpControls();
 
-       //initiatePlayerControls();
+       initiatePlayerControls();
+
+       //initiateGUI();
 
        initiateCameraControls();
    }
+
+    private void initiateGUI() {
+        appAssets.getGameView().getNiftyView().setP1ctr(player1Control);
+        appAssets.getGameView().getNiftyView().setP2ctr(player2Control);
+    }
+
     private void initiateCameraControls() {
         camControl = new CameraController(appAssets);
     }
