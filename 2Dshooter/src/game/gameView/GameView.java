@@ -63,7 +63,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private Nifty nifty;
     private GUIView niftyView;
 
-    private boolean ai = false;
+    private boolean ai = true;
     private boolean paused = true;
 
 

@@ -24,6 +24,7 @@ public class GUIView implements ScreenController {
     private Nifty nifty;
     private GameView gameView;
 
+
     public GUIView(){
     }
 
@@ -44,7 +45,6 @@ public class GUIView implements ScreenController {
 
     //updates the status bar at top of game
     public void updateText(){
-
         // find old text
         Element niftyElement = nifty.getCurrentScreen().findElementByName("text");
         // swap old with new text
