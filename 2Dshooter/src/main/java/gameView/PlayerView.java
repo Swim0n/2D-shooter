@@ -12,6 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -107,8 +108,8 @@ public class PlayerView {
         BillboardControl healthCtrl = new BillboardControl();
         backgroundBar = new Geometry("backgroundBar", new Quad(4f, 0.6f));
         healthBar = new Geometry("healthBar", new Quad(4f, 0.6f));
-        backgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Red));
-        healthBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Green));
+        backgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
+        healthBar.setMaterial(Utils.getMaterial(assetManager,bodyColor));
         backgroundBar.rotate(FastMath.HALF_PI,0,0);
         healthBar.rotate(FastMath.HALF_PI,0,0);
         backgroundBar.center();
@@ -119,6 +120,7 @@ public class PlayerView {
         healthBar.addControl(healthCtrl);
         healthBarNode.attachChild(backgroundBar);
         healthBarNode.attachChild(healthBar);
+        healthBarNode.setShadowMode(RenderQueue.ShadowMode.Off);
         playerNode.attachChild(healthBarNode);
 
     }

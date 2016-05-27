@@ -3,14 +3,22 @@ package gameView;
 import com.jme3.app.SimpleApplication;
 
 import com.jme3.bullet.BulletAppState;
+import com.jme3.input.KeyInput;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
+import com.jme3.shadow.PointLightShadowRenderer;
+import core.HealthPowerUp;
+import core.SpeedPowerUp;
 import core.World;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
@@ -72,8 +80,19 @@ public class GameView extends SimpleApplication implements ScreenController{
         lamp_light.setPosition(new Vector3f(0,-20,0));
         rootNode.addLight(lamp_light);
 
-        initiated = true;
 
+        final int SHADOWMAP_SIZE=1024;
+       PointLightShadowRenderer dlsr = new PointLightShadowRenderer(assetManager, SHADOWMAP_SIZE);
+        dlsr.setLight(lamp_light);
+        viewPort.addProcessor(dlsr);
+
+        AmbientLight al = new AmbientLight();
+        al.setColor(ColorRGBA.Magenta.mult(0.4f));
+        rootNode.addLight(al);
+
+        rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+
+        initiated = true;
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
         setDisplayFps(true);
@@ -104,7 +123,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         nifty.fromXml("Interface/screen.xml", "start", this);
         guiViewPort.addProcessor(niftyDisplay);
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
-        niftyView.setNiftyDisplay(niftyDisplay);
+        niftyView.setNiftyDisp(niftyDisplay);
         niftyView.setGameView(this);
     }
 

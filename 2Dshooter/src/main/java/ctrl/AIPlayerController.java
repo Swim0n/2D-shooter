@@ -2,6 +2,12 @@ package ctrl;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.*;
+import core.World;
+import gameView.GUIView;
+import gameView.PlayerView;
+import org.lwjgl.Sys;
+
+import java.util.ArrayList;
 import core.Player;
 import gameView.PlayerView;
 import utils.ApplicationAssets;
@@ -13,6 +19,14 @@ public class AIPlayerController extends PlayerController {
 
     private float bulletCooldown = 200f;
     private long lastShotTime = 0;
+    private ArrayList currentPath = new ArrayList();
+    private boolean paused = true;
+
+
+    private int stepCount = 0;
+    private int stepPause = 0;
+    private ArrayList path;
+
 
     public AIPlayerController(PlayerView view, Player player, ApplicationAssets appAssets){
         super(view, player,appAssets);
@@ -22,6 +36,9 @@ public class AIPlayerController extends PlayerController {
 
     @Override
     public void update(float tpf){
+        if(paused){
+            return;
+        }
         super.update(tpf);
 
         Vector3f directionToPlayer = playerView.getGameView().getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
@@ -59,5 +76,12 @@ public class AIPlayerController extends PlayerController {
         } else {
             setWalkDirection(new Vector3f(0f,0f,0f));
         }
+    }
+    public void pause(){
+        this.paused = true;
+    }
+
+    public void unpause(){
+        this.paused = false;
     }
 }
