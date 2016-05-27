@@ -56,7 +56,6 @@ public class ControlInit {
 
     private void initiatePlayerControls(){
         player1Control = new HumanPlayerController(gameView.getPlayer1View(), world.getPlayer1(), appAssets, player1Mappings);
-        player2Control = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
 
         AIPlayerController player2AIControl = new AIPlayerController(gameView.getPlayer2View(), world.getPlayer2(),appAssets);
 
@@ -73,6 +72,7 @@ public class ControlInit {
         gameView.getPlayer2Node().addControl(player2Control);
         bulletAppState.getPhysicsSpace().add(player2Control);
         bulletAppState.getPhysicsSpace().setGravity(Vector3f.ZERO);
+
 
     }
 

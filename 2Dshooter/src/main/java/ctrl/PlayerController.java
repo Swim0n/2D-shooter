@@ -47,26 +47,17 @@ public abstract class PlayerController extends BetterCharacterControl {
         speed = playerData.getSpeed();
 
 
-        if(appAssets.getWorld().gameOver()){
-            resetPlayer();
-            appAssets.getWorld().setGameOver(false);
-        }
-
-
-        if (playerData.getHealth()<=0){
-            appAssets.getWorld().setGameOver(true);
-            if(appAssets.getWorld().getPlayer1().getHealth()==0){
-
-                appAssets.getWorld().getPlayer2().incWins();
-
-            }else appAssets.getWorld().getPlayer1().incWins();
-
+        if(playerData.getNeedsReset()){
+            this.resetPlayer();
+            playerData.setNeedsResetFalse();
 
             System.out.println("P1 wins: "+ appAssets.getWorld().getPlayer1().getWins()+
                     "\nP2 wins: "+ appAssets.getWorld().getPlayer2().getWins());
-
         }
 
+        if(playerData.getHealth()==0){
+            appAssets.getWorld().setGameOver();
+        }
 
         this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }

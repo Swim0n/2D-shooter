@@ -21,6 +21,7 @@ public class Player {
     private float radius;
     private float height;
     private float mass;
+    private boolean needsReset;
 
     public Player(){
         setStandard();
@@ -93,6 +94,17 @@ public class Player {
         }
     }
 
+    public void reset(){
+        if(health!=0){
+            incWins();
+        }
+        needsReset = true;
+        setStandard();
+    }
+
+    public void setNeedsResetFalse(){
+        needsReset = false;
+    }
     public void incWins(){this.wins += 1;}
     public void setSpeed(float speed){this.speed = speed;}
     public void setDamage(float damage){this.damage = damage;}
@@ -109,4 +121,8 @@ public class Player {
     public float getGunRotationSpeed() {return gunRotationSpeed;}
     public Vector3f getPosition() {return position;}
     public void setPosition(Vector3f position) {this.position = position;}
+
+    public boolean getNeedsReset() {
+        return needsReset;
+    }
 }

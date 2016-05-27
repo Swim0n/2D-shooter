@@ -1,14 +1,11 @@
 package gameView;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.LightControl;
 import com.jme3.scene.shape.Sphere;
-import ctrl.BulletController;
 import utils.ApplicationAssets;
 
 import java.util.ArrayList;

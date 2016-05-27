@@ -32,9 +32,8 @@ public class ApplicationAssets {
         this.terrainNode = terrainNode;
     }
 
-    public GameView getGameView() {
-        return gameView;
-    }
+
+    public GameView getGameView() {return gameView;}
     public World getWorld() {
         return world;
     }
@@ -51,4 +50,5 @@ public class ApplicationAssets {
     public Node getTerrainNode() {
         return terrainNode;
     }
+
 }

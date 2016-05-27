@@ -10,8 +10,8 @@ import com.jme3.scene.shape.Quad;
 import core.HealthPowerUp;
 import core.PowerUp;
 import core.WeaponPowerUp;
-import ctrl.PowerUpController;
 import core.SpeedPowerUp;
+import ctrl.PowerUpController;                                                          //BAD DEPENDENCY
 import utils.ApplicationAssets;
 import java.util.*;
 import java.util.Timer;
@@ -30,7 +30,7 @@ public class PowerupView {
     private GameView gameView;
     private ApplicationAssets appAssets;
 
-    private PowerUpController powerUpPhy;
+    private PowerUpController powerUpPhy;                                               //BAD DEPENDENCY, TO BE REMOVED
     private static Timer timer = new Timer();
 
 
@@ -85,8 +85,8 @@ public class PowerupView {
         powerupGeom.setLocalTranslation(powerUpType.getX(), -1, powerUpType.getZ());
 
         terrainNode.attachChild(powerupGeom);
-        powerUpPhy = new PowerUpController(powerUpType,appAssets,this);
-        powerupGeom.addControl(powerUpPhy);
+        powerUpPhy = new PowerUpController(powerUpType,appAssets,this);                  //BAD DEPENDENCY, TO BE REMOVED
+        powerupGeom.addControl(powerUpPhy);                                              //BAD DEPENDENCY, TO BE REMOVED
         POWER_UP_VIEW_LIST.add(this);
     }
 
@@ -110,4 +110,6 @@ public class PowerupView {
     public GameView getGameView(){
         return this.gameView;
     }
+
+
 }
