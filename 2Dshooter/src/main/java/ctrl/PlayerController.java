@@ -10,6 +10,7 @@ import gameView.BulletView;
 import gameView.GUIView;
 import gameView.GameView;
 import gameView.PlayerView;
+import utils.Utils;
 
 /**
  * Created by Simon on 2016-05-11.
@@ -17,7 +18,6 @@ import gameView.PlayerView;
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     private final GameView gameView;
-    //protected final BulletView bulletView;
     protected float speed;
     protected Player playerData;
     protected GUIView niftyView;
@@ -28,7 +28,6 @@ public abstract class PlayerController extends BetterCharacterControl {
         this.niftyView = gameView.getNiftyView();
         this.playerData = player;
         this.playerView = playerView;
-        //this.bulletView = new BulletView(playerView,appAssets);
         this.speed = playerData.getSpeed();
         this.spatial = playerView.getPlayerNode();
         spatial.setLocalRotation(new Quaternion(0f,0f,0f,1f));
@@ -39,6 +38,7 @@ public abstract class PlayerController extends BetterCharacterControl {
         super.update(tpf);
         if(gameView.isPaused()){
             setWalkDirection(new Vector3f(0,0,0));
+            playerData.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
             this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
             return;
         }
@@ -75,13 +75,17 @@ public abstract class PlayerController extends BetterCharacterControl {
         BulletView bullet = new BulletView(this.playerView,gameView);
 
         PointLight lamp_light = new PointLight();
+
         lamp_light.setColor(playerView.getBodyColor().mult(5));
 
         lamp_light.setRadius(3.5f);
+
         LightControl lightControl = new LightControl(lamp_light); //TBR
         playerView.getGameView().getRootNode().addLight(lamp_light);
+
         BulletController bulletPhy = new BulletController(bullet, gameView, lamp_light);
         bullet.getBullet().addControl(bulletPhy);
+
         bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(50));
         playerView.getGameView().getBulletAppState().getPhysicsSpace().add(bulletPhy);
         bullet.getBullet().addControl(lightControl);

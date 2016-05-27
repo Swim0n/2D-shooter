@@ -1,6 +1,7 @@
 import com.jme3.bullet.BulletAppState;
 import com.jme3.input.KeyInput;
 import com.jme3.math.Vector3f;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import core.HealthPowerUp;
 import core.SpeedPowerUp;
 import core.World;
@@ -74,7 +75,7 @@ public class ControlInit {
     }
 
     private void initiatePowerUpControls(){
-        new PowerUpController(new HealthPowerUp(gameView),gameView,gameView.getPowerUpView());
-        new PowerUpController(new SpeedPowerUp(gameView), gameView,gameView.getPowerUpView());
+        new PowerUpController(new HealthPowerUp(gameView.getWorld().getTerrain()),gameView,gameView.getPowerUpView());
+        new PowerUpController(new SpeedPowerUp(gameView.getWorld().getTerrain()), gameView,gameView.getPowerUpView());
     }
 }

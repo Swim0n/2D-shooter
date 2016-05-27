@@ -1,14 +1,12 @@
 package core;
 
-import gameView.GameView;
-
 /**
  * Created by Simon on 2016-05-21.
  */
 public class WeaponPowerUp extends PowerUp {
 
-    public WeaponPowerUp(GameView gameView){
-        super(gameView);
+    public WeaponPowerUp(Environment terrain){
+        super(terrain);
     }
 
     @Override

@@ -13,6 +13,9 @@ public class CameraModel {
     private final Vector3f staticPosition= new Vector3f(0f,-80f,0);
     private final Vector3f staticLookAt = new Vector3f(0f,1f,0f);
     private float height;
+    private float minZoom = 70f;
+    private float maxZoom = 35f;
+
     public CameraModel(boolean dynamicCamEnabled){
         this.dynamicCamEnabled = dynamicCamEnabled;
 
@@ -47,10 +50,10 @@ public class CameraModel {
                        Math.pow((player2Pos.y - player1Pos.y),2) +
                        Math.pow((player2Pos.z - player1Pos.z),2)
        )*2);
-        if(height<35f){
-            height = 35f;
-        }else if(height>80f){
-            height = 80f;
+        if(height<maxZoom){
+            height = maxZoom;
+        }else if(height>minZoom){
+            height = minZoom;
         }
 
         return height;

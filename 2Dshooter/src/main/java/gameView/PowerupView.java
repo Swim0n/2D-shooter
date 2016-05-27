@@ -45,9 +45,9 @@ public class PowerupView {
         powerupGeom = new Geometry("Power up", powerBox);
 
 
-        createPowerUp(new HealthPowerUp(gameView));
-        createPowerUp(new SpeedPowerUp(gameView));
-        createPowerUp(new WeaponPowerUp(gameView));
+        createPowerUp(new HealthPowerUp(gameView.getWorld().getTerrain()));
+        createPowerUp(new SpeedPowerUp(gameView.getWorld().getTerrain()));
+        createPowerUp(new WeaponPowerUp(gameView.getWorld().getTerrain()));
         startTimer();
     }
 
@@ -57,9 +57,9 @@ public class PowerupView {
             if (gameView.getPaused()){
             }else{
                 if (POWER_UP_VIEW_LIST.size()<6){
-                    createPowerUp(new HealthPowerUp(gameView));
-                    createPowerUp(new SpeedPowerUp(gameView));
-                    createPowerUp(new WeaponPowerUp(gameView));
+                    createPowerUp(new HealthPowerUp(gameView.getWorld().getTerrain()));
+                    createPowerUp(new SpeedPowerUp(gameView.getWorld().getTerrain()));
+                    createPowerUp(new WeaponPowerUp(gameView.getWorld().getTerrain()));
                 }
             }
         }
