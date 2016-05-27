@@ -1,14 +1,14 @@
 package core;
 
-import utils.ApplicationAssets;
+import gameView.GameView;
 
 /**
  * Created by Simon on 2016-05-21.
  */
 public class WeaponPowerUp extends PowerUp {
 
-    public WeaponPowerUp(ApplicationAssets applicationAssets){
-        super(applicationAssets);
+    public WeaponPowerUp(GameView gameView){
+        super(gameView);
     }
 
     @Override

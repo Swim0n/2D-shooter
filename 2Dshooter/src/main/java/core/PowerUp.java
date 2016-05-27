@@ -1,6 +1,6 @@
 package core;
 
-import utils.ApplicationAssets;
+import gameView.GameView;
 
 import javax.vecmath.Vector3f;
 
@@ -8,18 +8,18 @@ import javax.vecmath.Vector3f;
  * Created by Hannes on 10/05/2016.
  */
 public abstract class PowerUp {
-    protected ApplicationAssets applicationAssets;
+    private final GameView gameView;
     protected Vector3f position;
     protected float x;
     protected float z;
 
-    public PowerUp(ApplicationAssets applicationAssets){
-        this.applicationAssets = applicationAssets;
+    public PowerUp(GameView gameView){
+        this.gameView = gameView;
         setPosition();
     }
 
     public void setPosition() {
-        position = applicationAssets.getWorld().getTerrain().getRandomPos();
+        position = gameView.getWorld().getTerrain().getRandomPos();
         this.x = position.x;
         this.z= position.z;
     }

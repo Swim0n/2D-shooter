@@ -4,23 +4,23 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.collision.CollisionResults;
 import core.PowerUp;
 
+import gameView.GameView;
 import gameView.PowerupView;
-import utils.ApplicationAssets;
 
 /**
  * Created by Hannes on 04/05/2016.
  */
 public class PowerUpController extends RigidBodyControl {
 
+    private final GameView gameView;
     private PowerupView powerUpView;
     private PowerUp powerUp;
-    private ApplicationAssets applicationAssets;
     private boolean hasCollided = false;
 
     /** initialize a PowerUpController to create and init a power up*/
-    public PowerUpController(PowerUp powerUp, ApplicationAssets applicationAssets, PowerupView powerupView){
-        this.applicationAssets = applicationAssets;
-        this.powerUpView = powerupView;
+    public PowerUpController(PowerUp powerUp, GameView gameView, PowerupView powerUpView){
+        this.gameView = gameView;
+        this.powerUpView = powerUpView;
         this.powerUp = powerUp;
     }
 
@@ -29,13 +29,13 @@ public class PowerUpController extends RigidBodyControl {
     /** Check for collision, if it happens, give player the correct power up */
     private void collisionCheck(){
         CollisionResults results = new CollisionResults();
-        powerUpView.getGameView().getPlayer2Node().collideWith(spatial.getWorldBound(), results);
+        gameView.getPlayer2Node().collideWith(spatial.getWorldBound(), results);
         if (results.size() > 0){
             if (hasCollided==false){
                 //add power up effect to player 2
-                powerUp.setEffect(applicationAssets.getWorld().getPlayer2());
-                applicationAssets.getGameView().getPlayer2View().setHealthBar(applicationAssets.getWorld().getPlayer2().getHealth());
-                applicationAssets.getGameView().getPlayer2View().playPowerUpSound();
+                powerUp.setEffect(gameView.getWorld().getPlayer2());
+               gameView.getPlayer2View().setHealthBar(gameView.getWorld().getPlayer2().getHealth());
+                gameView.getPlayer2View().playPowerUpSound();
                 spatial.removeFromParent();
                 results.clear();
                 hasCollided=true;
@@ -47,13 +47,13 @@ public class PowerUpController extends RigidBodyControl {
             }
 
         }
-        powerUpView.getGameView().getPlayer1Node().collideWith(spatial.getWorldBound(), results);
+        gameView.getPlayer1Node().collideWith(spatial.getWorldBound(), results);
         if (results.size()>0){
             if (hasCollided==false){
                 //add power up effect to player 1
-                powerUp.setEffect(applicationAssets.getWorld().getPlayer1());
-                applicationAssets.getGameView().getPlayer1View().setHealthBar(applicationAssets.getWorld().getPlayer1().getHealth());
-                applicationAssets.getGameView().getPlayer1View().playPowerUpSound();
+                powerUp.setEffect(gameView.getWorld().getPlayer1());
+                gameView.getPlayer1View().setHealthBar(gameView.getWorld().getPlayer1().getHealth());
+                gameView.getPlayer1View().playPowerUpSound();
                 spatial.removeFromParent();
                 results.clear();
                 hasCollided=true;
@@ -66,14 +66,8 @@ public class PowerUpController extends RigidBodyControl {
         }
     }
 
-
-
-
-
-
     public void update(float tpf){
         super.update(tpf);
         collisionCheck();
-
     }
 }

@@ -6,7 +6,6 @@ import core.SpeedPowerUp;
 import core.World;
 import ctrl.*;
 import gameView.GameView;
-import utils.ApplicationAssets;
 import utils.KeyMappings;
 
 /**
@@ -15,7 +14,6 @@ import utils.KeyMappings;
 
 public class ControlInit {
     private GameView gameView;
-    private ApplicationAssets appAssets;
     private World world;
     private ViewInit viewInit;
 
@@ -34,10 +32,8 @@ public class ControlInit {
     public ControlInit(ViewInit viewInit){
         this.viewInit = viewInit;
         this.gameView = viewInit.getGameView();
-        this.appAssets = gameView.getAppAssets();
-        this.gameView = appAssets.getGameView();
-        this.world = appAssets.getWorld();
-        this.bulletAppState = appAssets.getGameView().getBulletAppState();
+        this.world = gameView.getWorld();
+        this.bulletAppState = gameView.getBulletAppState();
         initiatePowerUpControls();
         initiatePlayerControls();
         initiateGUI();
@@ -47,20 +43,20 @@ public class ControlInit {
    }
 
     private void initiateGUI() {
-        appAssets.getGameView().getNiftyView().setPlayer1(appAssets.getWorld().getPlayer1());
-        appAssets.getGameView().getNiftyView().setPlayer2(appAssets.getWorld().getPlayer2());
+        gameView.getNiftyView().setPlayer1(gameView.getWorld().getPlayer1());
+        gameView.getNiftyView().setPlayer2(gameView.getWorld().getPlayer2());
     }
 
     private void initiateCameraControls() {
-        camControl = new CameraController(appAssets);
+        camControl = new CameraController(gameView);
     }
 
     private void initiatePlayerControls(){
-        player1Control = new HumanPlayerController(gameView.getPlayer1View(), world.getPlayer1(), appAssets, player1Mappings);
+        player1Control = new HumanPlayerController(gameView.getPlayer1View(), world.getPlayer1(), gameView, player1Mappings);
 
-        AIPlayerController player2AIControl = new AIPlayerController(gameView.getPlayer2View(), world.getPlayer2(),appAssets);
+        AIPlayerController player2AIControl = new AIPlayerController(gameView.getPlayer2View(), world.getPlayer2(),gameView);
 
-        PlayerController player2ControlSave = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
+        PlayerController player2ControlSave = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), gameView, player2Mappings);
 
         if(this.ai == true){
             player2Control = player2AIControl;
@@ -78,7 +74,7 @@ public class ControlInit {
     }
 
     private void initiatePowerUpControls(){
-        new PowerUpController(new HealthPowerUp(appAssets),appAssets, gameView.getPowerUpView());
-        new PowerUpController(new SpeedPowerUp(appAssets), appAssets, gameView.getPowerUpView());
+        new PowerUpController(new HealthPowerUp(gameView),gameView,gameView.getPowerUpView());
+        new PowerUpController(new SpeedPowerUp(gameView), gameView,gameView.getPowerUpView());
     }
 }

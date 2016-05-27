@@ -7,7 +7,6 @@ import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import utils.ApplicationAssets;
 
 /**
  * Created by Hannes on 24/04/2016.
@@ -28,11 +27,11 @@ public class WallsView {
 
     private BulletAppState bulletAppState;
 
-    public WallsView (ApplicationAssets appAssets){
-        this.assetManager = appAssets.getAssetManager();
-        this.stageNode = appAssets.getStageNode();
-        this.groundGeom = appAssets.getGameView().getGroundGeom();
-        this.bulletAppState = appAssets.getBulletAppState();
+    public WallsView (GameView gameView){
+        this.assetManager = gameView.getAssetManager();
+        this.stageNode = gameView.getStageNode();
+        this.groundGeom = gameView.getGroundGeom();
+        this.bulletAppState = gameView.getBulletAppState();
         createWalls();
         applyPhysics();
     }

@@ -8,7 +8,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import core.World;
-import utils.ApplicationAssets;
 import utils.Utils;
 
 import java.util.ArrayList;
@@ -32,15 +31,15 @@ public class TerrainView {
     private ArrayList<Spatial> terrainGrid;
 
 
-    public TerrainView(ApplicationAssets appAssets, float tileWidth, float tileHeight) {
-        this.assetManager = appAssets.getAssetManager();
-        this.terrainNode = appAssets.getTerrainNode();
-        this.groundX = appAssets.getGameView().getGroundSize().getWidth();
-        this.groundZ = appAssets.getGameView().getGroundSize().getHeight();
+    public TerrainView(GameView gameView, float tileWidth, float tileHeight) {
+        this.assetManager = gameView.getAssetManager();
+        this.terrainNode = gameView.getTerrainNode();
+        this.groundX = gameView.getGroundSize().getWidth();
+        this.groundZ = gameView.getGroundSize().getHeight();
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        this.world = appAssets.getWorld();
-        this.bulletAppState = appAssets.getBulletAppState();
+        this.world = gameView.getWorld();
+        this.bulletAppState = gameView.getBulletAppState();
         this.terrainGrid = new ArrayList<Spatial>();
         world.getTerrain().setPositions(groundX, groundZ, tileWidth, tileHeight);
         createTerrain();

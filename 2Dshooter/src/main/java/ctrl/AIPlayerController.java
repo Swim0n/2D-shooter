@@ -2,15 +2,10 @@ package ctrl;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.*;
-import core.World;
-import gameView.GUIView;
+import gameView.GameView;
 import gameView.PlayerView;
-import org.lwjgl.Sys;
-
 import java.util.ArrayList;
 import core.Player;
-import gameView.PlayerView;
-import utils.ApplicationAssets;
 
 /**
  * Created by Simon on 2016-05-10.
@@ -28,9 +23,9 @@ public class AIPlayerController extends PlayerController {
     private ArrayList path;
 
 
-    public AIPlayerController(PlayerView view, Player player, ApplicationAssets appAssets){
-        super(view, player,appAssets);
-        this.niftyView = appAssets.getGameView().getNiftyView();
+    public AIPlayerController(PlayerView view, Player player, GameView gameView){
+        super(view, player,gameView);
+        this.niftyView = gameView.getNiftyView();
 
     }
 

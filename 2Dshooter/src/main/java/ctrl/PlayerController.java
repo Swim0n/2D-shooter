@@ -8,24 +8,24 @@ import com.jme3.scene.control.LightControl;
 import core.Player;
 import gameView.BulletView;
 import gameView.GUIView;
+import gameView.GameView;
 import gameView.PlayerView;
-import utils.ApplicationAssets;
 
 /**
  * Created by Simon on 2016-05-11.
  */
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
+    private final GameView gameView;
     //protected final BulletView bulletView;
-    private final ApplicationAssets appAssets;
     protected float speed;
     protected Player playerData;
     protected GUIView niftyView;
 
-    public PlayerController(PlayerView playerView, Player player, ApplicationAssets appAssets){
+    public PlayerController(PlayerView playerView, Player player, GameView gameView){
         super(player.getRadius(), player.getHeight(), player.getMass());
-        this.appAssets = appAssets;
-        this.niftyView = appAssets.getGameView().getNiftyView();
+        this.gameView = gameView;
+        this.niftyView = gameView.getNiftyView();
         this.playerData = player;
         this.playerView = playerView;
         //this.bulletView = new BulletView(playerView,appAssets);
@@ -37,12 +37,13 @@ public abstract class PlayerController extends BetterCharacterControl {
     @Override
     public void update(float tpf){
         super.update(tpf);
-        if(appAssets.getGameView().isPaused()){
+        if(gameView.isPaused()){
             setWalkDirection(new Vector3f(0,0,0));
+            this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
             return;
         }
 
-        appAssets.getGameView().updateGUI();
+        gameView.updateGUI();
 
         speed = playerData.getSpeed();
 
@@ -51,12 +52,12 @@ public abstract class PlayerController extends BetterCharacterControl {
             this.resetPlayer();
             playerData.setNeedsResetFalse();
 
-            System.out.println("P1 wins: "+ appAssets.getWorld().getPlayer1().getWins()+
-                    "\nP2 wins: "+ appAssets.getWorld().getPlayer2().getWins());
+            System.out.println("P1 wins: "+ gameView.getWorld().getPlayer1().getWins()+
+                    "\nP2 wins: "+ gameView.getWorld().getPlayer2().getWins());
         }
 
         if(playerData.getHealth()==0){
-            appAssets.getWorld().setGameOver();
+            gameView.getWorld().setGameOver();
         }
 
         this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
@@ -71,7 +72,7 @@ public abstract class PlayerController extends BetterCharacterControl {
 
     //creates a new bullet specific to the player who fired it
     public void shootBullet(){
-        BulletView bullet = new BulletView(this.playerView,appAssets);
+        BulletView bullet = new BulletView(this.playerView,gameView);
 
         PointLight lamp_light = new PointLight();
         lamp_light.setColor(playerView.getBodyColor().mult(5));
@@ -79,7 +80,7 @@ public abstract class PlayerController extends BetterCharacterControl {
         lamp_light.setRadius(3.5f);
         LightControl lightControl = new LightControl(lamp_light); //TBR
         playerView.getGameView().getRootNode().addLight(lamp_light);
-        BulletController bulletPhy = new BulletController(bullet, appAssets, lamp_light);
+        BulletController bulletPhy = new BulletController(bullet, gameView, lamp_light);
         bullet.getBullet().addControl(bulletPhy);
         bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(50));
         playerView.getGameView().getBulletAppState().getPhysicsSpace().add(bulletPhy);

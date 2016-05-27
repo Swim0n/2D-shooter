@@ -3,9 +3,7 @@ package gameView;
 import com.jme3.app.SimpleApplication;
 
 import com.jme3.bullet.BulletAppState;
-import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -15,16 +13,11 @@ import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
-import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.PointLightShadowRenderer;
-import core.HealthPowerUp;
-import core.SpeedPowerUp;
 import core.World;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
-import utils.ApplicationAssets;
-
 
 /**
  * Created by David on 2016-04-18.
@@ -51,7 +44,6 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private World world;
 
-    private ApplicationAssets appAssets;
 
     //variables for gui
     private NiftyJmeDisplay niftyDisplay;
@@ -69,7 +61,6 @@ public class GameView extends SimpleApplication implements ScreenController{
         initiatePhysics();
 
         world = new World(40, 30, true);
-        appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
 
         initiateCamera();
         initiateGUI();
@@ -100,20 +91,20 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private void initiateStage(){
         //creating a "ground floor" for levels
-        groundView = new GroundView(appAssets);
+        groundView = new GroundView(this);
         //adding walls for the surface
-        wallsView = new WallsView(appAssets);
+        wallsView = new WallsView(this);
         //generate terrain
-        terrainView = new TerrainView(appAssets, 4, 4);
+        terrainView = new TerrainView(this, 4, 4);
         //Creates power ups, spawns two new every 15sec
-        powerUpView = new PowerupView(appAssets);
+        powerUpView = new PowerupView(this);
 
         //spawning player1
-        player1View = new PlayerView(appAssets, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
-                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f),appAssets.getWorld().getPlayer1());
+        player1View = new PlayerView(this, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
+                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f),world.getPlayer1());
         //spawning player2
-        player2View = new PlayerView(appAssets, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m",
-                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f),appAssets.getWorld().getPlayer2());
+        player2View = new PlayerView(this, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m",
+                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f),world.getPlayer2());
     }
 
     private void initiateGUI(){
@@ -136,7 +127,7 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private void initiateCamera(){
         //camera settings
-        cameraView = new CameraView(appAssets);
+        cameraView = new CameraView(this);
     }
 
     private void initiateNodes(){
@@ -156,7 +147,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
 
 
-
     //automatically called on app exit, notifies other threads
     @Override
     public void destroy() {
@@ -170,9 +160,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         powerUpView.stopTimer();
     }
 
-    public ApplicationAssets getAppAssets() {
-        return appAssets;
-    }
+
 
     public PlayerView getPlayer1View() {
         return player1View;
@@ -233,4 +221,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void onStartScreen(){}
     public void bind(Nifty nifty, Screen screen){}
     public CameraNode getCameraNode() {return camNode;}
+
+    public World getWorld() {
+        return world;
+    }
 }

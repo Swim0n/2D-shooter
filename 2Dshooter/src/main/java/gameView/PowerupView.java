@@ -12,7 +12,6 @@ import core.PowerUp;
 import core.WeaponPowerUp;
 import core.SpeedPowerUp;
 import ctrl.PowerUpController;                                                          //BAD DEPENDENCY
-import utils.ApplicationAssets;
 import java.util.*;
 import java.util.Timer;
 
@@ -28,7 +27,6 @@ public class PowerupView {
 
     private Quad groundShape;
     private GameView gameView;
-    private ApplicationAssets appAssets;
 
     private PowerUpController powerUpPhy;                                               //BAD DEPENDENCY, TO BE REMOVED
     private static Timer timer = new Timer();
@@ -37,19 +35,19 @@ public class PowerupView {
     private final static List<PowerupView> POWER_UP_VIEW_LIST = new ArrayList<PowerupView>();
 
     /** initializes two power ups and then spawn two new every 15 seconds*/
-    public PowerupView(ApplicationAssets appAssets){
-        this.appAssets = appAssets;
-        this.assetManager = appAssets.getAssetManager();
-        this.terrainNode = appAssets.getTerrainNode();
-        this.groundShape =  appAssets.getGameView().getGroundSize();
-        this.gameView = appAssets.getGameView();
+    public PowerupView(GameView gameView){
+        this.gameView = gameView;
+        this.assetManager = gameView.getAssetManager();
+        this.terrainNode = gameView.getTerrainNode();
+        this.groundShape =  gameView.getGroundSize();
+        this.gameView = gameView;
         powerBox = new Box(1f,1f,1f);
         powerupGeom = new Geometry("Power up", powerBox);
 
 
-        createPowerUp(new HealthPowerUp(appAssets));
-        createPowerUp(new SpeedPowerUp(appAssets));
-        createPowerUp(new WeaponPowerUp(appAssets));
+        createPowerUp(new HealthPowerUp(gameView));
+        createPowerUp(new SpeedPowerUp(gameView));
+        createPowerUp(new WeaponPowerUp(gameView));
         startTimer();
     }
 
@@ -59,9 +57,9 @@ public class PowerupView {
             if (gameView.getPaused()){
             }else{
                 if (POWER_UP_VIEW_LIST.size()<6){
-                    createPowerUp(new HealthPowerUp(appAssets));
-                    createPowerUp(new SpeedPowerUp(appAssets));
-                    createPowerUp(new WeaponPowerUp(appAssets));
+                    createPowerUp(new HealthPowerUp(gameView));
+                    createPowerUp(new SpeedPowerUp(gameView));
+                    createPowerUp(new WeaponPowerUp(gameView));
                 }
             }
         }
@@ -85,7 +83,7 @@ public class PowerupView {
         powerupGeom.setLocalTranslation(powerUpType.getX(), -1, powerUpType.getZ());
 
         terrainNode.attachChild(powerupGeom);
-        powerUpPhy = new PowerUpController(powerUpType,appAssets,this);                  //BAD DEPENDENCY, TO BE REMOVED
+        powerUpPhy = new PowerUpController(powerUpType,gameView,this);                  //BAD DEPENDENCY, TO BE REMOVED
         powerupGeom.addControl(powerUpPhy);                                              //BAD DEPENDENCY, TO BE REMOVED
         POWER_UP_VIEW_LIST.add(this);
     }

@@ -6,8 +6,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
-import utils.ApplicationAssets;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
  */
 public class BulletView {
 
-    private final ApplicationAssets appAssets;
+    private final GameView gameView;
     private Sphere bulletShape;
 
     private PlayerView playerView;
@@ -27,10 +25,10 @@ public class BulletView {
     private Geometry bullet;
 
 
-    public BulletView(PlayerView playerView, ApplicationAssets appAssets){
-        this.appAssets = appAssets;
-        this.assetManager = appAssets.getAssetManager();
-        this.bulletNode = appAssets.getGameView().getBulletNode();
+    public BulletView(PlayerView playerView, GameView gameView){
+        this.gameView = gameView;
+        this.assetManager = gameView.getAssetManager();
+        this.bulletNode = gameView.getBulletNode();
         this.playerView = playerView;
         this.bullets = new ArrayList<>();
 
@@ -43,7 +41,6 @@ public class BulletView {
         bulletNode.attachChild(bullet);
         //setting starting point at players pos.
         bullet.setLocalTranslation(this.playerView.getPipePos());
-
         bullets.add(bullet);
     }
 

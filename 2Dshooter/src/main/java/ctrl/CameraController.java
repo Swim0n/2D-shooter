@@ -11,7 +11,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.CameraControl;
 import com.jme3.scene.control.Control;
 import core.CameraModel;
-import utils.ApplicationAssets;
+import gameView.GameView;
 import core.Player;
 import utils.Utils;
 
@@ -29,11 +29,11 @@ public class CameraController extends CameraControl implements ActionListener {
     private Vector3f position;
     private Vector3f lookAt;
 
-    public CameraController (ApplicationAssets appAssets){
-        this.cameraData = appAssets.getWorld().getCameraData();
-        this.player1 = appAssets.getWorld().getPlayer1();
-        this.player2 = appAssets.getWorld().getPlayer2();
-        this.cameraNode = appAssets.getGameView().getCameraNode();
+    public CameraController (GameView gameView){
+        this.cameraData = gameView.getWorld().getCameraData();
+        this.player1 = gameView.getWorld().getPlayer1();
+        this.player2 = gameView.getWorld().getPlayer2();
+        this.cameraNode = gameView.getCameraNode();
         cameraNode.addControl(this);
     }
 

@@ -1,14 +1,14 @@
 package core;
 
-import utils.ApplicationAssets;
+import gameView.GameView;
 
 /**
  * Created by Hannes on 10/05/2016.
  */
 public class HealthPowerUp extends PowerUp {
 
-    public HealthPowerUp(ApplicationAssets applicationAssets){
-        super(applicationAssets);
+    public HealthPowerUp(GameView gameView){
+        super(gameView);
     }
 
     @Override

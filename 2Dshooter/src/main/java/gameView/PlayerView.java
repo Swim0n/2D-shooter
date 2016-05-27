@@ -20,7 +20,6 @@ import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.control.LightControl;
 import com.jme3.scene.shape.Quad;
 import core.Player;
-import utils.ApplicationAssets;
 import utils.Utils;
 
 /**
@@ -56,9 +55,9 @@ public class PlayerView {
     private Player playerData;
 
     //colorRGBA is just a placeholder until textures are in place
-    public PlayerView(ApplicationAssets appAssets, Node playerNode, String headMaterialPath, String bodyMaterialPath, ColorRGBA bodyColor, ColorRGBA emitColor, Vector3f startPos, Player player){
-        this.assetManager = appAssets.getAssetManager();
-        this.gameView = appAssets.getGameView();
+    public PlayerView(GameView gameView, Node playerNode, String headMaterialPath, String bodyMaterialPath, ColorRGBA bodyColor, ColorRGBA emitColor, Vector3f startPos, Player player){
+        this.assetManager = gameView.getAssetManager();
+        this.gameView = gameView;
         this.playerNode = playerNode;
         this.inputManager = gameView.getInputManager();
         this.startPos = startPos;

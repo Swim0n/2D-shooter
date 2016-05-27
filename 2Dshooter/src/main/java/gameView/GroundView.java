@@ -8,7 +8,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import core.Ground;
-import utils.ApplicationAssets;
 
 /**
  * Created by Hannes on 24/04/2016.
@@ -22,10 +21,10 @@ public class GroundView {
     private BulletAppState bulletAppState;
     private Ground groundModel = new Ground();
 
-    GroundView(ApplicationAssets appAssets){
-        this.stageNode = appAssets.getStageNode();
-        this.assetManager = appAssets.getAssetManager();
-        this.bulletAppState = appAssets.getBulletAppState();
+    GroundView(GameView gameView){
+        this.stageNode = gameView.getStageNode();
+        this.assetManager = gameView.getAssetManager();
+        this.bulletAppState = gameView.getBulletAppState();
         createGround();
         applyPhysics();
     }

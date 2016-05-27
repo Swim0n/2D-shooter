@@ -7,22 +7,19 @@ import core.Player;
 import gameView.BulletView;
 import gameView.GameView;
 import gameView.PlayerView;
-import utils.ApplicationAssets;
 
 /**
  * Created by David on 2016-04-19.
  */
 public class BulletController extends RigidBodyControl{
-    private final ApplicationAssets appAssets;
     private final Player player;
     private BulletView bulletView;
     private GameView gameView;
     private PointLight light;
 
-    public BulletController(BulletView bulletView, ApplicationAssets appAssets, PointLight light){
+    public BulletController(BulletView bulletView, GameView gameView, PointLight light){
         this.bulletView = bulletView;
-        this.appAssets = appAssets;
-        this.gameView = appAssets.getGameView();
+        this.gameView = gameView;
         this.light = light;
         this.player = bulletView.getPlayerView().getPlayerData();
     }
@@ -57,7 +54,7 @@ public class BulletController extends RigidBodyControl{
                 spatial.removeFromParent();
                 gameView.getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
                 gameView.getRootNode().removeLight(light);
-                takeDamage(appAssets.getWorld().getPlayer1().getDamage(),appAssets.getWorld().getPlayer2(),appAssets.getGameView().getPlayer2View());
+                takeDamage(gameView.getWorld().getPlayer1().getDamage(),gameView.getWorld().getPlayer2(),gameView.getPlayer2View());
             }
         } else if (bulletView.getPlayerView().getPlayerNode().equals(gameView.getPlayer2Node())) {
             gameView.getPlayer1Node().collideWith(spatial.getWorldBound(), results);
@@ -66,7 +63,7 @@ public class BulletController extends RigidBodyControl{
                 spatial.removeFromParent();
                 gameView.getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
                 gameView.getRootNode().removeLight(light);
-                takeDamage(appAssets.getWorld().getPlayer2().getDamage(),appAssets.getWorld().getPlayer1(),appAssets.getGameView().getPlayer1View());
+                takeDamage(gameView.getWorld().getPlayer2().getDamage(),gameView.getWorld().getPlayer1(),gameView.getPlayer1View());
             }
         }
     }
@@ -76,6 +73,6 @@ public class BulletController extends RigidBodyControl{
         playerView.setHealthBar(player.getHealth());
         playerView.emitSparks();
         playerView.playPlayerHitSound();
-        appAssets.getGameView().getNiftyView().updateText();
+        gameView.getNiftyView().updateText();
     }
 }

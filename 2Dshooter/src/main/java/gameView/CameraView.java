@@ -3,22 +3,21 @@ package gameView;
 import com.jme3.input.FlyByCamera;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.CameraNode;
-import utils.ApplicationAssets;
 
 /**
  * Created by David on 2016-05-18.
  */
 public class CameraView {
 
-    private final ApplicationAssets applicationAssets;
+    private final GameView gameView;
     private final FlyByCamera flyCam;
     private final CameraNode camNode;
 
 
-    public CameraView (ApplicationAssets applicationAssets){
-        this.applicationAssets = applicationAssets;
-        this.flyCam = applicationAssets.getGameView().getFlyByCamera();
-        this.camNode = applicationAssets.getGameView().getCameraNode();
+    public CameraView (GameView gameView){
+        this.gameView = gameView;
+        this.flyCam = gameView.getFlyByCamera();
+        this.camNode = gameView.getCameraNode();
         initiateFixedCamera();
         flyCam.setEnabled(false);
     }
