@@ -1,5 +1,6 @@
 import com.jme3.bullet.BulletAppState;
 import com.jme3.input.KeyInput;
+import com.jme3.math.Vector3f;
 import core.HealthPowerUp;
 import core.SpeedPowerUp;
 import core.World;
@@ -31,20 +32,18 @@ public class ControlInit {
     private KeyMappings player2Mappings = new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
             KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0);
     public ControlInit(ViewInit viewInit){
-       this.viewInit = viewInit;
-       this.gameView = viewInit.getGameView();
-       this.appAssets = gameView.getAppAssets();
-       this.gameView = appAssets.getGameView();
-       this.world = appAssets.getWorld();
-       this.bulletAppState = appAssets.getGameView().getBulletAppState();
+        this.viewInit = viewInit;
+        this.gameView = viewInit.getGameView();
+        this.appAssets = gameView.getAppAssets();
+        this.gameView = appAssets.getGameView();
+        this.world = appAssets.getWorld();
+        this.bulletAppState = appAssets.getGameView().getBulletAppState();
+        initiatePowerUpControls();
+        initiatePlayerControls();
+        initiateGUI();
 
-       initiatePowerUpControls();
-
-       initiatePlayerControls();
-
-       initiateGUI();
-
-       //initiateCameraControls();
+        initiateCameraControls();
+        bulletAppState.getPhysicsSpace().setGravity(Vector3f.ZERO);
    }
 
     private void initiateGUI() {
@@ -58,22 +57,22 @@ public class ControlInit {
 
     private void initiatePlayerControls(){
         player1Control = new HumanPlayerController(gameView.getPlayer1View(), world.getPlayer1(), appAssets, player1Mappings);
-       // player2Control = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
+        player2Control = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
 
-        //AIPlayerController player2AIControl = new AIPlayerController(gameView.getPlayer2View(), world.getPlayer2(),appAssets);
+        AIPlayerController player2AIControl = new AIPlayerController(gameView.getPlayer2View(), world.getPlayer2(),appAssets);
 
-        //PlayerController player2ControlSave = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
+        PlayerController player2ControlSave = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), appAssets, player2Mappings);
 
-        //if(this.ai == true){
-           // player2Control = player2AIControl;
-        //} else {
-            //player2Control = player2ControlSave;
-        //}
+        if(this.ai == true){
+            player2Control = player2AIControl;
+        } else {
+            player2Control = player2ControlSave;
+        }
 
         gameView.getPlayer1Node().addControl(player1Control);
         bulletAppState.getPhysicsSpace().add(player1Control);
-        //gameView.getPlayer2Node().addControl(player2Control);
-        //bulletAppState.getPhysicsSpace().add(player2Control);
+        gameView.getPlayer2Node().addControl(player2Control);
+        bulletAppState.getPhysicsSpace().add(player2Control);
     }
 
     private void initiatePowerUpControls(){

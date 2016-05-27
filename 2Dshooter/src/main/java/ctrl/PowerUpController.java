@@ -24,6 +24,8 @@ public class PowerUpController extends RigidBodyControl {
         this.powerUp = powerUp;
     }
 
+
+
     /** Check for collision, if it happens, give player the correct power up */
     private void collisionCheck(){
         CollisionResults results = new CollisionResults();

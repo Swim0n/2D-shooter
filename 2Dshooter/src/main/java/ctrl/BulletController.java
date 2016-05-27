@@ -57,7 +57,7 @@ public class BulletController extends RigidBodyControl{
                 spatial.removeFromParent();
                 gameView.getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
                 gameView.getRootNode().removeLight(light);
-                takeDamage(appAssets.getWorld().getPlayer2().getDamage(),appAssets.getWorld().getPlayer1(),appAssets.getGameView().getPlayer1View());
+                takeDamage(appAssets.getWorld().getPlayer1().getDamage(),appAssets.getWorld().getPlayer2(),appAssets.getGameView().getPlayer2View());
             }
         } else if (bulletView.getPlayerView().getPlayerNode().equals(gameView.getPlayer2Node())) {
             gameView.getPlayer1Node().collideWith(spatial.getWorldBound(), results);
@@ -66,10 +66,8 @@ public class BulletController extends RigidBodyControl{
                 spatial.removeFromParent();
                 gameView.getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
                 gameView.getRootNode().removeLight(light);
-                takeDamage(appAssets.getWorld().getPlayer1().getDamage(),appAssets.getWorld().getPlayer2(),appAssets.getGameView().getPlayer2View());
+                takeDamage(appAssets.getWorld().getPlayer2().getDamage(),appAssets.getWorld().getPlayer1(),appAssets.getGameView().getPlayer1View());
             }
-
-
         }
     }
 

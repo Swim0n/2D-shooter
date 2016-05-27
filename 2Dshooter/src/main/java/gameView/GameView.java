@@ -3,6 +3,7 @@ package gameView;
 import com.jme3.app.SimpleApplication;
 
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -66,15 +67,11 @@ public class GameView extends SimpleApplication implements ScreenController{
         initiateCamera();
         initiateGUI();
         initiateStage();
-
-        bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,0,0));
-
         PointLight lamp_light = new PointLight();
         lamp_light.setColor(ColorRGBA.White.mult(2));
         lamp_light.setRadius(150f);
         lamp_light.setPosition(new Vector3f(0,-20,0));
         rootNode.addLight(lamp_light);
-
 
         initiated = true;
 
@@ -141,39 +138,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         rootNode.attachChild(camNode);
     }
 
-    public void updateGUI(){
-        niftyView.updateText();
-    }
-    public boolean getPaused(){
-        return this.paused;
-    }
-    public void setAI(boolean state){
-        this.ai = state;
-    }
-    public boolean getAI(){
-        return this.ai;
-    }
-    public Node getBulletNode(){
-        return this.bulletNode;
-    }
-    public void simpleUpdate(float tpf){}
-    public Node getStageNode(){
-        return stageNode;
-    }
-    public Node getTerrainNode() {return terrainNode;}
-    public BulletAppState getBulletAppState(){
-        return this.bulletAppState;
-    }
-    public Node getPlayer1Node() {return player1Node;}
-    public Node getPlayer2Node() {return player2Node;}
-    public Quad getGroundSize(){
-        return groundView.getGroundShape();
-    }
-    public Geometry getGroundGeom() {return groundView.getGroundGeom();}
-    public void onEndScreen(){}
-    public void onStartScreen(){}
-    public void bind(Nifty nifty, Screen screen){}
-    public CameraNode getCameraNode() {return camNode;}
+
 
     //automatically called on app exit, notifies other threads
     @Override
@@ -211,11 +176,44 @@ public class GameView extends SimpleApplication implements ScreenController{
     public boolean isInitiated() {
         return initiated;
     }
-
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
     public boolean isPaused() {
         return paused;
     }
+
+    public void updateGUI(){
+        niftyView.updateText();
+    }
+    public boolean getPaused(){
+        return this.paused;
+    }
+    public void setAI(boolean state){
+        this.ai = state;
+    }
+    public boolean getAI(){
+        return this.ai;
+    }
+    public Node getBulletNode(){
+        return this.bulletNode;
+    }
+    public void simpleUpdate(float tpf){}
+    public Node getStageNode(){
+        return stageNode;
+    }
+    public Node getTerrainNode() {return terrainNode;}
+    public BulletAppState getBulletAppState(){
+        return this.bulletAppState;
+    }
+    public Node getPlayer1Node() {return player1Node;}
+    public Node getPlayer2Node() {return player2Node;}
+    public Quad getGroundSize(){
+        return groundView.getGroundShape();
+    }
+    public Geometry getGroundGeom() {return groundView.getGroundGeom();}
+    public void onEndScreen(){}
+    public void onStartScreen(){}
+    public void bind(Nifty nifty, Screen screen){}
+    public CameraNode getCameraNode() {return camNode;}
 }
