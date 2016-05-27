@@ -43,7 +43,6 @@ public class ControlInit {
         initiateGUI();
 
         initiateCameraControls();
-        bulletAppState.getPhysicsSpace().setGravity(Vector3f.ZERO);
    }
 
     private void initiateGUI() {
@@ -73,6 +72,8 @@ public class ControlInit {
         bulletAppState.getPhysicsSpace().add(player1Control);
         gameView.getPlayer2Node().addControl(player2Control);
         bulletAppState.getPhysicsSpace().add(player2Control);
+        bulletAppState.getPhysicsSpace().setGravity(Vector3f.ZERO);
+
     }
 
     private void initiatePowerUpControls(){

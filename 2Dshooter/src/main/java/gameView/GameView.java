@@ -3,7 +3,6 @@ package gameView;
 import com.jme3.app.SimpleApplication;
 
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -118,7 +117,6 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private void initiateCamera(){
         //camera settings
-        //camControl = new CameraController(appAssets);
         cameraView = new CameraView(appAssets);
     }
 
