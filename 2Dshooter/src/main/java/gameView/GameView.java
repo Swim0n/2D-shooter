@@ -60,7 +60,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         initiateNodes();
         initiatePhysics();
 
-        world = new World(40, 30, true);
+        world = new World(30, 30, true);
 
         initiateCamera();
         initiateGUI();
@@ -101,10 +101,10 @@ public class GameView extends SimpleApplication implements ScreenController{
 
         //spawning player1
         player1View = new PlayerView(this, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
-                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f),world.getPlayer1());
+                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-29.5f,-2f,19.5f),world.getPlayer1());
         //spawning player2
         player2View = new PlayerView(this, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m",
-                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f),world.getPlayer2());
+                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(29.5f,-2f,-21f),world.getPlayer2());
     }
 
     private void initiateGUI(){
