@@ -42,6 +42,7 @@ public class ControlInit {
         initiatePlayerControls();
         initiateGUI();
 
+        //disable to use static cam, will be better implemented with settings
         initiateCameraControls();
    }
 

@@ -123,7 +123,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         nifty.fromXml("Interface/screen.xml", "start", this);
         guiViewPort.addProcessor(niftyDisplay);
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
-        niftyView.setNiftyDisp(niftyDisplay);
+        niftyView.setNiftyDisplay(niftyDisplay);
         niftyView.setGameView(this);
     }
 
