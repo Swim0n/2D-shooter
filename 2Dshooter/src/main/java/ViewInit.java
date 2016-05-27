@@ -11,8 +11,8 @@ public class ViewInit {
     public ViewInit() throws InterruptedException {
 
         AppSettings settings = new AppSettings(false);
-        settings.setSettingsDialogImage("Interface/theteam.png");
-        settings.setTitle("Epic 2D-shooter");
+        settings.setSettingsDialogImage("Interface/voxelgalaxy.png");
+        settings.setTitle("Voxel Galaxy: Arena");
         settings.setVSync(true);
 
         this.gameView = new GameView();
