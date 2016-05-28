@@ -26,12 +26,12 @@ public class ControlInit {
         this.gameView = viewInit.getGameView();
         this.world = gameView.getWorld();
         this.bulletAppState = gameView.getBulletAppState();
-        initiatePowerUpControls();
         initiatePlayerControls();
+        initiatePowerUpControls();
         initiateGUI();
 
         //disable to use static cam, will be better implemented with settings
-        initiateCameraControls();
+        //initiateCameraControls();
    }
 
     private void initiateGUI() {
@@ -51,7 +51,7 @@ public class ControlInit {
         PlayerController player2ControlSave = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), gameView, player2Mappings);
 
         PlayerController player2Control;
-        if(this.ai == true){
+        if(ai){
             player2Control = player2AIControl;
         } else {
             player2Control = player2ControlSave;
@@ -65,6 +65,6 @@ public class ControlInit {
     }
 
     private void initiatePowerUpControls(){
-        new PowerUpController(gameView);
+        new PowerUpController(gameView.getTerrainNode(),gameView);
     }
 }
