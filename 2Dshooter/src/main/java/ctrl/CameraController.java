@@ -38,10 +38,15 @@ public class CameraController extends CameraControl implements ActionListener {
     }
 
     public void update(float tpf) {
+        if(player1.getPosition()==null||player2.getPosition()==null){
+            return;
+        }
+
         updatePosition();
         updateLookAt();
         cameraNode.setLocalTranslation(position);
-        cameraNode.lookAt(lookAt,Vector3f.UNIT_Z);
+        cameraNode.lookAt(lookAt, Vector3f.UNIT_Z);
+
     }
 
     private void updateLookAt() {

@@ -47,6 +47,9 @@ public class GUIView implements ScreenController {
 
     //updates the status bar at top of java
     public void updateText(){
+        if(player1==null||player2==null){
+            return;
+        }
         // find old text
         niftyElement = nifty.getCurrentScreen().findElementById("text");
 

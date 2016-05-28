@@ -54,7 +54,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     //all views initialized, set by startButton in nifty start menu
     private boolean initialized;
 
-
     public void simpleInitApp() {
         initNodes();
         initPhysics();
