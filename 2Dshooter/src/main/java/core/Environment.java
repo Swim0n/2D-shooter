@@ -45,6 +45,9 @@ public class Environment {
                 positions[i][j] = new Vector3f(i*tileWidth-terrainWidth/2+tileWidth/2, 0, j*tileHeight-terrainHeight/2+tileWidth/2);
             }
         }
+        //this is where the players spawn
+        occupiedTerrain[1][occupiedTerrain[0].length-2] = true;
+        occupiedTerrain[occupiedTerrain.length-2][1] = true;
     }
 
     public int getRocksAmount() {

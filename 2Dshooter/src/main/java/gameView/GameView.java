@@ -31,7 +31,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     private GroundView groundView;
     private PlayerView player1View;
     private PlayerView player2View;
-    private PowerUpView powerUpView;
     private TerrainView terrainView;
     private CameraView cameraView;
 
@@ -51,60 +50,39 @@ public class GameView extends SimpleApplication implements ScreenController{
     private GUIView niftyView;
 
     private boolean ai = false;
-    private boolean paused = false;
-    //all views initiated
-    private boolean initiated;
+    private boolean paused = true;
+    //all views initialized
+    private boolean initialized;
 
 
     public void simpleInitApp() {
-        initiateNodes();
-        initiatePhysics();
+        //creates the model of the game
+        world = new World(30, 30, true);
 
-        world = new World(40, 30, true);
+        initNodes();
+        initPhysics();
+        initCamera();
+        initGUI();
+        initStage();
+        initPlayers();
+        initLights();
 
-        initiateCamera();
-        initiateGUI();
-        initiateStage();
-        PointLight lamp_light = new PointLight();
-        lamp_light.setColor(ColorRGBA.White.mult(2));
-        lamp_light.setRadius(150f);
-        lamp_light.setPosition(new Vector3f(0,-20,0));
-        rootNode.addLight(lamp_light);
-
-
-        final int SHADOWMAP_SIZE=1024;
-       PointLightShadowRenderer dlsr = new PointLightShadowRenderer(assetManager, SHADOWMAP_SIZE);
-        dlsr.setLight(lamp_light);
-        viewPort.addProcessor(dlsr);
-
-        AmbientLight al = new AmbientLight();
-        al.setColor(ColorRGBA.Magenta.mult(0.4f));
-        rootNode.addLight(al);
-
-        rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-
-        initiated = true;
+        initialized = true;
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
         setDisplayFps(true);
     }
 
-    private void initiateStage(){
+    private void initStage(){
         //creating a "ground floor" for levels
         groundView = new GroundView(this);
         //adding walls for the surface
         wallsView = new WallsView(this);
         //generate terrain
         terrainView = new TerrainView(this, 4, 4);
-        //spawning player1
-        player1View = new PlayerView(this, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
-                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f),world.getPlayer1());
-        //spawning player2
-        player2View = new PlayerView(this, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m",
-                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(4f,-2f,0f),world.getPlayer2());
     }
 
-    private void initiateGUI(){
+    private void initGUI(){
         //gui initialization
         niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
         nifty = niftyDisplay.getNifty();
@@ -115,19 +93,48 @@ public class GameView extends SimpleApplication implements ScreenController{
         niftyView.setGameView(this);
     }
 
-    private void initiatePhysics(){
+    private void initPlayers(){
+        //spawning player1
+        player1View = new PlayerView(this, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
+                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-29.5f,-2f,19.5f),world.getPlayer1());
+        //spawning player2
+        player2View = new PlayerView(this, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m",
+                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(29.5f,-2f,-21f),world.getPlayer2());
+    }
+
+    private void initLights(){
+        PointLight lamp_light = new PointLight();
+        lamp_light.setColor(ColorRGBA.White.mult(2));
+        lamp_light.setRadius(150f);
+        lamp_light.setPosition(new Vector3f(0,-20,0));
+        rootNode.addLight(lamp_light);
+
+
+        final int SHADOWMAP_SIZE=1024;
+        PointLightShadowRenderer dlsr = new PointLightShadowRenderer(assetManager, SHADOWMAP_SIZE);
+        dlsr.setLight(lamp_light);
+        viewPort.addProcessor(dlsr);
+
+        AmbientLight al = new AmbientLight();
+        al.setColor(ColorRGBA.Magenta.mult(0.4f));
+        rootNode.addLight(al);
+
+        rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+    }
+
+    private void initPhysics(){
         //set up physics
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(false);
     }
 
-    private void initiateCamera(){
+    private void initCamera(){
         //camera settings
         cameraView = new CameraView(this);
     }
 
-    private void initiateNodes(){
+    private void initNodes(){
         //init nodes
         bulletNode = new Node("bullets");
         stageNode = new Node("stage");
@@ -143,14 +150,12 @@ public class GameView extends SimpleApplication implements ScreenController{
         rootNode.attachChild(camNode);
     }
 
-
     //automatically called on app exit, notifies other threads
     @Override
     public void destroy() {
         super.destroy();
         world.setShutDown();
     }
-
     //called on window close
     @Override
     public void requestClose(boolean esc) {

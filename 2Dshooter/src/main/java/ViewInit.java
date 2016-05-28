@@ -11,8 +11,8 @@ public class ViewInit {
     public ViewInit() throws InterruptedException {
 
         AppSettings settings = new AppSettings(false);
-        settings.setSettingsDialogImage("Interface/theteam.png");
-        settings.setTitle("Epic 2D-shooter");
+        settings.setSettingsDialogImage("Interface/voxelgalaxy.png");
+        settings.setTitle("Voxel Galaxy: Arena");
         settings.setVSync(true);
 
         this.gameView = new GameView();
@@ -21,7 +21,7 @@ public class ViewInit {
         this.gameView.start();
 
         //appAssets in gameView is null since simpleInitApp hasn't been called yet, thus the wait
-        while (!gameView.isInitiated()){
+        while (!gameView.isInitialized()){
             Thread.currentThread().sleep(1000);
         }
     }

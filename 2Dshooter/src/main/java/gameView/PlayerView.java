@@ -31,14 +31,17 @@ public class PlayerView {
     private final Vector3f startPos;
     private Spatial player;
     private Spatial gun;
-    private Geometry backgroundBar;
+    private Geometry healthBackgroundBar;
     private Geometry healthBar;
+    private Geometry dashBackgroundBar;
+    private Geometry dashBar;
     private AssetManager assetManager;
     private GameView gameView;
     private Node playerNode;
     private Node headNode = new Node("head");
     private Node bodyNode = new Node("body");
     private Node healthBarNode = new Node("healthbar");
+    private Node dashBarNode = new Node("dashbar");
     private AudioNode powerUpAudio;
     private AudioNode shotAudio;
     private AudioNode dashAudio;
@@ -68,6 +71,7 @@ public class PlayerView {
         this.playerData = player;
         createPlayer();
         createHealthBar();
+        createDashBar();
         createParticleEmitter();
         initSounds();
     }
@@ -103,25 +107,39 @@ public class PlayerView {
 
     private void createHealthBar(){
         //creating a health bar
-        BillboardControl backCtrl = new BillboardControl();
-        BillboardControl healthCtrl = new BillboardControl();
-        backgroundBar = new Geometry("backgroundBar", new Quad(4f, 0.6f));
-        healthBar = new Geometry("healthBar", new Quad(4f, 0.6f));
-        backgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
+        healthBackgroundBar = new Geometry("healthBackgroundBar", new Quad(3.7f, 0.6f));
+        healthBar = new Geometry("healthBar", new Quad(3.5f, 0.4f));
+        healthBackgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
         healthBar.setMaterial(Utils.getMaterial(assetManager,bodyColor));
-        backgroundBar.rotate(FastMath.HALF_PI,0,0);
-        healthBar.rotate(FastMath.HALF_PI,0,0);
-        backgroundBar.center();
+        healthBackgroundBar.center();
         healthBar.center();
-        backgroundBar.move(0,-3.5f,1);
-        healthBar.move(0,-3.5f,1);
-        backgroundBar.addControl(backCtrl);
-        healthBar.addControl(healthCtrl);
-        healthBarNode.attachChild(backgroundBar);
+        healthBackgroundBar.move(0,0,-0.05f);
+        healthBarNode.attachChild(healthBackgroundBar);
         healthBarNode.attachChild(healthBar);
+        healthBarNode.move(0,-3.5f, 1);
+        BillboardControl healthCtrl = new BillboardControl();
+        healthBarNode.addControl(healthCtrl);
         healthBarNode.setShadowMode(RenderQueue.ShadowMode.Off);
         playerNode.attachChild(healthBarNode);
+    }
 
+    private void createDashBar(){
+        dashBackgroundBar = new Geometry("dashBackgroundBar", new Quad(2.5f, 0.45f));
+        dashBar = new Geometry("dashBar", new Quad(2.3f, 0.3f));
+        dashBackgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
+        dashBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Orange));
+        dashBackgroundBar.rotate(0,0,FastMath.HALF_PI);
+        dashBar.rotate(0,0,FastMath.HALF_PI);
+        dashBackgroundBar.center();
+        dashBar.center();
+        dashBackgroundBar.move(0,0,-0.01f);
+        dashBarNode.attachChild(dashBackgroundBar);
+        dashBarNode.attachChild(dashBar);
+        BillboardControl dashCtrl = new BillboardControl();
+        dashBarNode.addControl(dashCtrl);
+        dashBarNode.move(1.7f,-1,0);
+        dashBarNode.setShadowMode(RenderQueue.ShadowMode.Off);
+        playerNode.attachChild(dashBarNode);
     }
 
     private void createParticleEmitter(){
@@ -200,6 +218,14 @@ public class PlayerView {
             healthBar.setLocalScale(-0.1f, 1f, 1f);
         }
     }
+
+    public void setDashBar(float percent){
+        if(percent != 0){
+            dashBar.setLocalScale(percent/100, 1f, 1f);
+        } else {
+            dashBar.setLocalScale(-0.1f, 1f, 1f);
+        }
+    }
     public Node getPlayerNode(){return this.playerNode;}
     public Node getBodyNode(){
         return this.bodyNode;
@@ -209,13 +235,9 @@ public class PlayerView {
     public GameView getGameView(){return this.gameView;}
     public Quaternion getGunRotation(){return gunRot;}
     public Vector3f getPosition(){return this.getPlayerNode().getLocalTranslation();}
-    public String getBodyMaterialPath(){
-        return this.bodyMaterialPath;
-    }
     public ColorRGBA getBodyColor(){
         return this.bodyColor;
     }
-
     public Player getPlayerData() {
         return playerData;
     }
