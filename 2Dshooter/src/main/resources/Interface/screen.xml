@@ -3,8 +3,8 @@
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
 
-    !-- +++++++++++++++++++++++++++++++++++++++ -->
-    <!-- start screen -->
+    <!-- +++++++++++++++++++++++++++++++++++++++ -->
+    <!-- start screen                            -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <screen id="start" controller="gameView.GUIView">
         <layer id="layer" childLayout="center">
@@ -25,7 +25,7 @@
     </screen>
 
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
-    <!-- game gui (hp bar etc) -->
+    <!-- game gui (hp bar etc)                   -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <screen id="gamegui" controller="gameView.GUIView">
         <layer id="layer" childLayout="center">
@@ -41,7 +41,7 @@
     </screen>
 
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
-    <!-- pause screen(menu) -->
+    <!-- pause screen(menu)                      -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
 
     <screen id="pause" controller="gameView.GUIView">

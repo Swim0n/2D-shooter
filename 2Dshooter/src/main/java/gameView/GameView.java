@@ -26,13 +26,13 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private BulletAppState bulletAppState;
 
-    //variables for viewer classes
     private WallsView wallsView;
     private GroundView groundView;
     private PlayerView player1View;
     private PlayerView player2View;
     private TerrainView terrainView;
     private CameraView cameraView;
+    private BulletView bulletView;
 
     private Node bulletNode;
     private Node stageNode;
@@ -43,21 +43,18 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private World world;
 
-
-    //variables for gui
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
     private GUIView niftyView;
 
     private boolean ai = false;
     private boolean paused = true;
-    //all views initialized
+
+    //all views initialized, set by startButton in nifty start menu
     private boolean initialized;
 
 
     public void simpleInitApp() {
-
-
         initNodes();
         initPhysics();
         initCamera();
@@ -69,10 +66,15 @@ public class GameView extends SimpleApplication implements ScreenController{
         initStage();
         initPlayers();
         initLights();
+        initBullets();
 
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
         setDisplayFps(true);
+    }
+
+    private void initBullets() {
+       bulletView = new BulletView(this);
     }
 
     private void initStage(){
@@ -80,12 +82,10 @@ public class GameView extends SimpleApplication implements ScreenController{
         groundView = new GroundView(this);
         //adding walls for the surface
         wallsView = new WallsView(this);
-        //generate terrain
         terrainView = new TerrainView(this, 4, 4);
     }
 
     private void initGUI(){
-        //gui initialization
         niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
         nifty = niftyDisplay.getNifty();
         nifty.fromXml("Interface/screen.xml", "start", this);
@@ -96,10 +96,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
 
     private void initPlayers(){
-        //spawning player1
         player1View = new PlayerView(this, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
                 ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-29.5f,-2f,19.5f),world.getPlayer1());
-        //spawning player2
         player2View = new PlayerView(this, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m",
                 ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(29.5f,-2f,-21f),world.getPlayer2());
     }
@@ -120,24 +118,19 @@ public class GameView extends SimpleApplication implements ScreenController{
         AmbientLight al = new AmbientLight();
         al.setColor(ColorRGBA.Magenta.mult(0.4f));
         rootNode.addLight(al);
-
-
     }
 
     private void initPhysics(){
-        //set up physics
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(false);
     }
 
     private void initCamera(){
-        //camera settings
         cameraView = new CameraView(this);
     }
 
     private void initNodes(){
-        //init nodes
         rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         bulletNode = new Node("bullets");
         bulletNode.setShadowMode(RenderQueue.ShadowMode.Cast);
@@ -230,4 +223,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void setInitialized() {
         initialized = true;
     }
+
+    public BulletView getBulletView() {return bulletView;}
 }
