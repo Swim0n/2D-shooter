@@ -19,7 +19,7 @@ public class HealthPowerUpTest {
     }
 
     @Test
-    public void setEffect() throws Exception {
+    public void checkCorrectGivenAmount() throws Exception {
         initPlayerHP();
         player.setHealth(player.getHealth()+20);
         secondHP = player.getHealth();
