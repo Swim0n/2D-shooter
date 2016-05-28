@@ -190,7 +190,7 @@ public class PlayerView {
         powerUpAudio = new AudioNode(assetManager, "Sound/powerUpSound.wav");
         powerUpAudio.setPositional(false);
         powerUpAudio.setLooping(false);
-        powerUpAudio.setVolume(2);
+        powerUpAudio.setVolume(1);
         playerNode.attachChild(powerUpAudio);
         shotAudio = new AudioNode(assetManager, "Sound/shot.wav");
         shotAudio.setPositional(false);
