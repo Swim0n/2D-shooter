@@ -29,7 +29,7 @@ public class CameraModelTest {
     }
 
     @Test
-    public void getLookAt() throws Exception {
+    public void testCameraFocus() throws Exception {
         CameraModel cameraModel = new CameraModel(true);
         Vector3f vector1 = new Vector3f();
         Vector3f vector2 = new Vector3f();
@@ -39,7 +39,7 @@ public class CameraModelTest {
         vector2.set(cameraModel.getLookAt(new Vector3f(0,0,0), new Vector3f(5,0,10)));
         System.out.println(vector2);
 
-        /** order of the method with the 2 same vectors should give same vector */
+        /** method with the 2 same vectors should give same vector */
         assertTrue(vector1.length()==vector2.length());
     }
 
