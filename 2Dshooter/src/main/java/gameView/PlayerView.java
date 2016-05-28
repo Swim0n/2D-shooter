@@ -35,6 +35,8 @@ public class PlayerView {
     private Geometry healthBar;
     private Geometry dashBackgroundBar;
     private Geometry dashBar;
+    private Geometry shotBackgroundBar;
+    private Geometry shotBar;
     private AssetManager assetManager;
     private GameView gameView;
     private Node playerNode;
@@ -42,10 +44,12 @@ public class PlayerView {
     private Node bodyNode = new Node("body");
     private Node healthBarNode = new Node("healthbar");
     private Node dashBarNode = new Node("dashbar");
+    private Node shotBarNode = new Node ("shotbar");
     private AudioNode powerUpAudio;
     private AudioNode shotAudio;
     private AudioNode dashAudio;
     private AudioNode hitAudio;
+    private AudioNode overloadAudio;
     private InputManager inputManager;
     private float lastRotation;
     private Quaternion gunRot = new Quaternion();
@@ -72,6 +76,7 @@ public class PlayerView {
         createPlayer();
         createHealthBar();
         createDashBar();
+        createShotBar();
         createParticleEmitter();
         initSounds();
     }
@@ -137,9 +142,28 @@ public class PlayerView {
         dashBarNode.attachChild(dashBar);
         BillboardControl dashCtrl = new BillboardControl();
         dashBarNode.addControl(dashCtrl);
-        dashBarNode.move(1.7f,-1,0);
+        dashBarNode.move(2.15f,-1,0);
         dashBarNode.setShadowMode(RenderQueue.ShadowMode.Off);
         playerNode.attachChild(dashBarNode);
+    }
+
+    private void createShotBar(){
+        shotBackgroundBar = new Geometry("shotBackgroundBar", new Quad(2.5f, 0.45f));
+        shotBar = new Geometry("shotBar", new Quad(2.3f, 0.3f));
+        shotBackgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
+        shotBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Yellow));
+        shotBackgroundBar.rotate(0,0,FastMath.HALF_PI);
+        shotBar.rotate(0,0,FastMath.HALF_PI);
+        shotBackgroundBar.center();
+        shotBar.center();
+        shotBackgroundBar.move(0,0,-0.01f);
+        shotBarNode.attachChild(shotBackgroundBar);
+        shotBarNode.attachChild(shotBar);
+        BillboardControl shotCtrl = new BillboardControl();
+        shotBarNode.addControl(shotCtrl);
+        shotBarNode.move(1.7f,-1,0);
+        shotBarNode.setShadowMode(RenderQueue.ShadowMode.Off);
+        playerNode.attachChild(shotBarNode);
     }
 
     private void createParticleEmitter(){
@@ -183,6 +207,11 @@ public class PlayerView {
         hitAudio.setLooping(false);
         hitAudio.setVolume(0.3f);
         playerNode.attachChild(hitAudio);
+        overloadAudio = new AudioNode(assetManager, "Sound/overload.wav");
+        overloadAudio.setPositional(false);
+        overloadAudio.setLooping(false);
+        overloadAudio.setVolume(0.3f);
+        playerNode.attachChild(overloadAudio);
     }
 
     public void playPowerUpSound(){
@@ -199,6 +228,10 @@ public class PlayerView {
 
     public void playPlayerHitSound(){
         hitAudio.playInstance();
+    }
+
+    public void playOverloadSound(){
+        overloadAudio.playInstance();
     }
 
     public void rotateGun(float step){
@@ -226,6 +259,18 @@ public class PlayerView {
             dashBar.setLocalScale(-0.1f, 1f, 1f);
         }
     }
+
+    public void setShotBar(float percent){
+        if(percent != 0){
+            shotBar.setLocalScale(percent/100, 1f, 1f);
+        } else {
+            shotBar.setLocalScale(-0.1f, 1f, 1f);
+        }
+    }
+
+    public void setShotBarColor(ColorRGBA color){
+        shotBar.setMaterial(Utils.getMaterial(assetManager,color));
+    }
     public Node getPlayerNode(){return this.playerNode;}
     public Node getBodyNode(){
         return this.bodyNode;
@@ -240,5 +285,8 @@ public class PlayerView {
     }
     public Player getPlayerData() {
         return playerData;
+    }
+    public AudioNode getOverloadAudio(){
+        return this.overloadAudio;
     }
 }

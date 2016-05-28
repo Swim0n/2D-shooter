@@ -1,9 +1,7 @@
 package ctrl;
 
 import com.jme3.input.InputManager;
-import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
 import core.Player;
 import gameView.GameView;
@@ -11,8 +9,6 @@ import gameView.PlayerView;
 import utils.KeyMappings;
 import utils.Utils;
 
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
 import java.util.UUID;
 
 /**
@@ -22,6 +18,7 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     private InputManager inputManager;
     private KeyMappings keys;
     String[] mapNames;
+    private long lastOverload = 0;
 
 
     public HumanPlayerController(PlayerView view, Player player, GameView gameView, KeyMappings keys){
@@ -55,56 +52,51 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     public void update(float tpf) {
         super.update(tpf);
 
-        Vector3f newDirection = Utils.vecMathToJMEVector3f(playerData.getWalkingDirection());
-        playerData.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
+        Vector3f newDirection = Utils.vecMathToJMEVector3f(player.getWalkingDirection());
+        player.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
 
         if(!newDirection.equals(Vector3f.ZERO)){
             playerView.getBodyNode().lookAt(playerView.getPlayerNode().getLocalTranslation().add(newDirection), Vector3f.UNIT_Y);
         }
 
         setWalkDirection(newDirection);
-        playerView.rotateGun(playerData.getGunRotation()*tpf);
-        playerData.setDashMeter(playerData.getDashMeterPercent()+tpf*playerData.getDashMeterRegenRate());
-        playerView.setDashBar(playerData.getDashMeterPercent());
+
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
         //movement of player
         if (name.equals(mapNames[0])) {
-            playerData.left = isPressed;
+            player.left = isPressed;
         } else if (name.equals(mapNames[1])) {
-            playerData.right = isPressed;
+            player.right = isPressed;
         } else if (name.equals(mapNames[2])) {
-            playerData.up = isPressed;
+            player.up = isPressed;
         } else if (name.equals(mapNames[3])) {
-            playerData.down = isPressed;
+            player.down = isPressed;
         }
         if (name.equals(mapNames[4]) && isPressed){
-            shootBullet();
+            if (player.getShotMeterPercent() >= player.getShotThreshold() && !player.isOverloaded()) {
+                shootBullet();
+            } else {
+                if(System.currentTimeMillis() - lastOverload > player.getOverloadDuration()){
+                    player.overload();
+                    playerView.playOverloadSound();
+                    lastOverload = System.currentTimeMillis();
+                }
+            }
         }
         if(name.equals(mapNames[5])){
-            playerData.gunLeft = isPressed;
+            player.gunLeft = isPressed;
         }else if(name.equals(mapNames[6])){
-            playerData.gunRight = isPressed;
+            player.gunRight = isPressed;
         }
-        if(name.equals(mapNames[7]) && !isPressed && !playerData.dashing){
-            if (playerData.getDashMeterPercent() >= playerData.getDashThreshold()){
-                playerData.dashing = true;
-                playerView.playDashSound();
-                playerData.setDashMeter(playerData.getDashMeterPercent()-40f);
-                dashTimer(playerData.getDashMillis());
+        if(name.equals(mapNames[7]) && !isPressed && !player.dashing){
+            if (player.getDashMeterPercent() >= player.getDashThreshold()){
+                dash();
             }
         }
     }
 
-    public void dashTimer(int millis){
-        Timer timer = new Timer(millis, new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                playerData.dashing = false;
-            }
-        });
-        timer.setRepeats(false);
-        timer.start();
-    }
+
 }
 
