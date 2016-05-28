@@ -37,15 +37,15 @@ public class WallsView {
     }
 
     private void createWalls(){
-        verticalWallShape = new Box(0.5f,5f,27f);
-        horizontalWallShape = new Box(36f, 5f,0.5f);
+        verticalWallShape = new Box(0.5f,3f,27f);
+        horizontalWallShape = new Box(36f, 3f,0.5f);
         wallMaterial = assetManager.loadMaterial("Materials/block2mat.j3m");
         westWall = new Geometry("westWall", verticalWallShape);
         eastWall = new Geometry("eastWall", verticalWallShape);
         northWall = new Geometry("northWall", horizontalWallShape);
         southWall = new Geometry("southWall", horizontalWallShape);
-        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x+1f,-2f,0);
-        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x-1f,-2f,0);
+        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x+0.5f,-2f,0);
+        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x-0.5f,-2f,0);
         northWall.setLocalTranslation(0,-2f,groundGeom.getLocalTranslation().z-1f);
         southWall.setLocalTranslation(0,-2f,-groundGeom.getLocalTranslation().z+1f);
 

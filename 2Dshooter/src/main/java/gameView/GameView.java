@@ -63,7 +63,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         initCamera();
 
         //creates the model of the game
-        world = new World(30, 30, false);
+        world = new World(20, 20, true);
 
         initGUI();
         initStage();
@@ -122,7 +122,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         al.setColor(ColorRGBA.Magenta.mult(0.4f));
         rootNode.addLight(al);
 
-        rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+
     }
 
     private void initPhysics(){
@@ -139,11 +139,13 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private void initNodes(){
         //init nodes
+        rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         bulletNode = new Node("bullets");
         bulletNode.setShadowMode(RenderQueue.ShadowMode.Cast);
         stageNode = new Node("stage");
         camNode = new CameraNode("cameraNode",cam);
         terrainNode = new Node("terrain");
+        terrainNode.setShadowMode(RenderQueue.ShadowMode.Cast);
         player1Node = new Node("player1");
         player2Node = new Node("player2");
         rootNode.attachChild(player1Node);

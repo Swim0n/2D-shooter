@@ -31,7 +31,7 @@ public class ControlInit {
         initiateGUI();
 
         //disable to use static cam, will be better implemented with settings
-        //initiateCameraControls();
+        initiateCameraControls();
    }
 
     private void initiateGUI() {
