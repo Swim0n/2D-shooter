@@ -33,6 +33,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private TerrainView terrainView;
     private CameraView cameraView;
     private BulletView bulletView;
+    private PowerUpView powerUpView;
 
     private Node bulletNode;
     private Node stageNode;
@@ -67,10 +68,15 @@ public class GameView extends SimpleApplication implements ScreenController{
         initPlayers();
         initLights();
         initBullets();
+        initPowerUps();
 
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
         setDisplayFps(true);
+    }
+
+    private void initPowerUps() {
+        powerUpView = new PowerUpView(this);
     }
 
     private void initBullets() {
@@ -225,4 +231,8 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
 
     public BulletView getBulletView() {return bulletView;}
+
+    public PowerUpView getPowerUpView() {
+        return powerUpView;
+    }
 }

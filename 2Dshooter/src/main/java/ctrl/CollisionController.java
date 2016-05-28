@@ -2,7 +2,10 @@ package ctrl;
 
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.collision.CollisionResults;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
+import core.Player;
+import core.PowerUp;
 import gameView.GameView;
 import gameView.PlayerView;
 import gameView.PowerUpView;
@@ -13,14 +16,15 @@ import gameView.PowerUpView;
 public class CollisionController extends RigidBodyControl {
     private final GameView gameView;
     private final Spatial target;
-    private final PowerUpView powerUpView;
     private final PowerUpController powerUpController;
+    private final PowerUp powerUp;
+    private boolean hasCollided;
 
-    public CollisionController(GameView gameView, PowerUpView powerUpView, PowerUpController powerUpController){
+    public CollisionController(GameView gameView, Geometry target, PowerUp powerUp, PowerUpController powerUpController){
         this.gameView = gameView;
-        this.powerUpView = powerUpView;
+        this.powerUp = powerUp;
         this.powerUpController = powerUpController;
-        this.target = powerUpView.getPowerUpSpatial();
+        this.target = target;
         target.addControl(this);
     }
     public void update(float tpf){
@@ -30,23 +34,22 @@ public class CollisionController extends RigidBodyControl {
         CollisionResults results = new CollisionResults();
 
             gameView.getPlayer1Node().collideWith(spatial.getWorldBound(), results);
-            checkResult(powerUpView, results, gameView.getPlayer1View());
+            checkResult(gameView.getWorld().getPlayer1(), results, gameView.getPlayer1View());
 
             gameView.getPlayer2Node().collideWith(spatial.getWorldBound(), results);
-            checkResult(powerUpView, results, gameView.getPlayer2View());
+            checkResult(gameView.getWorld().getPlayer2(), results, gameView.getPlayer2View());
     }
 
-    private void checkResult(PowerUpView powerUpView, CollisionResults results, PlayerView playerView){
+    private void checkResult(Player player, CollisionResults results, PlayerView playerView){
         if (results.size() > 0){
-            if (!powerUpView.hasCollided()){
-                //add power up effect to the player
-                powerUpView.getPowerUpType().setEffect(playerView.getPlayerData());
-                playerView.setHealthBar(playerView.getPlayerData().getHealth());
+            if (!hasCollided){
+                powerUp.setEffect(player);
+                playerView.setHealthBar(player.getHealth());
                 playerView.playPowerUpSound();
-                powerUpView.getPowerUpSpatial().removeFromParent();
+                target.removeFromParent();
                 results.clear();
                 powerUpController.decActivePowerUps();
-                powerUpView.setHasCollided(true);
+                hasCollided = true;
             }
         }
     }
