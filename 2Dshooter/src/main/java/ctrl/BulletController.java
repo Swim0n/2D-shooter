@@ -42,7 +42,7 @@ public class BulletController extends RigidBodyControl{
 
         if (results.size() > 0){
             spatial.removeFromParent();
-            gameView.getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
+            gameView.getBulletAppState().getPhysicsSpace().remove(spatial);
             gameView.getRootNode().removeLight(light);
         }
 
@@ -52,7 +52,7 @@ public class BulletController extends RigidBodyControl{
             gameView.getPlayer2Node().collideWith(spatial.getWorldBound(), results);
             if (results.size() > 0){
                 spatial.removeFromParent();
-                gameView.getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
+                gameView.getBulletAppState().getPhysicsSpace().remove(spatial);
                 gameView.getRootNode().removeLight(light);
                 takeDamage(gameView.getWorld().getPlayer1().getDamage(),gameView.getWorld().getPlayer2(),gameView.getPlayer2View());
             }
@@ -61,7 +61,7 @@ public class BulletController extends RigidBodyControl{
 
             if (results.size() > 0){
                 spatial.removeFromParent();
-                gameView.getBulletAppState().getPhysicsSpace().remove(spatial.getControl(0));
+                gameView.getBulletAppState().getPhysicsSpace().remove(spatial);
                 gameView.getRootNode().removeLight(light);
                 takeDamage(gameView.getWorld().getPlayer2().getDamage(),gameView.getWorld().getPlayer1(),gameView.getPlayer1View());
             }
@@ -69,7 +69,7 @@ public class BulletController extends RigidBodyControl{
     }
 
     public void takeDamage(float damage, Player player,PlayerView playerView){
-        player.setHealth(player.getHealth() - damage);
+        player.takeDamage(damage);
         playerView.setHealthBar(player.getHealth());
         playerView.emitSparks();
         playerView.playPlayerHitSound();

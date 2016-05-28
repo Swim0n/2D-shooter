@@ -11,17 +11,13 @@ public class World {
     private final Player player2;
     private final Environment terrain;
     private final CameraModel cameraData;
-    //private final WeaponPowerUp speedPowerUp;
-    //private final SpeedPowerUp weaponPowerUp;
+    private boolean shutDown;
 
     public World(int rocks, int trees, boolean dynamicCamEnabled){
         this.player1 = new Player();
         this.player2 = new Player();
         this.terrain = new Environment(rocks, trees);
         this.cameraData = new CameraModel(dynamicCamEnabled);
-
-        //this.speedPowerUp = new WeaponPowerUp(terrain);
-        //this.weaponPowerUp = new SpeedPowerUp(terrain);
     }
 
     public Player getPlayer1() {return player1;}
@@ -32,4 +28,14 @@ public class World {
         player1.reset();
         player2.reset();
     }
+
+    public void setShutDown() {
+        shutDown = true;
+    }
+
+    public boolean isShutDown() {
+        return shutDown;
+    }
+
+
 }

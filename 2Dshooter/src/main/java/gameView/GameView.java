@@ -31,7 +31,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private GroundView groundView;
     private PlayerView player1View;
     private PlayerView player2View;
-    private PowerupView powerUpView;
+    private PowerUpView powerUpView;
     private TerrainView terrainView;
     private CameraView cameraView;
 
@@ -51,7 +51,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private GUIView niftyView;
 
     private boolean ai = false;
-    private boolean paused = true;
+    private boolean paused = false;
     //all views initiated
     private boolean initiated;
 
@@ -96,9 +96,6 @@ public class GameView extends SimpleApplication implements ScreenController{
         wallsView = new WallsView(this);
         //generate terrain
         terrainView = new TerrainView(this, 4, 4);
-        //Creates power ups, spawns two new every 15sec
-        powerUpView = new PowerupView(this);
-
         //spawning player1
         player1View = new PlayerView(this, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
                 ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-4f,-2f,0f),world.getPlayer1());
@@ -151,16 +148,15 @@ public class GameView extends SimpleApplication implements ScreenController{
     @Override
     public void destroy() {
         super.destroy();
-        powerUpView.stopTimer();
+        world.setShutDown();
     }
+
     //called on window close
     @Override
     public void requestClose(boolean esc) {
         super.requestClose(esc);
-        powerUpView.stopTimer();
+        world.setShutDown();
     }
-
-
 
     public PlayerView getPlayer1View() {
         return player1View;
@@ -172,10 +168,6 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     public PlayerView getPlayer2View() {
         return player2View;
-    }
-
-    public PowerupView getPowerUpView() {
-        return powerUpView;
     }
 
     public boolean isInitiated() {

@@ -73,22 +73,19 @@ public abstract class PlayerController extends BetterCharacterControl {
     //creates a new bullet specific to the player who fired it
     public void shootBullet(){
         BulletView bullet = new BulletView(this.playerView,gameView);
-
+        //set up light for bullet
         PointLight lamp_light = new PointLight();
-
         lamp_light.setColor(playerView.getBodyColor().mult(5));
-
         lamp_light.setRadius(3.5f);
-
-        LightControl lightControl = new LightControl(lamp_light); //TBR
+        LightControl lightControl = new LightControl(lamp_light);
         playerView.getGameView().getRootNode().addLight(lamp_light);
-
+        bullet.getBullet().addControl(lightControl);
+        //setup control for bullet
         BulletController bulletPhy = new BulletController(bullet, gameView, lamp_light);
         bullet.getBullet().addControl(bulletPhy);
-
         bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(50));
         playerView.getGameView().getBulletAppState().getPhysicsSpace().add(bulletPhy);
-        bullet.getBullet().addControl(lightControl);
+
         playerView.playShotSound();
     }
 }
