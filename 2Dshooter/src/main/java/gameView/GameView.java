@@ -102,9 +102,9 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private void initPlayers(){
         player1View = new PlayerView(this, player1Node, "Materials/p1headmat.j3m","Materials/p1bodymat.j3m",
-                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-29.5f,-2f,19.5f),world.getPlayer1());
+                ColorRGBA.Magenta, ColorRGBA.Cyan, new Vector3f(-29.5f,-2f,19.5f));
         player2View = new PlayerView(this, player2Node, "Materials/p2headmat.j3m","Materials/p2bodymat.j3m",
-                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(29.5f,-2f,-21f),world.getPlayer2());
+                ColorRGBA.Cyan, ColorRGBA.Magenta, new Vector3f(29.5f,-2f,-21f));
     }
 
     private void initLights(){
@@ -213,10 +213,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
     public Node getPlayer1Node() {return player1Node;}
     public Node getPlayer2Node() {return player2Node;}
-    public Quad getGroundSize(){
-        return groundView.getGroundShape();
-    }
-    public Geometry getGroundGeom() {return groundView.getGroundGeom();}
     public void onEndScreen(){}
     public void onStartScreen(){}
     public void bind(Nifty nifty, Screen screen){}

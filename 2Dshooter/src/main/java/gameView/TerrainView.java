@@ -34,11 +34,12 @@ public class TerrainView {
     public TerrainView(GameView gameView, float tileWidth, float tileHeight) {
         this.assetManager = gameView.getAssetManager();
         this.terrainNode = gameView.getTerrainNode();
-        this.groundX = gameView.getGroundSize().getWidth();
-        this.groundZ = gameView.getGroundSize().getHeight();
+        this.world = gameView.getWorld();
+        this.groundX = world.getWidth();
+        this.groundZ = world.getHeight();
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        this.world = gameView.getWorld();
+
         this.bulletAppState = gameView.getBulletAppState();
         this.terrainGrid = new ArrayList<Spatial>();
         world.getTerrain().setPositions(groundX, groundZ, tileWidth, tileHeight);

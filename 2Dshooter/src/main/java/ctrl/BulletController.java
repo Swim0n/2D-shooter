@@ -25,12 +25,12 @@ public class BulletController extends RigidBodyControl{
     private PlayerView otherPlayerView;
     private Node otherPlayerNode;
 
-    public BulletController(PlayerView playerView, Geometry target, GameView gameView, PointLight light){
+    public BulletController(PlayerView playerView, Player player, Geometry target, GameView gameView, PointLight light){
         this.gameView = gameView;
         this.stageNode = gameView.getStageNode();
         this.terrainNode = gameView.getTerrainNode();
         this.light = light;
-        this.player = playerView.getPlayerData();
+        this.player = player;
         this.playerNode = playerView.getPlayerNode();
         this.damage = player.getDamage();
         this.target = target;
@@ -46,7 +46,7 @@ public class BulletController extends RigidBodyControl{
         }
         target.addControl(this);
         setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(player.getBulletSpeed()));
-        playerView.getGameView().getBulletAppState().getPhysicsSpace().add(this);
+        gameView.getBulletAppState().getPhysicsSpace().add(this);
     }
 
     public void update(float tpf){

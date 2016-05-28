@@ -7,6 +7,7 @@ import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import core.World;
 
 /**
  * Created by Hannes on 24/04/2016.
@@ -23,15 +24,16 @@ public class WallsView {
     private Geometry southWall;
     private final AssetManager assetManager;
     private final Node stageNode;
-    private final Geometry groundGeom;
+
+    private World world;
 
     private BulletAppState bulletAppState;
 
     public WallsView (GameView gameView){
         this.assetManager = gameView.getAssetManager();
         this.stageNode = gameView.getStageNode();
-        this.groundGeom = gameView.getGroundGeom();
         this.bulletAppState = gameView.getBulletAppState();
+        this.world = gameView.getWorld();
         createWalls();
         applyPhysics();
     }
@@ -44,10 +46,10 @@ public class WallsView {
         eastWall = new Geometry("eastWall", verticalWallShape);
         northWall = new Geometry("northWall", horizontalWallShape);
         southWall = new Geometry("southWall", horizontalWallShape);
-        westWall.setLocalTranslation(-groundGeom.getLocalTranslation().x+0.5f,-2f,0);
-        eastWall.setLocalTranslation(groundGeom.getLocalTranslation().x-0.5f,-2f,0);
-        northWall.setLocalTranslation(0,-2f,groundGeom.getLocalTranslation().z-1f);
-        southWall.setLocalTranslation(0,-2f,-groundGeom.getLocalTranslation().z+1f);
+        westWall.setLocalTranslation(-world.getWidth()/2-1,-2f,0);
+        eastWall.setLocalTranslation(world.getWidth()/2+1,-2f,0);
+        northWall.setLocalTranslation(0,-2f,world.getHeight()/2);
+        southWall.setLocalTranslation(0,-2f,-world.getHeight()/2);
 
         westWall.setMaterial(wallMaterial);
         eastWall.setMaterial(wallMaterial);

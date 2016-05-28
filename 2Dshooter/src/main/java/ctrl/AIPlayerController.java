@@ -16,6 +16,7 @@ public class AIPlayerController extends PlayerController {
     private long lastShotTime = 0;
     private ArrayList currentPath = new ArrayList();
     private boolean paused = true;
+    private GameView gameView;
 
 
     private int stepCount = 0;
@@ -25,6 +26,7 @@ public class AIPlayerController extends PlayerController {
 
     public AIPlayerController(PlayerView view, Player player, GameView gameView){
         super(view, player,gameView);
+        this.gameView = gameView;
         this.niftyView = gameView.getNiftyView();
 
     }
@@ -36,7 +38,7 @@ public class AIPlayerController extends PlayerController {
         }
         super.update(tpf);
 
-        Vector3f directionToPlayer = playerView.getGameView().getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
+        Vector3f directionToPlayer = gameView.getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
 
         //logic for always rotating the gun to face the player
         if(!playerView.getGunRotation().getRotationColumn(2).equals(directionToPlayer.normalize())){
@@ -55,7 +57,7 @@ public class AIPlayerController extends PlayerController {
         Ray ray = new Ray(spatial.getWorldTranslation(),directionToPlayer.normalize());
         ray.setLimit(directionToPlayer.length());
         CollisionResults results = new CollisionResults();
-        playerView.getGameView().getTerrainNode().collideWith(ray, results);
+        gameView.getTerrainNode().collideWith(ray, results);
         if(results.size() == 0 && System.currentTimeMillis() - lastShotTime > bulletCooldown) {
             shootBullet();
             lastShotTime = System.currentTimeMillis();
