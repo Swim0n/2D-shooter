@@ -205,7 +205,7 @@ public class PlayerView {
         hitAudio = new AudioNode(assetManager, "Sound/playerHit.wav");
         hitAudio.setPositional(false);
         hitAudio.setLooping(false);
-        hitAudio.setVolume(0.3f);
+        hitAudio.setVolume(0.2f);
         playerNode.attachChild(hitAudio);
         overloadAudio = new AudioNode(assetManager, "Sound/overload.wav");
         overloadAudio.setPositional(false);

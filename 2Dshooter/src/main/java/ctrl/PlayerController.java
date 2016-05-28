@@ -4,6 +4,8 @@ import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.control.LightControl;
 import core.Player;
 import gameView.BulletView;
@@ -11,7 +13,6 @@ import gameView.GUIView;
 import gameView.GameView;
 import gameView.PlayerView;
 import utils.Utils;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -21,6 +22,9 @@ import java.awt.event.ActionEvent;
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     private final GameView gameView;
+    private final BulletView bulletView;
+    private final PointLight bulletLight;
+    private final Node rootNode;
     protected float speed;
     protected Player player;
     protected GUIView niftyView;
@@ -29,10 +33,13 @@ public abstract class PlayerController extends BetterCharacterControl {
         super(player.getRadius(), player.getHeight(), player.getMass());
         this.gameView = gameView;
         this.niftyView = gameView.getNiftyView();
+        this.bulletView = gameView.getBulletView();
         this.player = player;
         this.playerView = playerView;
         this.speed = this.player.getSpeed();
         this.spatial = playerView.getPlayerNode();
+        this.rootNode = gameView.getRootNode();
+        this.bulletLight = bulletView.getBulletLight(playerView);
         warp(new Vector3f(playerView.getStartPos()));
     }
 
@@ -85,21 +92,11 @@ public abstract class PlayerController extends BetterCharacterControl {
         niftyView.updateText();
     }
 
-    //creates a new bullet specific to the player who fired it
     protected void shootBullet(){
-        BulletView bullet = new BulletView(this.playerView,gameView);
-        //set up light for bullet
-        PointLight lamp_light = new PointLight();
-        lamp_light.setColor(playerView.getBodyColor().mult(5));
-        lamp_light.setRadius(3.5f);
-        LightControl lightControl = new LightControl(lamp_light);
-        playerView.getGameView().getRootNode().addLight(lamp_light);
-        bullet.getBullet().addControl(lightControl);
-        //setup control for bullet
-        BulletController bulletPhy = new BulletController(bullet, gameView, lamp_light);
-        bullet.getBullet().addControl(bulletPhy);
-        bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(player.getBulletSpeed()));
-        playerView.getGameView().getBulletAppState().getPhysicsSpace().add(bulletPhy);
+        Geometry bullet = bulletView.getBullet(playerView);
+        rootNode.addLight(bulletLight);
+        bullet.addControl(new LightControl(bulletLight));
+        new BulletController(playerView, bullet, gameView, bulletLight);
         player.setShotMeter(player.getShotMeterPercent()- player.getShotThreshold());
         playerView.playShotSound();
     }
