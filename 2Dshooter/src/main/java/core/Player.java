@@ -11,6 +11,9 @@ public class Player {
     private float speed;
     private float damage;
     private float dashSpeed;
+    private float dashMeterPercent;
+    private float dashMeterRegenRate;
+    private float dashThreshold;
     private int wins;
     private int dashMillis;
     private float gunRotationSpeed;
@@ -36,16 +39,29 @@ public class Player {
         this.damage = 10;
         this.dashMillis = 300;
         this.dashSpeed = 50f;
+        this.dashMeterPercent = 100f;
+        this.dashMeterRegenRate = 7f;
+        this.dashThreshold = 40f;
         this.gunRotationSpeed = 140f;
     }
 
     public void setHealth(float health){
         if(health < 0){
             this.health = 0;
-        }if(health > 100){
+        }else if(health > 100){
             this.health = 100;
         } else {
             this.health = health;
+        }
+    }
+
+    public void setDashMeter(float percent){
+        if (percent < 0){
+            this.dashMeterPercent = 0;
+        } else if(percent > 100){
+            this.dashMeterPercent = 100;
+        } else {
+            this.dashMeterPercent = percent;
         }
     }
 
@@ -109,6 +125,15 @@ public class Player {
     public void setSpeed(float speed){this.speed = speed;}
     public void setDamage(float damage){this.damage = damage;}
     public float getHealth(){return this.health;}
+    public float getDashMeterPercent(){
+        return this.dashMeterPercent;
+    }
+    public float getDashMeterRegenRate(){
+        return this.dashMeterRegenRate;
+    }
+    public float getDashThreshold(){
+        return this.dashThreshold;
+    }
     public float getSpeed(){return this.speed;}
     public float getDiagonalSpeed(){return speed*0.707f;}
     public float getDamage(){return this.damage;}

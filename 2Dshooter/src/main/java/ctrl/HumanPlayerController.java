@@ -67,6 +67,8 @@ public class HumanPlayerController extends PlayerController implements ActionLis
 
         setWalkDirection(newDirection);
         playerView.rotateGun(playerData.getGunRotation()*tpf);
+        playerData.setDashMeter(playerData.getDashMeterPercent()+tpf*playerData.getDashMeterRegenRate());
+        playerView.setDashBar(playerData.getDashMeterPercent());
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -94,9 +96,12 @@ public class HumanPlayerController extends PlayerController implements ActionLis
             playerData.gunRight = isPressed;
         }
         if(name.equals(mapNames[7]) && !isPressed && !playerData.dashing){
-            playerData.dashing = true;
-            playerView.playDashSound();
-            dashTimer(playerData.getDashMillis());
+            if (playerData.getDashMeterPercent() >= playerData.getDashThreshold()){
+                playerData.dashing = true;
+                playerView.playDashSound();
+                playerData.setDashMeter(playerData.getDashMeterPercent()-40f);
+                dashTimer(playerData.getDashMillis());
+            }
         }
     }
 
