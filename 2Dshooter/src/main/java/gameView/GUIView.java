@@ -65,6 +65,7 @@ public class GUIView implements ScreenController {
         nifty.fromXml("Interface/screen.xml", "gamegui", this);
         nifty.gotoScreen("gamegui");
         this.gameView.setPaused(false);
+        this.gameView.setInitialized();
     }
 
     // called when menu button is clicked
@@ -86,16 +87,33 @@ public class GUIView implements ScreenController {
         }
     }
 
-    //turns the ai variable on/off when called, !!!not working!!!
+    //turns the ai variable on/off when called, is working but no text change in menu
     public void toggleAI(){
         Element niftyElement = nifty.getCurrentScreen().findElementById("aitext");
         gameView.setAI(!gameView.getAI());
+        System.out.println("AI Enabled: "+gameView.getAI());
+        /*
         if(gameView.getAI()){
             niftyElement.getRenderer(TextRenderer.class).setText(
                     "AI: ON");
         }else{niftyElement.getRenderer(TextRenderer.class).setText(
                 "AI: OFF");
-        }
+        }*/
+    }
+    //turns the ai variable on/off when called, !!!not working!!!
+
+    public void toggleCam(){
+        gameView.getWorld().getCameraData().setDynamicCameraEnabled(!gameView.getWorld().getCameraData().getDynamicCameraEnabled());
+
+        System.out.println("Dynamic Camera Enabled: "+gameView.getWorld().getCameraData().getDynamicCameraEnabled());
+
+        /*
+        if(gameView.getWorld().getCameraData().getDynamicCameraEnabled()){
+            niftyElement.getRenderer(TextRenderer.class).setText(
+                    "Dynamic Camera: ON");
+        }else{niftyElement.getRenderer(TextRenderer.class).setText(
+                "Dynamic Camera: OFF");
+        }*/
     }
 
     public void onStartScreen() {

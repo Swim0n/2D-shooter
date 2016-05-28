@@ -63,14 +63,13 @@ public class GameView extends SimpleApplication implements ScreenController{
         initCamera();
 
         //creates the model of the game
-        world = new World(20, 20, true);
+        world = new World(20, 20, false);
 
         initGUI();
         initStage();
         initPlayers();
         initLights();
 
-        initialized = true;
         //for developing purposes only, remove before release to the waiting masses
         setDisplayStatView(true);
         setDisplayFps(true);
@@ -227,5 +226,8 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     public World getWorld() {
         return world;
+    }
+    public void setInitialized() {
+        initialized = true;
     }
 }

@@ -15,7 +15,7 @@ public class CameraModel {
     private float height;
     private float minZoom = 70f;
     private float maxZoom = 35f;
-
+    private float zOffset = 40f;
     public CameraModel(boolean dynamicCamEnabled){
         this.dynamicCamEnabled = dynamicCamEnabled;
 
@@ -25,7 +25,7 @@ public class CameraModel {
         position.set((
                 (player1Pos.x+player2Pos.x)/2),
                 (-getCamHeight(player1Pos,player2Pos)),
-                ((player1Pos.z+player2Pos.z)/2-40f
+                ((player1Pos.z+player2Pos.z)/2-zOffset
                 ));
         if(position.equals(null)){
             position.set(staticPosition);

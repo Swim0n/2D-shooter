@@ -13,9 +13,7 @@ import utils.KeyMappings;
 public class ControlInit {
     private GameView gameView;
     private World world;
-
     private BulletAppState bulletAppState;
-    private boolean ai = false;
 
     private KeyMappings player1Mappings = new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
             KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE);
@@ -30,8 +28,9 @@ public class ControlInit {
         initiatePowerUpControls();
         initiateGUI();
 
-        //disable to use static cam, will be better implemented with settings
-        initiateCameraControls();
+        if(world.getCameraData().getDynamicCameraEnabled()){
+            initiateCameraControls();
+        }
    }
 
     private void initiateGUI() {
@@ -51,7 +50,7 @@ public class ControlInit {
         PlayerController player2ControlSave = new HumanPlayerController(gameView.getPlayer2View(), world.getPlayer2(), gameView, player2Mappings);
 
         PlayerController player2Control;
-        if(ai){
+        if(gameView.getAI()){
             player2Control = player2AIControl;
         } else {
             player2Control = player2ControlSave;
