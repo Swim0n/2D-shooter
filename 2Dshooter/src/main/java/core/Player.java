@@ -9,6 +9,7 @@ public class Player {
 
     private float health;
     private float speed;
+    private float bulletSpeed;
     private float damage;
     private float dashSpeed;
     private float dashMeterPercent;
@@ -35,10 +36,11 @@ public class Player {
         this.height = 1;
         this.mass = 1;
         this.health = 100;
-        this.speed = 23;
+        this.speed = 14;
+        this.bulletSpeed = 80f;
         this.damage = 10;
-        this.dashMillis = 300;
-        this.dashSpeed = 50f;
+        this.dashMillis = 80;
+        this.dashSpeed = 80f;
         this.dashMeterPercent = 100f;
         this.dashMeterRegenRate = 7f;
         this.dashThreshold = 40f;
@@ -130,7 +132,10 @@ public class Player {
         needsReset = false;
     }
     public void incWins(){this.wins += 1;}
-    public void setSpeed(float speed){this.speed = speed;}
+    public void setSpeed(float speed){
+        this.speed = speed;
+        this.dashSpeed = this.speed*5.7f;
+    }
     public void setDamage(float damage){this.damage = damage;}
     public float getHealth(){return this.health;}
     public float getDashMeterPercent(){
@@ -149,7 +154,7 @@ public class Player {
     public float getHeight(){return this.height; }
     public float getMass(){return this.mass; }
     public int getDashMillis(){return dashMillis;}
-    public float getDashSpeed(){return dashSpeed;}
+    public float getBulletSpeed(){return bulletSpeed;}
     public int getWins(){return wins;}
     public float getGunRotationSpeed() {return gunRotationSpeed;}
     public Vector3f getPosition() {return position;}

@@ -5,6 +5,7 @@ import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class BulletView {
 
     private final GameView gameView;
-    private Sphere bulletShape;
+    private Box bulletShape;
 
     private PlayerView playerView;
     private Material bulletMaterial;
@@ -33,7 +34,7 @@ public class BulletView {
         this.bullets = new ArrayList<>();
 
         //creating the bullet
-        bulletShape = new Sphere(5, 10, 0.3f);
+        bulletShape = new Box(0.2f,0.2f,0.2f);
         bullet = new Geometry("Bullet", bulletShape);
         bulletMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         bulletMaterial.setColor("Color", playerView.getBodyColor());

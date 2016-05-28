@@ -63,7 +63,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         initCamera();
 
         //creates the model of the game
-        world = new World(30, 30, true);
+        world = new World(30, 30, false);
 
         initGUI();
         initStage();
@@ -140,6 +140,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private void initNodes(){
         //init nodes
         bulletNode = new Node("bullets");
+        bulletNode.setShadowMode(RenderQueue.ShadowMode.Cast);
         stageNode = new Node("stage");
         camNode = new CameraNode("cameraNode",cam);
         terrainNode = new Node("terrain");

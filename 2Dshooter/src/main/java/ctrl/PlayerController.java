@@ -30,7 +30,7 @@ public abstract class PlayerController extends BetterCharacterControl {
         this.playerView = playerView;
         this.speed = playerData.getSpeed();
         this.spatial = playerView.getPlayerNode();
-        spatial.setLocalRotation(new Quaternion(0f,0f,0f,1f));
+        warp(new Vector3f(playerView.getStartPos()));
     }
 
     @Override
@@ -83,7 +83,7 @@ public abstract class PlayerController extends BetterCharacterControl {
         //setup control for bullet
         BulletController bulletPhy = new BulletController(bullet, gameView, lamp_light);
         bullet.getBullet().addControl(bulletPhy);
-        bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(50));
+        bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(playerData.getBulletSpeed()));
         playerView.getGameView().getBulletAppState().getPhysicsSpace().add(bulletPhy);
 
         playerView.playShotSound();
