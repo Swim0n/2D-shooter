@@ -10,7 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.shape.Quad;
-import core.Ground;
+import core.World;
 
 /**
  * Created by Hannes on 24/04/2016.
@@ -26,19 +26,20 @@ public class GroundView {
     private Quad groundShape;
     private Quad backgroundShape;
     private BulletAppState bulletAppState;
-    private Ground groundModel = new Ground();
+    private World world;
 
     GroundView(GameView gameView){
         this.stageNode = gameView.getStageNode();
         this.assetManager = gameView.getAssetManager();
         this.bulletAppState = gameView.getBulletAppState();
+        this.world = gameView.getWorld();
         createGround();
         createBackground();
         applyPhysics();
     }
     private void createGround(){
 
-        groundShape = new Quad(groundModel.getWidth(), groundModel.getHeight()); //quad to represent ground in java
+        groundShape = new Quad(world.getWidth(), world.getHeight()); //quad to represent ground in java
         groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
         groundGeom.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
         groundGeom.rotate(FastMath.HALF_PI,0,0);
@@ -47,7 +48,7 @@ public class GroundView {
     }
 
     private void createBackground(){
-        backgroundShape = new Quad(groundModel.getWidth()*4, groundModel.getHeight()*4);
+        backgroundShape = new Quad(world.getWidth()*4, world.getHeight()*4);
         backgroundGeom = new Geometry("Background", backgroundShape);
         backgroundMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         backgroundMaterial.setTexture("ColorMap", assetManager.loadTexture("Textures/background.jpg"));

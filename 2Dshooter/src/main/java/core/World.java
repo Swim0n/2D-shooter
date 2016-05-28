@@ -12,12 +12,16 @@ public class World {
     private final Environment terrain;
     private final CameraModel cameraData;
     private boolean shutDown;
+    private float height;
+    private float width;
 
     public World(int rocks, int trees, boolean dynamicCamEnabled){
         this.player1 = new Player();
         this.player2 = new Player();
         this.terrain = new Environment(rocks, trees);
         this.cameraData = new CameraModel(dynamicCamEnabled);
+        this.width = 71f;
+        this.height = 53f;
     }
 
     public Player getPlayer1() {return player1;}
@@ -35,6 +39,13 @@ public class World {
 
     public boolean isShutDown() {
         return shutDown;
+    }
+
+    public float getHeight(){
+        return this.height;
+    }
+    public float getWidth(){
+        return this.width;
     }
 
 
