@@ -94,9 +94,8 @@ public abstract class PlayerController extends BetterCharacterControl {
 
     protected void shootBullet(){
         Geometry bullet = bulletView.getBullet(playerView);
-        LightControl lightControl = new LightControl(bulletLight);
         rootNode.addLight(bulletLight);
-        bullet.addControl(lightControl);
+        bullet.addControl(new LightControl(bulletLight));
         new BulletController(playerView, bullet, gameView, bulletLight);
         player.setShotMeter(player.getShotMeterPercent()- player.getShotThreshold());
         playerView.playShotSound();
