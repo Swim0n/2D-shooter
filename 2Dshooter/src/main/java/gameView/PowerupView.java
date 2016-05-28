@@ -16,10 +16,8 @@ public class PowerUpView {
     private boolean hasCollided;
 
     /** initializes two power ups and then spawn two new every 15 seconds*/
-    public PowerUpView(GameView gameView, PowerUp powerUpType, ColorRGBA colorRGBA){
-        GameView gameView1 = gameView;
+    public PowerUpView(Node targetNode,GameView gameView, PowerUp powerUpType, ColorRGBA colorRGBA){
         AssetManager assetManager = gameView.getAssetManager();
-        Node terrainNode = gameView.getTerrainNode();
         this.powerUpType = powerUpType;
 
         Box powerBox = new Box(1f, 1f, 1f);
@@ -29,7 +27,7 @@ public class PowerUpView {
         powerupGeom.setMaterial(boxMaterial);
         powerupGeom.setLocalTranslation(powerUpType.getX(), -1, powerUpType.getZ());
         boxMaterial.setColor("Color", colorRGBA);
-        terrainNode.attachChild(powerupGeom);
+        targetNode.attachChild(powerupGeom);
     }
 
     public Spatial getPowerUpSpatial(){

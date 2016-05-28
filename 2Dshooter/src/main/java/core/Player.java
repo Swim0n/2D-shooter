@@ -1,6 +1,8 @@
 package core;
 
+import javax.swing.*;
 import javax.vecmath.Vector3f;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by David on 2016-04-15.
@@ -15,6 +17,10 @@ public class Player {
     private float dashMeterPercent;
     private float dashMeterRegenRate;
     private float dashThreshold;
+    private float shotMeterPercent;
+    private float shotMeterRegenRate;
+    private float shotThreshold;
+    private int overloadDuration;
     private int wins;
     private int dashMillis;
     private float gunRotationSpeed;
@@ -26,6 +32,7 @@ public class Player {
     private float height;
     private float mass;
     private boolean needsReset;
+    private boolean overloaded;
 
     public Player(){
         setStandard();
@@ -44,6 +51,11 @@ public class Player {
         this.dashMeterPercent = 100f;
         this.dashMeterRegenRate = 7f;
         this.dashThreshold = 40f;
+        this.shotMeterPercent = 100f;
+        this.shotMeterRegenRate = 7f;
+        this.shotThreshold = 5f;
+        this.overloadDuration = 2700;
+
         this.gunRotationSpeed = 140f;
     }
 
@@ -73,6 +85,32 @@ public class Player {
         } else {
             this.dashMeterPercent = percent;
         }
+    }
+
+    public void setShotMeter(float percent){
+        if (percent < 0){
+            this.shotMeterPercent = 0;
+        } else if(percent > 100){
+            this.shotMeterPercent = 100;
+        } else {
+            this.shotMeterPercent = percent;
+        }
+    }
+
+    public void overload(){
+        overloaded = true;
+        setShotMeter(100);
+        overloadTimer(overloadDuration);
+    }
+
+    public void overloadTimer(int millis){
+        Timer timer = new Timer(millis, new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                overloaded = false;
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
     public Vector3f getWalkingDirection(){
@@ -147,6 +185,15 @@ public class Player {
     public float getDashThreshold(){
         return this.dashThreshold;
     }
+    public float getShotMeterPercent(){
+        return this.shotMeterPercent;
+    }
+    public float getShotMeterRegenRate(){
+        return this.shotMeterRegenRate;
+    }
+    public float getShotThreshold(){
+        return this.shotThreshold;
+    }
     public float getSpeed(){return this.speed;}
     public float getDiagonalSpeed(){return speed*0.707f;}
     public float getDamage(){return this.damage;}
@@ -156,7 +203,12 @@ public class Player {
     public int getDashMillis(){return dashMillis;}
     public float getBulletSpeed(){return bulletSpeed;}
     public int getWins(){return wins;}
-    public float getGunRotationSpeed() {return gunRotationSpeed;}
+    public boolean isOverloaded(){
+        return overloaded;
+    }
+    public int getOverloadDuration(){
+        return this.overloadDuration;
+    }
     public Vector3f getPosition() {return position;}
     public void setPosition(Vector3f position) {this.position = position;}
 

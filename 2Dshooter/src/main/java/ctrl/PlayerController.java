@@ -2,7 +2,7 @@ package ctrl;
 
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.light.PointLight;
-import com.jme3.math.Quaternion;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.control.LightControl;
 import core.Player;
@@ -12,6 +12,9 @@ import gameView.GameView;
 import gameView.PlayerView;
 import utils.Utils;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
 /**
  * Created by Simon on 2016-05-11.
  */
@@ -19,16 +22,16 @@ public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     private final GameView gameView;
     protected float speed;
-    protected Player playerData;
+    protected Player player;
     protected GUIView niftyView;
 
     public PlayerController(PlayerView playerView, Player player, GameView gameView){
         super(player.getRadius(), player.getHeight(), player.getMass());
         this.gameView = gameView;
         this.niftyView = gameView.getNiftyView();
-        this.playerData = player;
+        this.player = player;
         this.playerView = playerView;
-        this.speed = playerData.getSpeed();
+        this.speed = this.player.getSpeed();
         this.spatial = playerView.getPlayerNode();
         warp(new Vector3f(playerView.getStartPos()));
     }
@@ -38,27 +41,39 @@ public abstract class PlayerController extends BetterCharacterControl {
         super.update(tpf);
         if(gameView.isPaused()){
             setWalkDirection(new Vector3f(0,0,0));
-            playerData.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
+            player.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
             this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
             return;
         }
 
         gameView.updateGUI();
 
-        speed = playerData.getSpeed();
+        speed = player.getSpeed();
 
 
-        if(playerData.getNeedsReset()){
+        if(player.getNeedsReset()){
             this.resetPlayer();
-            playerData.setNeedsResetFalse();
+            player.setNeedsResetFalse();
 
             System.out.println("P1 wins: "+ gameView.getWorld().getPlayer1().getWins()+
                     "\nP2 wins: "+ gameView.getWorld().getPlayer2().getWins());
         }
 
-        if(playerData.getHealth()==0){
+        if(player.getHealth()==0){
             gameView.getWorld().setGameOver();
         }
+
+        playerView.rotateGun(player.getGunRotation()*tpf);
+        player.setDashMeter(player.getDashMeterPercent()+tpf* player.getDashMeterRegenRate());
+        playerView.setDashBar(player.getDashMeterPercent());
+        if(!player.isOverloaded()){
+            player.setShotMeter(player.getShotMeterPercent()+tpf* player.getShotMeterRegenRate());
+            playerView.setShotBarColor(ColorRGBA.Yellow);
+        } else {
+            playerView.setShotBarColor(ColorRGBA.Red);
+        }
+        playerView.setShotBar((player.getShotMeterPercent()));
+
 
         this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }
@@ -66,12 +81,12 @@ public abstract class PlayerController extends BetterCharacterControl {
     public void resetPlayer(){
         warp(new Vector3f(playerView.getStartPos()));
         playerView.setHealthBar(100);
-        playerData.setStandard();
+        player.setStandard();
         niftyView.updateText();
     }
 
     //creates a new bullet specific to the player who fired it
-    public void shootBullet(){
+    protected void shootBullet(){
         BulletView bullet = new BulletView(this.playerView,gameView);
         //set up light for bullet
         PointLight lamp_light = new PointLight();
@@ -83,9 +98,26 @@ public abstract class PlayerController extends BetterCharacterControl {
         //setup control for bullet
         BulletController bulletPhy = new BulletController(bullet, gameView, lamp_light);
         bullet.getBullet().addControl(bulletPhy);
-        bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(playerData.getBulletSpeed()));
+        bulletPhy.setLinearVelocity(playerView.getGunRotation().getRotationColumn(2).mult(player.getBulletSpeed()));
         playerView.getGameView().getBulletAppState().getPhysicsSpace().add(bulletPhy);
-
+        player.setShotMeter(player.getShotMeterPercent()- player.getShotThreshold());
         playerView.playShotSound();
+    }
+
+    protected void dash(){
+        player.dashing = true;
+        playerView.playDashSound();
+        player.setDashMeter(player.getDashMeterPercent()- player.getDashThreshold());
+        dashTimer(player.getDashMillis());
+    }
+
+    private void dashTimer(int millis){
+        Timer timer = new Timer(millis, new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                player.dashing = false;
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 }
