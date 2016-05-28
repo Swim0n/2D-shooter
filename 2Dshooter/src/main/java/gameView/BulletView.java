@@ -34,7 +34,7 @@ public class BulletView {
         this.bullets = new ArrayList<>();
 
         //creating the bullet
-        bulletShape = new Box(0.2f,0.2f,0.2f);
+        bulletShape = new Box(0.17f,0.17f,0.17f);
         bullet = new Geometry("Bullet", bulletShape);
         bulletMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         bulletMaterial.setColor("Color", playerView.getBodyColor());

@@ -49,24 +49,24 @@ public class TerrainView {
     private void createTerrain(){
         for (int i = 0; i < world.getTerrain().getRocksAmount(); i++){
             Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
-            Spatial rock = assetManager.loadModel("Models/block.mesh.xml");
+            Spatial rock = assetManager.loadModel("Models/block1.mesh.xml");
             rock.setMaterial(assetManager.loadMaterial("Materials/block1mat.j3m"));
             terrainGrid.add(rock);
             rock.setLocalTranslation(position.getX(),-2, position.getZ());
             rock.rotate(FastMath.PI,0,0);
             rock.scale(2);
-            rock.move(-4,0,0);
+            rock.move(1,0,0);
             terrainNode.attachChild(rock);
         }
         for (int i = 0; i < world.getTerrain().getTreesAmount(); i++){
             Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
-            Spatial tree = assetManager.loadModel("Models/block.mesh.xml");
+            Spatial tree = assetManager.loadModel("Models/block2.mesh.xml");
             tree.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
             terrainGrid.add(tree);
             tree.setLocalTranslation(position.getX(),-2, position.getZ());
             tree.rotate(FastMath.PI,0,0);
             tree.scale(2);
-            tree.move(-4,0,0);
+            tree.move(1,0,0);
             terrainNode.attachChild(tree);
         }
     }
