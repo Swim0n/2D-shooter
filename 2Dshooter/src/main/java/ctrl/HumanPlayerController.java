@@ -34,9 +34,6 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     }
 
     private void setupKeys() {
-        inputManager.addMapping("resetGame",new KeyTrigger(KeyInput.KEY_F8));
-        inputManager.addListener(this, "resetGame");
-
         //generating random strings as names for the mappings, allowing for multiple instances of this controller
         for(int i = 0; i < mapNames.length; i++){
             mapNames[i] = UUID.randomUUID().toString();
@@ -72,11 +69,6 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
-        //resetting the java to its original state
-        if (name.equals("resetGame") && !isPressed){
-
-            this.resetPlayer();
-        }
         //movement of player
         if (name.equals(mapNames[0])) {
             playerData.left = isPressed;

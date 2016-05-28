@@ -56,12 +56,15 @@ public class GameView extends SimpleApplication implements ScreenController{
 
 
     public void simpleInitApp() {
-        //creates the model of the game
-        world = new World(30, 30, true);
+
 
         initNodes();
         initPhysics();
         initCamera();
+
+        //creates the model of the game
+        world = new World(30, 30, true);
+
         initGUI();
         initStage();
         initPlayers();
@@ -175,8 +178,8 @@ public class GameView extends SimpleApplication implements ScreenController{
         return player2View;
     }
 
-    public boolean isInitiated() {
-        return initiated;
+    public boolean isInitialized() {
+        return initialized;
     }
     public void setPaused(boolean paused) {
         this.paused = paused;
