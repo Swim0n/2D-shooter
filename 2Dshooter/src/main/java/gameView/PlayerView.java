@@ -107,12 +107,13 @@ public class PlayerView {
 
     private void createHealthBar(){
         //creating a health bar
-        healthBackgroundBar = new Geometry("healthBackgroundBar", new Quad(3.5f, 0.4f));
+        healthBackgroundBar = new Geometry("healthBackgroundBar", new Quad(3.7f, 0.6f));
         healthBar = new Geometry("healthBar", new Quad(3.5f, 0.4f));
         healthBackgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
         healthBar.setMaterial(Utils.getMaterial(assetManager,bodyColor));
         healthBackgroundBar.center();
         healthBar.center();
+        healthBackgroundBar.move(0,0,-0.05f);
         healthBarNode.attachChild(healthBackgroundBar);
         healthBarNode.attachChild(healthBar);
         healthBarNode.move(0,-3.5f, 1);
@@ -123,7 +124,7 @@ public class PlayerView {
     }
 
     private void createDashBar(){
-        dashBackgroundBar = new Geometry("dashBackgroundBar", new Quad(2.3f, 0.3f));
+        dashBackgroundBar = new Geometry("dashBackgroundBar", new Quad(2.5f, 0.45f));
         dashBar = new Geometry("dashBar", new Quad(2.3f, 0.3f));
         dashBackgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
         dashBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Orange));
