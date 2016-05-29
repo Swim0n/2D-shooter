@@ -1,6 +1,10 @@
 import com.jme3.system.AppSettings;
 import view.WorldView;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 /**
  * Created by David on 2016-05-25.
  */
@@ -8,10 +12,17 @@ import view.WorldView;
 public class ViewInit {
     private final WorldView worldView;
 
-    public ViewInit() throws InterruptedException {
+    public ViewInit() throws InterruptedException, IOException {
 
         AppSettings settings = new AppSettings(false);
         settings.setSettingsDialogImage("Interface/voxelgalaxy.png");
+
+        BufferedImage[] voxelIcons = new BufferedImage[] {
+                ImageIO.read( Main.class.getResource( "Interface/voxel-128.png" ) ),
+                ImageIO.read( Main.class.getResource( "Interface/voxel-32.png" ) ),
+                ImageIO.read( Main.class.getResource( "Interface/voxel-16.png" ) )
+        };
+        settings.setIcons(voxelIcons);
         settings.setTitle("Voxel Galaxy: Arena");
         settings.setVSync(true);
 
