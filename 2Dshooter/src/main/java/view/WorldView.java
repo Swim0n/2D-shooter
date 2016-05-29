@@ -205,4 +205,7 @@ public class WorldView extends SimpleApplication implements ScreenController{
     public PowerUpView getPowerUpView() {
         return powerUpView;
     }
+    public NiftyJmeDisplay getNiftyDisplay(){
+        return this.niftyDisplay;
+    }
 }

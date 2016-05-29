@@ -39,9 +39,6 @@ public class GUIView implements ScreenController {
         this.niftyDisplay = nd;
         this.nifty = nd.getNifty();
     }
-    public void setWorldView(WorldView gv){
-        this.worldView = gv;
-    }
 
     //updates the status bar at top of java
     public void updateText(){
@@ -102,7 +99,7 @@ public class GUIView implements ScreenController {
 
     public void toggleCam(){
         Element niftyElement = nifty.getCurrentScreen().findElementById("CamSettingText");
-        worldView.getWorld().getCameraData().setDynamicCameraEnabled(!gameView.getWorld().getCameraData().getDynamicCameraEnabled());
+        worldView.getWorld().getCameraData().setDynamicCameraEnabled(!worldView.getWorld().getCameraData().getDynamicCameraEnabled());
 
         if(worldView.getWorld().getCameraData().getDynamicCameraEnabled()){
             niftyElement.getRenderer(TextRenderer.class).setText(
