@@ -25,7 +25,7 @@ public class PowerUpTest {
         float afterHp = player.getHealth();
         assertTrue(beforeHp<afterHp);
         /** health power up is set to increase health by 20 */
-        assertTrue(beforeHp+20==afterHp);
+        assertTrue(beforeHp+12==afterHp);
 
 
 
