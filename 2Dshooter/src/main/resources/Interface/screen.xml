@@ -24,6 +24,9 @@
                 <control name="button" id="ToggleDeathMatch" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle Death Match" align="center" height="15.0%">
                     <interact onClick="toggleDeathMatch()"/>
                 </control>
+                <control name="button" id="ControllerSetup" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Setup controllers" align="center" height="15.0%">
+                    <interact onClick="setControllers()"/>
+                </control>
                 <control name="button" id="ExitGame" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="15.0%">
                     <interact onClick="quit()"/>
                 </control>
@@ -87,6 +90,76 @@
                 <text id="CamSettingText" font="Interface/Arial.fnt" color="#ffff" text= "" align="center"/>
                 <text id="AiSettingText" font="Interface/Arial.fnt" color="#ffff" text= "" align="center"/>
                 <text id="DMSettingText" font="Interface/Arial.fnt" color="#ffff" text= "" align="center"/>
+            </panel>
+        </layer>
+    </screen>
+    <!-- +++++++++++++++++++++++++++++++++++++++ -->
+    <!-- controller screen(menu)                 -->
+    <!-- +++++++++++++++++++++++++++++++++++++++ -->
+
+    <screen id="controllerSetup" controller="view.GUIView">
+        <layer id="topLayer" childLayout="Horizontal">
+            <panel id="Player1TopPanel" childLayout="center" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="50%" x="-1px" y="-1px" valign="top" align="left" height="20%">
+                <text id="p1text" font="Interface/Arial.fnt" color="#ffff" text= "Keys for Player 1" align="center"/>
+            </panel>
+            <panel id="Player2TopPanel" childLayout="center" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="50%" x="-1px" y="-1px" valign="top" align="left" height="20%">
+                <text id="p2text" font="Interface/Arial.fnt" color="#ffff" text= "Keys for Player 2" align="center"/>
+            </panel>
+            </layer>
+            <layer id="botLayer" childLayout="Horizontal">
+            <panel id="Player1BotPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="50%" x="-1px" y="-1px" valign="bottom" align="left" height="80%">
+                <control name="button" id="p1Left" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move left" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p1Right" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move right" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p1Up" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="move up" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p1Down" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move down" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p1Dash" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Dash" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p1Shoot" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Shoot" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p1rotLeft" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Aim left" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p1rotRight" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Aim right" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+
+            </panel>
+
+            <panel id="Player2BotPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="50%" x="-1px" y="-1px" valign="bottom" align="right" height="80%">
+                <control name="button" id="p2Left" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move left" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p2Right" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move right" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p2Up" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="move up" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p2Down" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move down" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p2Dash" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Dash" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p2Shoot" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Shoot" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p2rotLeft" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Aim left" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
+                <control name="button" id="p2rotRight" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Aim right" align="center" height="10.0%">
+                    <interact onClick="setKey()"/>
+                </control>
             </panel>
         </layer>
     </screen>
