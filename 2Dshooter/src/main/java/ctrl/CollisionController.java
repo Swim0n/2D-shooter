@@ -2,6 +2,7 @@ package ctrl;
 
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.collision.CollisionResults;
+import com.jme3.light.PointLight;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import core.Player;
@@ -16,17 +17,17 @@ import view.WorldView;
 public class CollisionController extends RigidBodyControl {
     private final WorldView worldView;
     private final Spatial target;
-    private final PowerUpController powerUpController;
+    private PointLight light;
     private final PowerUp powerUp;
     private final PowerUpView powerUpView;
     private boolean hasCollided;
 
-    public CollisionController(WorldView worldView, Spatial target, PowerUp powerUp, PowerUpController powerUpController){
+    public CollisionController(WorldView worldView, Spatial target, PowerUp powerUp, PointLight light){
         this.worldView = worldView;
         this.powerUp = powerUp;
         this.powerUpView = worldView.getPowerUpView();
-        this.powerUpController = powerUpController;
         this.target = target;
+        this.light = light;
         target.addControl(this);
     }
     public void update(float tpf){
@@ -49,6 +50,7 @@ public class CollisionController extends RigidBodyControl {
                 playerView.setHealthBar(player.getHealth());
                 playerView.playPowerUpSound();
                 target.removeFromParent();
+                worldView.getRootNode().removeLight(light);
                 results.clear();
                 powerUpView.decActivePowerUps();
                 hasCollided = true;

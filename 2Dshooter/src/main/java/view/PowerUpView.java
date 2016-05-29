@@ -21,6 +21,7 @@ public class PowerUpView {
     private final AssetManager assetManager;
     private final WorldView worldView;
     private final Node rootNode;
+    private PointLight powerLight;
     private static Timer timer = new Timer();
     private int activePowerUps;
     private int maxActivePowerUps = 5;
@@ -40,7 +41,7 @@ public class PowerUpView {
         powerMesh.setMaterial(assetManager.loadMaterial(materialPath));
         powerMesh.setLocalTranslation(powerUp.getX(), -1, powerUp.getZ());
         targetNode.attachChild(powerMesh);
-        PointLight powerLight = new PointLight();
+        powerLight = new PointLight();
         powerLight.setColor(color.mult(5));
         powerLight.setRadius(6f);
         rootNode.addLight(powerLight);
@@ -68,4 +69,7 @@ public class PowerUpView {
     public void decActivePowerUps() {this.activePowerUps-=1;}
     public boolean isReadyToPlace() {return readyToPlace;}
     public void setPlaced() {this.readyToPlace = false;}
+    public PointLight getPowerLight(){
+        return this.powerLight;
+    }
 }
