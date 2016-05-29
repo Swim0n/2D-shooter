@@ -10,17 +10,16 @@ import java.util.Collections;
 
 public class PathFinder {
     private Terrain terrain;
-    private Tile[][] tiles;
     private ArrayList closedSet = new ArrayList();
     private ArrayList openSet = new ArrayList();
 
 
     public PathFinder(Terrain terrain) {
         this.terrain = terrain;
-        this.tiles = terrain.getTiles();
     }
 
 
+    //finds an open path from one tile to another, based off of the aStar search algorithm
     public ArrayList findPath(int startX, int startY, int endX, int endY){
 
         clearTiles();
@@ -85,12 +84,14 @@ public class PathFinder {
         return null;
     }
 
+    //returns the distance between two tiles on the grid
     public double distanceBetweenTiles(Tile start, Tile end) {
         int diffX = Math.abs((start.getX() + 100) - (end.getX() + 100));
         int diffY = Math.abs((start.getY() + 100) - (end.getY() + 100));
         return (Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)) * 10);
     }
 
+    //returns the tile in the openSet with the lowest fScore
     public Tile getCurrent() {
         Tile current = new Tile(0,0,55555555);
         current.setfScore(999999999);
@@ -102,6 +103,7 @@ public class PathFinder {
         return current;
     }
 
+    //takes the end tile and uses the cameFrom variable to follow the calculated chain of tiles leading to the startTile
     public ArrayList reconstructPath(Tile end){
         Tile currentStep = end;
         ArrayList path = new ArrayList();
@@ -113,6 +115,7 @@ public class PathFinder {
         return path;
     }
 
+    //clears the tiles and the pathfinder object so that it can find a new path
     public void clearTiles(){
         for (int i = 0; i < terrain.getTiles().length; i++) {
             for (int j = 0; j < terrain.getTiles()[0].length; j++) {

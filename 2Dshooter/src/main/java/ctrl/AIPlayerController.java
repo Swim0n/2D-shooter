@@ -46,11 +46,7 @@ public class AIPlayerController extends PlayerController {
 
         Vector3f directionToPlayer = worldView.getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
 
-        if (world.getPlayer2().getHealth()<=0){
-            this.stepCount = 0;
-            path = null;
-            setWalkDirection(new Vector3f(0f, -2f, 0f));
-        }
+
         //logic for always rotating the gun to face the player
         if(!playerView.getGunRotation().getRotationColumn(2).equals(directionToPlayer.normalize())){
             Quaternion halfPi = new Quaternion();
@@ -74,10 +70,27 @@ public class AIPlayerController extends PlayerController {
             lastShotTime = System.currentTimeMillis();
         }
 
+        if(path != null) {
+            for (int i = 0; i < path.size(); i++) {
+                if (((Tile) path.get(i)).getBlocked()) {
+                    resetPath();
+                    return;
+                }
+            }
+        }
+
+
+        //if a path exists, set walkdirection toward next tile in path until the next tile has been reached. Repeat until at the last tile of path.
         if(path != null){
         if(stepCount < path.size() ){
-            Vector3f directionNextTile = (new Vector3f((float) ((((Tile) path.get(stepCount)).getX())), -2f, (float) (((Tile) path.get(stepCount)).getY()))).subtract(spatial.getWorldTranslation());
+            Vector3f directionNextTile = (new Vector3f((float) ((((Tile) path.get(stepCount)).getX())), -2f,
+                    (float) (((Tile) path.get(stepCount)).getY()))).subtract(spatial.getWorldTranslation());
+
             setWalkDirection(directionNextTile.normalize().mult(speed));
+            if(!directionNextTile.equals(Vector3f.ZERO)){
+                playerView.getBodyNode().lookAt(playerView.getPlayerNode().getLocalTranslation().add(directionNextTile), Vector3f.UNIT_Y);
+            }
+
 
             if (updateTookStep(directionNextTile)) {
                 if (stepCount <= path.size()) {
@@ -87,20 +100,22 @@ public class AIPlayerController extends PlayerController {
                 }
             }
         }else {
-
-            stepCount = 0;
-            path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(), (int) spatial.getWorldTranslation().getZ(), (int) worldView.getPlayer1Node().getWorldTranslation().getX(), (int) worldView.getPlayer1Node().getWorldTranslation().getZ());
-
+            resetPath();
         }
         }else{
-            stepCount = 0;
-            path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(),(int) spatial.getWorldTranslation().getZ(),(int) worldView.getPlayer1Node().getWorldTranslation().getX(),(int)worldView.getPlayer1Node().getWorldTranslation().getZ());
+            resetPath();
         }
+
+
     }
 
-
+    public void resetPath(){
+        stepCount = 0;
+        path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(),(int) spatial.getWorldTranslation().getZ(),
+                (int) worldView.getPlayer1Node().getWorldTranslation().getX(),(int)worldView.getPlayer1Node().getWorldTranslation().getZ());
+    }
     public boolean updateTookStep(Vector3f directionToNextTile){
-        if(directionToNextTile.length() < 0.5f){
+        if(directionToNextTile.length() < 0.3f){
             return true;
         }
         return false;
