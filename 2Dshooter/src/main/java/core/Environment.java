@@ -19,8 +19,6 @@ public class Environment {
     private int treesAmount;
     private int height;
     private int width;
-    private int tileHeight;
-    private int tileWidth;
 
     public Environment(int rocks, int trees){
         this.rocksAmount = rocks;
@@ -47,8 +45,7 @@ public class Environment {
     //creates an array with the amount of tiles as the grid. it then fills the array with every tile position.
     //this method assumes that the java engine maps the center of the spatial to the position
     public void setPositions(float terrainWidth, float terrainHeight, float tileWidth, float tileHeight){
-        this.tileWidth =  (int) tileWidth;
-        this.tileHeight = (int) tileHeight;
+
         this.height = (int) (terrainHeight/tileHeight);
         this.width = (int) (terrainWidth/tileWidth + 1);
         grid = new Tile[width][height];
@@ -63,17 +60,6 @@ public class Environment {
         //this is where the players spawn
         occupiedTerrain[1][occupiedTerrain[0].length-2] = true;
         occupiedTerrain[occupiedTerrain.length-2][1] = true;
-
-        /**PathFinder pf = new PathFinder(this);
-        System.out.println("widthheight" + width + height);
-        System.out.println("xxx" + (getTileByCoords(-35, -24)).getID());
-        ArrayList path = pf.findPath(-13, -13, 12, 12);
-        System.out.println("path:");
-        for(int i=0; i<path.size(); i++){
-            System.out.println("X: " + ((Tile) path.get(i)).getX() + "Y: " + ((Tile) path.get(i)).getY());
-        }
-        System.out.println("/path");**/
-
     }
 
     public Tile[][] getTiles(){
@@ -90,27 +76,11 @@ public class Environment {
         }
         return null;
     }
-    public Tile getTileByID(int id){
-        for(int i=0; i<this.height; i++){
-            for(int n=0; n<this.width; n++){
-                if(grid[i][n].getID() == id){
-                    return grid[i][n];
-                }
-            }
-        }
-        return null;
-    }
-    public int getHeight(){
-        return this.height;
-    }
-
-    public int getWidth(){
-        return this.width;
-    }
 
     public ArrayList getTileNeighbors(Tile tile){
 
         ArrayList neighbors = new ArrayList();
+
         Boolean topLeft;
         Boolean topMid;
         Boolean topRight;

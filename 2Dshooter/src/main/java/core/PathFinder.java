@@ -45,6 +45,7 @@ public class PathFinder {
 
         startTile.setgScore(0);
         startTile.setfScore(distanceBetweenTiles(startTile, endTile));
+
         while (openSet.size() != 0) {
             Tile current = getCurrent();
             if(current == endTile){

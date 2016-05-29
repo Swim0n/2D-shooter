@@ -93,20 +93,6 @@ public class AIPlayerController extends PlayerController {
             stepCount = 0;
             path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(),(int) spatial.getWorldTranslation().getZ(),(int) worldView.getPlayer1Node().getWorldTranslation().getX(),(int)worldView.getPlayer1Node().getWorldTranslation().getZ());
         }
-
-
-
-        /**
-        //logic for moving towards player
-        if(results.size() == 0) {
-            if(directionToPlayer.length() < 15f){
-                setWalkDirection(new Vector3f(0f,0f,0f));
-            } else {
-                setWalkDirection(directionToPlayer.normalize().mult(speed));
-            }
-        } else {
-            setWalkDirection(new Vector3f(0f,0f,0f));
-        }**/
     }
 
 
