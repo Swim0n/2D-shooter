@@ -109,7 +109,7 @@ public class GUIView implements ScreenController {
         }
     }
     public void quit(){
-      gameView.requestClose(true);
+      worldView.requestClose(true);
     }
 
     public void onStartScreen() {
