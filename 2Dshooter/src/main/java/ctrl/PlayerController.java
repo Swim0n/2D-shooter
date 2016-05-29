@@ -61,7 +61,7 @@ public abstract class PlayerController extends BetterCharacterControl {
 
         //on death match only reset the dead player, else reset both and their stats
         if(player.getHealth()==0){
-            if(!worldView.isDeathMatch()){
+            if(!worldView.getWorld().isDeathMatch()){
                 worldView.getWorld().setGameOver();
                 return;
             }else if(isPlayer1){
@@ -88,7 +88,7 @@ public abstract class PlayerController extends BetterCharacterControl {
     }
 
     public void resetPlayer(){
-        if(!worldView.isDeathMatch()) {
+        if(!worldView.getWorld().isDeathMatch()) {
             warp(new Vector3f(playerView.getStartPos()));
             player.setStandard();
         }else{

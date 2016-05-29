@@ -51,7 +51,7 @@ public class GUIView implements ScreenController {
                     "P1 HP: " + Float.toString(player1.getHealth()) + "    " + "P2 HP: " + Float.toString(player2.getHealth())
         );
 
-        if(worldView.isDeathMatch()){
+        if(worldView.getWorld().isDeathMatch()){
             niftyElement = nifty.getCurrentScreen().findElementById("WinsText");
             niftyElement.getRenderer(TextRenderer.class).setText(
                     "P1 Kills: "+ Integer.toString(player1.getWins())+ "    "+"P2 Kills: " + Integer.toString(player2.getWins())
@@ -94,13 +94,13 @@ public class GUIView implements ScreenController {
 
     public void toggleDeathMatch(){
         niftyElement = nifty.getCurrentScreen().findElementById("DMSettingText");
-        worldView.setDeathMatch(!worldView.isDeathMatch());
+        worldView.getWorld().setDeathMatch(!worldView.getWorld().isDeathMatch());
 
         if(worldView.getWorld().isInGame()){
             worldView.getWorld().setGameOver();
         }
 
-        if(worldView.isDeathMatch()){
+        if(worldView.getWorld().isDeathMatch()){
             niftyElement.getRenderer(TextRenderer.class).setText("Death Match Mode");
         }else{
             niftyElement.getRenderer(TextRenderer.class).setText("Match Point Mode");
@@ -108,9 +108,9 @@ public class GUIView implements ScreenController {
     }
     public void toggleAI(){
         niftyElement = nifty.getCurrentScreen().findElementById("AiSettingText");
-        worldView.setAI(!worldView.isAI());
+        worldView.getWorld().setAI(!worldView.getWorld().isAI());
 
-        if(worldView.isAI()){
+        if(worldView.getWorld().isAI()){
             niftyElement.getRenderer(TextRenderer.class).setText("1 Player with AI");
         }else{
             niftyElement.getRenderer(TextRenderer.class).setText("2 Player Mode");
