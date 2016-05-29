@@ -5,6 +5,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.PointLight;
+import com.jme3.material.TechniqueDef;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
@@ -97,7 +98,7 @@ public class WorldView extends SimpleApplication implements ScreenController{
         PointLight lamp_light = new PointLight();
         lamp_light.setColor(ColorRGBA.White.mult(2));
         lamp_light.setRadius(150f);
-        lamp_light.setPosition(new Vector3f(0,-10,0));
+        lamp_light.setPosition(new Vector3f(0,-20,0));
         rootNode.addLight(lamp_light);
         final int SHADOWMAP_SIZE=1024;
         PointLightShadowRenderer dlsr = new PointLightShadowRenderer(assetManager, SHADOWMAP_SIZE);

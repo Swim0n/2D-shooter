@@ -41,19 +41,19 @@ public class PowerUpController extends RigidBodyControl {
             if(placeOrder==1) {
                 powerUpMesh = powerUpView.createPowerUp(targetNode, powerUp = new HealthPowerUp(worldView.getWorld().getTerrain()), "Models/plus.mesh.xml", "Materials/plusmat.j3m", ColorRGBA.Red);
                 powerUpMesh.scale(1.4f);
-                new CollisionController(worldView,powerUpMesh,powerUp,this);
+
             }
-            if(placeOrder==2) {
+            else if(placeOrder==2) {
                 powerUpMesh = powerUpView.createPowerUp(targetNode, powerUp = new WeaponPowerUp((worldView.getWorld().getTerrain())), "Models/cube.mesh.xml", "Materials/cubemat.j3m", ColorRGBA.White);
                 powerUpMesh.scale(0.6f);
-                new CollisionController(worldView,powerUpMesh,powerUp,this);
+
             }
-            if(placeOrder==3) {
+            else {
                 powerUpMesh = powerUpView.createPowerUp(targetNode, powerUp = new SpeedPowerUp(worldView.getWorld().getTerrain()), "Models/flash.mesh.xml", "Materials/flashmat.j3m", ColorRGBA.Yellow);
                 powerUpMesh.scale(1.5f);
-                new CollisionController(worldView,powerUpMesh,powerUp,this);
-            }
 
+            }
+            new CollisionController(worldView,powerUpMesh,powerUp, powerUpView.getPowerLight());
             powerUpView.incActivePowerUps();
             powerUpView.setPlaced();
         }
