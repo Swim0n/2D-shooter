@@ -11,9 +11,9 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.CameraControl;
 import com.jme3.scene.control.Control;
 import core.CameraModel;
-import utils.ApplicationAssets;
 import core.Player;
-import utils.Utils;
+import view.WorldView;
+import jME3.utils.Utils;
 
 import java.io.IOException;
 
@@ -26,21 +26,34 @@ public class CameraController extends CameraControl implements ActionListener {
     private final Player player2;
     private final Player player1;
     private final CameraNode cameraNode;
+    private final Vector3f staticLookAt;
+    private final Vector3f staticPosition;
     private Vector3f position;
     private Vector3f lookAt;
 
-    public CameraController (ApplicationAssets appAssets){
-        this.cameraData = appAssets.getWorld().getCameraData();
-        this.player1 = appAssets.getWorld().getPlayer1();
-        this.player2 = appAssets.getWorld().getPlayer2();
-        this.cameraNode = appAssets.getGameView().getCameraNode();
+    public CameraController (WorldView worldView){
+        this.cameraData = worldView.getWorld().getCameraData();
+        this.player1 = worldView.getWorld().getPlayer1();
+        this.player2 = worldView.getWorld().getPlayer2();
+        this.cameraNode = worldView.getCameraNode();
+        this.staticLookAt = Utils.vecMathToJMEVector3f(cameraData.getStaticLookAt());
+        this.staticPosition = Utils.vecMathToJMEVector3f(cameraData.getStaticPosition());
+
+        cameraNode.addControl(this);
     }
 
     public void update(float tpf) {
+        if(player1.getPosition()==null||player2.getPosition()==null){return;}
+        if(!cameraData.getDynamicCameraEnabled()){
+            cameraNode.setLocalTranslation(staticPosition);
+            cameraNode.lookAt(staticLookAt, Vector3f.UNIT_Z);
+            return;
+        }
         updatePosition();
         updateLookAt();
         cameraNode.setLocalTranslation(position);
-        cameraNode.lookAt(lookAt,Vector3f.UNIT_Z);
+        cameraNode.lookAt(lookAt, Vector3f.UNIT_Z);
+
     }
 
     private void updateLookAt() {

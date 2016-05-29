@@ -11,12 +11,14 @@ import gameView.GUIView;
 import gameView.PlayerView;
 import org.lwjgl.Sys;
 
+import view.PlayerView;
 import java.util.ArrayList;
 import core.Player;
 import gameView.GUIView;
 import gameView.PlayerView;
 import utils.ApplicationAssets;
 import utils.Utils;
+import view.WorldView;
 
 /**
  * Created by Simon on 2016-05-10.
@@ -28,6 +30,7 @@ public class AIPlayerController extends PlayerController {
     private ArrayList currentPath = new ArrayList();
     private boolean paused = true;
     private ApplicationAssets applicationAssets;
+    private WorldView worldView;
 
 
     private int stepCount = 0;
@@ -37,11 +40,13 @@ public class AIPlayerController extends PlayerController {
     private World world;
 
 
-    public AIPlayerController(PlayerView view, Player player, GUIView niftyView, ApplicationAssets aa, AssetManager assetManager){
-        super(view, player, niftyView);
+    public AIPlayerController(PlayerView view, Player player, ApplicationAssets aa, AssetManager assetManager){
+        super(view, player, worldView);
         this.world = aa.getWorld();
         this.applicationAssets = aa;
         this.pathFinder = new PathFinder(world.getTerrain(), aa, assetManager);
+        this.worldView = worldView;
+        this.niftyView = worldView.getNiftyView();
 
     }
 
@@ -51,7 +56,8 @@ public class AIPlayerController extends PlayerController {
             return;
         }
         super.update(tpf);
-        Vector3f directionToPlayer = playerView.getGameView().getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
+
+        Vector3f directionToPlayer = worldView.getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
 
         if (playerData.getHealth()<=0){
             this.stepCount = 0;
@@ -75,7 +81,7 @@ public class AIPlayerController extends PlayerController {
         Ray ray = new Ray(spatial.getWorldTranslation(),directionToPlayer.normalize());
         ray.setLimit(directionToPlayer.length());
         CollisionResults results = new CollisionResults();
-        playerView.getGameView().getTerrainNode().collideWith(ray, results);
+        worldView.getTerrainNode().collideWith(ray, results);
         if(results.size() == 0 && System.currentTimeMillis() - lastShotTime > bulletCooldown) {
             shootBullet();
             lastShotTime = System.currentTimeMillis();

@@ -70,6 +70,9 @@ public class Environment {
                 this.grid[i][j] = new Tile((int) (i*tileWidth-terrainWidth/2+tileWidth/2 - 1),(int) (j*tileHeight-terrainHeight/2+tileWidth/2 - 1),(int) (i*width + j));
             }
         }
+        //this is where the players spawn
+        occupiedTerrain[1][occupiedTerrain[0].length-2] = true;
+        occupiedTerrain[occupiedTerrain.length-2][1] = true;
 
         /**PathFinder pf = new PathFinder(this);
         System.out.println("widthheight" + width + height);

@@ -1,19 +1,17 @@
 package core;
 
-import utils.ApplicationAssets;
-
 /**
  * Created by Hannes on 10/05/2016.
  */
 public class SpeedPowerUp extends PowerUp {
 
-    public SpeedPowerUp(ApplicationAssets applicationAssets){
-        super(applicationAssets);
+    public SpeedPowerUp(Environment terrain){
+        super(terrain);
     }
 
     @Override
     public void setEffect(Player player) {
-        player.setSpeed(player.getSpeed()+3);
+        player.setSpeed(player.getSpeed()+2);
     }
 
 }

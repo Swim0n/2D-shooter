@@ -1,0 +1,43 @@
+Meeting Agenda
+ Date: 27/05/2016 
+ Facilitator: David
+ Participants: Hannes, Simon, David, Lukas.
+1. Objectives (5 min). Resolve any issues preventing the team to
+ continue.
+
+Lukas, får ej AI att fungera.
+
+·        
+2. Reports (15 min) from previous meeting
+See report 8
+
+Simon: fortsätter implementera spelgrafik och jmonkey dependencies.
+Hannes: Fortsätter på rapporten.
+Lukas: Göra klart AI.
+David: Fortsätta på rework, möjligtvis kolla lite på kamera och settings.
+
+Ai, fortfarande på gång. Rework klar. Rapport klar.
+
+3. Discussion items (35 min)
+
+Flödesdiagram, SDD, tester och RAD måste bli klara omgående.
+
+       	
+4. Outcomes and assignments (5 min)
+ - Outcomes from 3). I.e. write down what's decided and why it
+ was decided? Sync with other documentation (add terms to
+ wordbook)
+
+Fixa de obligatoriska sakerna och se till att det som går att göra nu blir klart så snabbt som möjligt.
+
+ - From outcomes, 1), 2) and 3) (re)assign each group member
+ issues to solve.
+
+Lukas: AI, ev meny.
+Hannes: Rapport, tester
+Simon: Mer grafik relaterat. SDD, Flödesdiagrm o ospec kodpill.
+David: Mergea in reworken, menyer, (camera), settings, tester med hannes.
+
+5. Wrap up
+- Write down unresolved issues for next meeting.
+

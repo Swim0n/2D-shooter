@@ -11,3 +11,7 @@ Fixa tester för två olika metoder.
 Fixa klart flödesdiagram, rapport samt sdd.
 
 Kolla på att implementera meny och inställningar för användarna.
+
+Göra vettiga start och gameover notifications
+
+Göra det möjligt att ändra inställningar i spelet
