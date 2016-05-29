@@ -15,12 +15,6 @@ import java.util.ArrayList;
  * Initializes randomly generated terrain
  */
 public class TerrainView {
-
-    private float groundX;
-    private float groundZ;
-    private float tileWidth;
-    private float tileHeight;
-
     private World world;
     private Node terrainNode;
     private ArrayList<Spatial> terrainGrid;
@@ -34,11 +28,6 @@ public class TerrainView {
         this.bulletAppState = worldView.getBulletAppState();
         this.terrainGrid = new ArrayList<>();
         world.getTerrain().setPositions(world.getWidth(), world.getHeight(), tileWidth, tileHeight);
-        this.groundX = worldView.getWorld().getWidth();
-        this.groundZ = worldView.getWorld().getHeight();
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
-        world.getTerrain().setPositions(groundX, groundZ, tileWidth, tileHeight);
         createTerrain();
     }
 
@@ -46,27 +35,27 @@ public class TerrainView {
         for (int i = 0; i < world.getTerrain().getRocksAmount(); i++){
             Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos(true));
             world.getTerrain().getTileByCoords((int) position.getX(), (int) position.getZ()).setBlocked(true);
-            Spatial rock = assetManager.loadModel("Models/block2.mesh.xml");
-            rock.setMaterial(assetManager.loadMaterial("Materials/block1mat.j3m"));
-            terrainGrid.add(rock);
-            rock.setLocalTranslation(position.getX(),-2, position.getZ());
-            rock.rotate(FastMath.PI,0,0);
-            rock.scale(2);
-            rock.move(1,0,0);
-            terrainNode.attachChild(rock);
+            Spatial block1 = assetManager.loadModel("Models/block2.mesh.xml");
+            block1.setMaterial(assetManager.loadMaterial("Materials/block1mat.j3m"));
+            terrainGrid.add(block1);
+            block1.setLocalTranslation(position.getX(),-2, position.getZ());
+            block1.rotate(FastMath.PI,0,0);
+            block1.scale(2);
+            block1.move(1,0,0);
+            terrainNode.attachChild(block1);
 
         }
         for (int i = 0; i < world.getTerrain().getTreesAmount(); i++){
             Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos(true));
             world.getTerrain().getTileByCoords((int) position.getX(), (int) position.getZ()).setBlocked(true);
-            Spatial tree = assetManager.loadModel("Models/block2.mesh.xml");
-            tree.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
-            terrainGrid.add(tree);
-            tree.setLocalTranslation(position.getX(),-2, position.getZ());
-            tree.rotate(FastMath.PI,0,0);
-            tree.scale(2);
-            tree.move(1,0,0);
-            terrainNode.attachChild(tree);
+            Spatial block2 = assetManager.loadModel("Models/block2.mesh.xml");
+            block2.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
+            terrainGrid.add(block2);
+            block2.setLocalTranslation(position.getX(),-2, position.getZ());
+            block2.rotate(FastMath.PI,0,0);
+            block2.scale(2);
+            block2.move(1,0,0);
+            terrainNode.attachChild(block2);
         }
         for (int i = 0; i < terrainGrid.size(); i++){
             RigidBodyControl terrainPhy = new RigidBodyControl(0);

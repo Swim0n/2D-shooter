@@ -40,6 +40,9 @@ public class AIPlayerController extends PlayerController {
     @Override
     public void update(float tpf){
         super.update(tpf);
+        if(world.isPaused()){
+            setWalkDirection(Vector3f.ZERO);
+            return;}
 
         Vector3f directionToPlayer = worldView.getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
 
