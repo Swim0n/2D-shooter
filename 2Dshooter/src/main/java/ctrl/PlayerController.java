@@ -1,12 +1,9 @@
 package ctrl;
 
 import com.jme3.bullet.control.BetterCharacterControl;
-import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
-import com.jme3.scene.control.LightControl;
 import core.Player;
 import gameView.BulletView;
 import gameView.GUIView;
@@ -23,8 +20,6 @@ public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     private final GameView gameView;
     private final BulletView bulletView;
-    private final PointLight bulletLight;
-    private final Node rootNode;
     protected float speed;
     protected Player player;
     protected GUIView niftyView;
@@ -38,8 +33,6 @@ public abstract class PlayerController extends BetterCharacterControl {
         this.playerView = playerView;
         this.speed = this.player.getSpeed();
         this.spatial = playerView.getPlayerNode();
-        this.rootNode = gameView.getRootNode();
-        this.bulletLight = bulletView.getBulletLight(playerView);
         warp(new Vector3f(playerView.getStartPos()));
     }
 
@@ -88,10 +81,8 @@ public abstract class PlayerController extends BetterCharacterControl {
     }
 
     protected void shootBullet(){
-        Geometry bullet = bulletView.getBullet(playerView);
-        rootNode.addLight(bulletLight);
-        bullet.addControl(new LightControl(bulletLight));
-        new BulletController(playerView, bullet, gameView, bulletLight);
+        Geometry bullet = bulletView.getNewBullet(playerView);
+        new BulletController(playerView, player, bullet, gameView, bulletView.getBulletLight());
         player.setShotMeter(player.getShotMeterPercent()- player.getShotThreshold());
         playerView.playShotSound();
     }

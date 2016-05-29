@@ -5,7 +5,6 @@ import com.jme3.audio.AudioNode;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
 import com.jme3.effect.shapes.EmitterSphereShape;
-import com.jme3.input.InputManager;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -19,27 +18,14 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.control.LightControl;
 import com.jme3.scene.shape.Quad;
-import core.Player;
 import utils.Utils;
 
 /**
- * Created by Simon on 2016-04-26.
+ * Spawns a player with associated stat bars
  */
 public class PlayerView {
-    private Geometry pipe;
-    private final Node pipeNode = new Node("pipeNode");
-    private final Vector3f startPos;
-    private Spatial player;
-    private Spatial gun;
-    private Geometry healthBackgroundBar;
-    private Geometry healthBar;
-    private Geometry dashBackgroundBar;
-    private Geometry dashBar;
-    private Geometry shotBackgroundBar;
-    private Geometry shotBar;
-    private AssetManager assetManager;
-    private GameView gameView;
     private Node playerNode;
+    private Node rootNode;
     private Node headNode = new Node("head");
     private Node bodyNode = new Node("body");
     private Node healthBarNode = new Node("healthbar");
@@ -50,29 +36,30 @@ public class PlayerView {
     private AudioNode dashAudio;
     private AudioNode hitAudio;
     private AudioNode overloadAudio;
-    private InputManager inputManager;
-    private float lastRotation;
-    private Quaternion gunRot = new Quaternion();
-    private Vector3f axisY=Vector3f.UNIT_Y;//for rotation around Y-axis
-    private String headMaterialPath;
-    private String bodyMaterialPath;
+    private final Vector3f startPos;
+    private Spatial playerBody;
+    private Spatial playerHead;
+    private Geometry healthBar;
+    private Geometry dashBar;
+    private Geometry shotBar;
     private ColorRGBA bodyColor;
     private ColorRGBA emitColor;
+    private float lastRotation;
+    private Quaternion gunRot = new Quaternion();
     private ParticleEmitter sparks;
-    private Player playerData;
+    private String headMaterialPath;
+    private String bodyMaterialPath;
+    private AssetManager assetManager;
 
-    //colorRGBA is just a placeholder until textures are in place
-    public PlayerView(GameView gameView, Node playerNode, String headMaterialPath, String bodyMaterialPath, ColorRGBA bodyColor, ColorRGBA emitColor, Vector3f startPos, Player player){
+    public PlayerView(GameView gameView, Node playerNode, String headMaterialPath, String bodyMaterialPath, ColorRGBA bodyColor, ColorRGBA emitColor, Vector3f startPos){
         this.assetManager = gameView.getAssetManager();
-        this.gameView = gameView;
         this.playerNode = playerNode;
-        this.inputManager = gameView.getInputManager();
         this.startPos = startPos;
         this.headMaterialPath = headMaterialPath;
         this.bodyMaterialPath = bodyMaterialPath;
         this.bodyColor = bodyColor;
         this.emitColor = emitColor;
-        this.playerData = player;
+        this.rootNode = gameView.getRootNode();
         createPlayer();
         createHealthBar();
         createDashBar();
@@ -81,38 +68,90 @@ public class PlayerView {
         initSounds();
     }
 
+    public void rotateGun(float step){
+        lastRotation += step;
+        gunRot.fromAngleAxis(FastMath.PI*lastRotation/180, Vector3f.UNIT_Y);
+        headNode.setLocalRotation(gunRot);
+    }
+
+    public void setHealthBar(float percent){
+        if(percent != 0){
+            healthBar.setLocalScale(percent/100, 1f, 1f);
+        } else {
+            healthBar.setLocalScale(-0.1f, 1f, 1f);
+        }
+    }
+
+    public void setDashBar(float percent){
+        if(percent != 0){
+            dashBar.setLocalScale(percent/100, 1f, 1f);
+        } else {
+            dashBar.setLocalScale(-0.1f, 1f, 1f);
+        }
+    }
+
+    public void setShotBar(float percent){
+        if(percent != 0){
+            shotBar.setLocalScale(percent/100, 1f, 1f);
+        } else {
+            shotBar.setLocalScale(-0.1f, 1f, 1f);
+        }
+    }
+
+    public void setShotBarColor(ColorRGBA color){
+        shotBar.setMaterial(Utils.getMaterial(assetManager,color));
+    }
+
+    public void emitSparks(){
+        sparks.emitAllParticles();
+    }
+
+    public void playPowerUpSound(){
+        powerUpAudio.playInstance();
+    }
+
+    public void playShotSound(){
+        shotAudio.playInstance();
+    }
+
+    public void playDashSound(){
+        dashAudio.playInstance();
+    }
+
+    public void playPlayerHitSound(){
+        hitAudio.playInstance();
+    }
+
+    public void playOverloadSound(){
+        overloadAudio.playInstance();
+    }
+
     private void createPlayer(){
         playerNode.setLocalTranslation(startPos);
 
-        //creating gun attached to player
-        gun = assetManager.loadModel("Models/p1head.mesh.xml");
-        gun.setMaterial(assetManager.loadMaterial(headMaterialPath));
-        gun.rotate(-FastMath.HALF_PI,FastMath.PI,0);
+        playerHead = assetManager.loadModel("Models/p1head.mesh.xml");
+        playerHead.setMaterial(assetManager.loadMaterial(headMaterialPath));
+        playerHead.rotate(-FastMath.HALF_PI,FastMath.PI,0);
         headNode.setLocalTranslation(0,-1.6f,0);
-        headNode.attachChild(gun);
+        headNode.attachChild(playerHead);
         playerNode.attachChild(headNode);
 
-        //creating player
-        player = assetManager.loadModel("Models/p1body.mesh.xml");
-        player.setMaterial(assetManager.loadMaterial(bodyMaterialPath));
-        player.rotate(-FastMath.HALF_PI,FastMath.PI,0);
-        bodyNode.move(0,0,0);
-        bodyNode.attachChild(player);
+        playerBody = assetManager.loadModel("Models/p1body.mesh.xml");
+        playerBody.setMaterial(assetManager.loadMaterial(bodyMaterialPath));
+        playerBody.rotate(-FastMath.HALF_PI,FastMath.PI,0);
+        bodyNode.attachChild(playerBody);
         playerNode.attachChild(bodyNode);
 
-        //creating light
-        PointLight lamp_light = new PointLight();
-        lamp_light.setColor(bodyColor.mult(5));
-        lamp_light.setRadius(9f);
-        gameView.getRootNode().addLight(lamp_light);
-        LightControl lightControl = new LightControl(lamp_light);
-        gun.addControl(lightControl);
-
+        PointLight headLight = new PointLight();
+        headLight.setColor(bodyColor.mult(5));
+        headLight.setRadius(9f);
+        rootNode.addLight(headLight);
+        LightControl lightControl = new LightControl(headLight);
+        playerHead.addControl(lightControl);
     }
 
     private void createHealthBar(){
-        //creating a health bar
-        healthBackgroundBar = new Geometry("healthBackgroundBar", new Quad(3.7f, 0.6f));
+        Geometry healthBackgroundBar = new Geometry("healthBackgroundBar", new Quad(3.7f, 0.6f));
         healthBar = new Geometry("healthBar", new Quad(3.5f, 0.4f));
         healthBackgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
         healthBar.setMaterial(Utils.getMaterial(assetManager,bodyColor));
@@ -129,7 +168,7 @@ public class PlayerView {
     }
 
     private void createDashBar(){
-        dashBackgroundBar = new Geometry("dashBackgroundBar", new Quad(2.5f, 0.45f));
+        Geometry dashBackgroundBar = new Geometry("dashBackgroundBar", new Quad(2.5f, 0.45f));
         dashBar = new Geometry("dashBar", new Quad(2.3f, 0.3f));
         dashBackgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
         dashBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Orange));
@@ -148,7 +187,7 @@ public class PlayerView {
     }
 
     private void createShotBar(){
-        shotBackgroundBar = new Geometry("shotBackgroundBar", new Quad(2.5f, 0.45f));
+        Geometry shotBackgroundBar = new Geometry("shotBackgroundBar", new Quad(2.5f, 0.45f));
         shotBar = new Geometry("shotBar", new Quad(2.3f, 0.3f));
         shotBackgroundBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Black));
         shotBar.setMaterial(Utils.getMaterial(assetManager,ColorRGBA.Yellow));
@@ -182,7 +221,7 @@ public class PlayerView {
         sparks.setHighLife(0.5f);
         sparks.setLowLife(0.2f);
         sparks.setSelectRandomImage(true);
-        sparks.setLocalTranslation(gun.getLocalTranslation());
+        sparks.setLocalTranslation(playerHead.getLocalTranslation());
         playerNode.attachChild(sparks);
     }
 
@@ -214,79 +253,15 @@ public class PlayerView {
         playerNode.attachChild(overloadAudio);
     }
 
-    public void playPowerUpSound(){
-        powerUpAudio.playInstance();
-    }
-
-    public void playShotSound(){
-        shotAudio.playInstance();
-    }
-
-    public void playDashSound(){
-        dashAudio.playInstance();
-    }
-
-    public void playPlayerHitSound(){
-        hitAudio.playInstance();
-    }
-
-    public void playOverloadSound(){
-        overloadAudio.playInstance();
-    }
-
-    public void rotateGun(float step){
-        lastRotation += step;
-        gunRot.fromAngleAxis(FastMath.PI*lastRotation/180, axisY);
-        headNode.setLocalRotation(gunRot);
-    }
-
-    public void emitSparks(){
-        sparks.emitAllParticles();
-    }
-
-    public void setHealthBar(float percent){
-        if(percent != 0){
-            healthBar.setLocalScale(percent/100, 1f, 1f);
-        } else {
-            healthBar.setLocalScale(-0.1f, 1f, 1f);
-        }
-    }
-
-    public void setDashBar(float percent){
-        if(percent != 0){
-            dashBar.setLocalScale(percent/100, 1f, 1f);
-        } else {
-            dashBar.setLocalScale(-0.1f, 1f, 1f);
-        }
-    }
-
-    public void setShotBar(float percent){
-        if(percent != 0){
-            shotBar.setLocalScale(percent/100, 1f, 1f);
-        } else {
-            shotBar.setLocalScale(-0.1f, 1f, 1f);
-        }
-    }
-
-    public void setShotBarColor(ColorRGBA color){
-        shotBar.setMaterial(Utils.getMaterial(assetManager,color));
-    }
     public Node getPlayerNode(){return this.playerNode;}
     public Node getBodyNode(){
         return this.bodyNode;
     }
     public Vector3f getPipePos(){return this.headNode.getWorldTranslation();}
     public Vector3f getStartPos(){return startPos;}
-    public GameView getGameView(){return this.gameView;}
     public Quaternion getGunRotation(){return gunRot;}
     public Vector3f getPosition(){return this.getPlayerNode().getLocalTranslation();}
     public ColorRGBA getBodyColor(){
         return this.bodyColor;
-    }
-    public Player getPlayerData() {
-        return playerData;
-    }
-    public AudioNode getOverloadAudio(){
-        return this.overloadAudio;
     }
 }
