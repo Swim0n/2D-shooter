@@ -71,13 +71,19 @@ public class AIPlayerController extends PlayerController {
             lastShotTime = System.currentTimeMillis();
         }
 
+
+
         //if a path exists, set walkdirection toward next tile in path until the next tile has been reached. Repeat until at the last tile of path.
         if(path != null){
         if(stepCount < path.size() ){
             Vector3f directionNextTile = (new Vector3f((float) ((((Tile) path.get(stepCount)).getX())), -2f,
                     (float) (((Tile) path.get(stepCount)).getY()))).subtract(spatial.getWorldTranslation());
-            
+
             setWalkDirection(directionNextTile.normalize().mult(speed));
+            if(!directionNextTile.equals(Vector3f.ZERO)){
+                playerView.getBodyNode().lookAt(playerView.getPlayerNode().getLocalTranslation().add(directionNextTile), Vector3f.UNIT_Y);
+            }
+
 
             if (updateTookStep(directionNextTile)) {
                 if (stepCount <= path.size()) {
