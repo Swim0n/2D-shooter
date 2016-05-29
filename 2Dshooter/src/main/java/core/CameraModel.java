@@ -10,7 +10,7 @@ public class CameraModel {
     private boolean dynamicCamEnabled;
     private Vector3f position = new Vector3f();
     private Vector3f lookAt = new Vector3f();
-    private final Vector3f staticPosition= new Vector3f(0f,-80f,0);
+    private final Vector3f staticPosition= new Vector3f(0f,-70f,-40f);
     private final Vector3f staticLookAt = new Vector3f(0f,1f,0f);
     private float height;
     private float minZoom = 70f;
@@ -66,5 +66,11 @@ public class CameraModel {
         this.dynamicCamEnabled = enabled;
     }
 
+    public Vector3f getStaticPosition(){
+        return staticPosition;
+    }
+    public Vector3f getStaticLookAt(){
+        return staticLookAt;
+    }
 
 }

@@ -48,9 +48,9 @@ public class WorldView extends SimpleApplication implements ScreenController{
     public void simpleInitApp() {
         initNodes();
         initPhysics();
-        initCamera();
         //creates the model of the game
-        world = new World(15, 15, false);
+        world = new World(20, 20, false);
+        initCamera();
         initGUI();
         initStage();
         initPlayers();

@@ -66,20 +66,28 @@
 
     <screen id="pause" controller="view.GUIView">
         <layer id="layer" childLayout="center">
-            <panel id="pauseMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="top" align="center" height="33%"/>
+            <panel id="pauseMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="top" align="center" height="33%">
                 <text id="WelcomeText" font="Interface/Arial.fnt" color="#ffff" text= "Voxel Galaxy: Arena" align="center" valign="bottom" />
-
+            </panel>
             <panel id="pauseMenuMiddlePanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="center" align="center" height="34%">
                 <control name="button" id="ResumeButton" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Resume Game" align="center" height="20.0%">
                     <interact onClick="closeMenu()"/>
                 </control>
-                <control name="button" id="ExitGame" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="20.0%">
+                <control name="button" id="ToggleCameraButtonPause" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Toggle Camera" align="center" height="15.0%">
+                    <interact onClick="toggleCam()"/>
+                </control>
+                <control name="button" id="ToggleDeathMatchPause" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle Death Match" align="center" height="15.0%">
+                    <interact onClick="toggleDeathMatch()"/>
+                </control>
+                <control name="button" id="ExitGamePause" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="20.0%">
                     <interact onClick="quit()"/>
                 </control>
             </panel>
-            <panel id="pauseMenuBottomPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%"/>
-
-
+            <panel id="pauseMenuBottomPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%">
+                <text id="CamSettingText" font="Interface/Arial.fnt" color="#ffff" text= "" align="center"/>
+                <text id="AiSettingText" font="Interface/Arial.fnt" color="#ffff" text= "" align="center"/>
+                <text id="DMSettingText" font="Interface/Arial.fnt" color="#ffff" text= "" align="center"/>
+            </panel>
         </layer>
     </screen>
 </nifty>
