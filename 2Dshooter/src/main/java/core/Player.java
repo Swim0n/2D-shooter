@@ -26,7 +26,6 @@ public class Player {
     private float gunRotationSpeed;
     private Vector3f position;
     private Vector3f direction = new Vector3f(0,0,0);
-
     public boolean left,right,up,down,gunLeft,gunRight,dashing;
     private float radius;
     private float height;
@@ -55,7 +54,7 @@ public class Player {
         this.shotMeterRegenRate = 15f;
         this.shotThreshold = 8f;
         this.overloadDuration = 2700;
-        this.gunRotationSpeed = 140f;
+        this.gunRotationSpeed = 200f;
     }
 
     public void setHealth(float health){

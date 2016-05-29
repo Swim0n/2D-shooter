@@ -15,7 +15,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 
 /**
- * Created by Lukas on 2016-05-07.
+ * Initializes and views the GUI
  */
 public class GUIView implements ScreenController {
 
