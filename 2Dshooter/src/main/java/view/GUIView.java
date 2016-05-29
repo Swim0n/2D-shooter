@@ -108,6 +108,9 @@ public class GUIView implements ScreenController {
                 "Static Camera Mode");
         }
     }
+    public void quit(){
+      gameView.requestClose(true);
+    }
 
     public void onStartScreen() {
     }

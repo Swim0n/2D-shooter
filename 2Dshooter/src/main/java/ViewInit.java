@@ -20,9 +20,10 @@ public class ViewInit {
         this.worldView.setSettings(settings);
         this.worldView.start();
 
+
         //appAssets in worldView is null since simpleInitApp hasn't been called yet, thus the wait
         while (!worldView.isInitialized()){
-            Thread.currentThread().sleep(1000);
+            Thread.currentThread().sleep(100);
         }
     }
 
