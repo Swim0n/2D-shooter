@@ -32,7 +32,7 @@ public class StageView {
         createBackground();
     }
     private void createGround(){
-        Quad groundShape = new Quad(world.getWidth()+2, world.getHeight()+2); //quad to represent ground in java
+        Quad groundShape = new Quad(world.getWidth()+1, world.getHeight()+1); //quad to represent ground in java
         Geometry groundGeom= new Geometry("Ground",groundShape); //geometry to represent ground
         groundGeom.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
         groundGeom.rotate(FastMath.HALF_PI,0,0);

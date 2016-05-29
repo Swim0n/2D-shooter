@@ -4,7 +4,7 @@ import com.jme3.math.Vector3f;
 import core.World;
 import ctrl.*;
 import view.WorldView;
-import utils.KeyMappings;
+import jME3.utils.KeyMappings;
 
 /**
  * Created by David on 2016-05-25.
