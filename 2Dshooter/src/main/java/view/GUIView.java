@@ -5,6 +5,7 @@
 
 package view;
 
+import com.jme3.input.InputManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import core.Player;
 import core.World;
@@ -13,6 +14,8 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import jME3.utils.KeyMappings;
+import jME3.utils.ReadKeys;
 
 /**
  * Created by Lukas on 2016-05-07.
@@ -26,6 +29,10 @@ public class GUIView implements ScreenController {
     private WorldView worldView;
     private Element niftyElement;
     private World world;
+    private KeyMappings player1Mappings;
+    private KeyMappings player2Mappings;
+    private ReadKeys readKeys;
+    private InputManager inputManager;
 
     public GUIView(){
     }
@@ -83,6 +90,8 @@ public class GUIView implements ScreenController {
 
     }
 
+    //control mapping is not a finished feature and as such this is not used yet
+    //called when set controls button is clicked
     public void setControllers(){
         nifty.fromXml("Interface/screen.xml", "controllerSetup", this);
         nifty.gotoScreen("controllerSetup");
@@ -132,8 +141,23 @@ public class GUIView implements ScreenController {
                 "Static Camera Mode");
         }
     }
+
+
+    //used for remapping gameControls
+    //not implemented fully yet and not used in the game atm
+    public void setKey(String playerButton){
+        int i = 0;
+        ReadKeys readKeys = new ReadKeys();
+
+        while(i==0){
+        inputManager.addRawInputListener(readKeys);
+        i = readKeys.getPressedKey();
+        inputManager.removeRawInputListener(readKeys);
+        }
+    }
+
     public void quit(){
-      worldView.requestClose(true);
+        worldView.requestClose(true);
     }
 
     public void onStartScreen() {
@@ -144,11 +168,15 @@ public class GUIView implements ScreenController {
     }
     public void setWorldView(WorldView worldView) {
         this.worldView = worldView;
+        this.inputManager = worldView.getInputManager();
         this.player1 = worldView.getWorld().getPlayer1();
         this.player2 = worldView.getWorld().getPlayer2();
         this.niftyDisplay = worldView.getNiftyDisplay();
         this.nifty = niftyDisplay.getNifty();
         this.world = worldView.getWorld();
+        this.player1Mappings = worldView.getPlayer1Mappings();
+        this.player2Mappings = worldView.getPlayer2Mappings();
+        this.readKeys = new jME3.utils.ReadKeys();
     }
 }
 

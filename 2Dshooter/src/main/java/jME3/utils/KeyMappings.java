@@ -32,9 +32,7 @@ public class KeyMappings {
     public KeyTrigger getRight() {
         return right;
     }
-    public KeyTrigger getUp() {
-        return up;
-    }
+    public KeyTrigger getUp() {return up;}
     public KeyTrigger getDown() {
         return down;
     }

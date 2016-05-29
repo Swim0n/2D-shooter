@@ -6,7 +6,7 @@
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <!-- start screen                            -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
-    <screen id="start" controller="view.GUIView">
+    <screen id="start" controller="view.GUIView">r
         <layer id="layer" childLayout="center">
             <panel id="startMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="top" align="center" height="33%">
                 <text id="WelcomeText" font="Interface/Arial.fnt" color="#ffff" text= "Voxel Galaxy: Arena" align="center" valign="bottom" />
@@ -24,23 +24,26 @@
                 <control name="button" id="ToggleDeathMatch" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle Death Match" align="center" height="15.0%">
                     <interact onClick="toggleDeathMatch()"/>
                 </control>
-                <control name="button" id="ControllerSetup" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Setup controllers" align="center" height="15.0%">
-                    <interact onClick="setControllers()"/>
-                </control>
-                <control name="button" id="ExitGame" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="15.0%">
-                    <interact onClick="quit()"/>
-                </control>
-            </panel>
-            <panel id="startMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%">
-                <text id="CamSettingText" font="Interface/Arial.fnt" color="#ffff" text= "Moving camera mode" align="center" valign="bottom" />
-                <text id="AiSettingText" font="Interface/Arial.fnt" color="#ffff" text= "2 Player Mode" align="center" valign="bottom" />
-                <text id="DMSettingText" font="Interface/Arial.fnt" color="#ffff" text= "Match Point Mode" align="center" valign="bottom" />
-            </panel>
 
-        </layer>
-    </screen>
+                    <!-- Unfinished feature. To be implemented
+                    <control name="button" id="ControllerSetup" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Setup controllers" align="center" height="15.0%">
+                        <interact onClick="setControllers()"/>
+                    </control>
+                    -->
+                    <control name="button" id="ExitGame" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="15.0%">
+                        <interact onClick="quit()"/>
+                    </control>
+                </panel>
+                <panel id="startMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%">
+                    <text id="CamSettingText" font="Interface/Arial.fnt" color="#ffff" text= "Moving camera mode" align="center" valign="bottom" />
+                    <text id="AiSettingText" font="Interface/Arial.fnt" color="#ffff" text= "2 Player Mode" align="center" valign="bottom" />
+                    <text id="DMSettingText" font="Interface/Arial.fnt" color="#ffff" text= "Match Point Mode" align="center" valign="bottom" />
+                </panel>
 
-    <!-- +++++++++++++++++++++++++++++++++++++++ -->
+            </layer>
+        </screen>
+
+        <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <!-- game gui (hp bar etc)                   -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <screen id="gamegui" controller="view.GUIView">
@@ -94,7 +97,8 @@
         </layer>
     </screen>
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
-    <!-- controller screen(menu)                 -->
+    <!-- controller mapping screen(menu)         -->
+    <!-- not yet used in game                    -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
 
     <screen id="controllerSetup" controller="view.GUIView">
@@ -109,56 +113,56 @@
             <layer id="botLayer" childLayout="Horizontal">
             <panel id="Player1BotPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="50%" x="-1px" y="-1px" valign="bottom" align="left" height="80%">
                 <control name="button" id="p1Left" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move left" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p1left)"/>
                 </control>
                 <control name="button" id="p1Right" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move right" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p1right)"/>
                 </control>
                 <control name="button" id="p1Up" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="move up" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p1up)"/>
                 </control>
                 <control name="button" id="p1Down" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move down" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p1down)"/>
                 </control>
                 <control name="button" id="p1Dash" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Dash" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p1dash)"/>
                 </control>
                 <control name="button" id="p1Shoot" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Shoot" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p1shoot)"/>
                 </control>
                 <control name="button" id="p1rotLeft" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Aim left" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p1rotleft)"/>
                 </control>
                 <control name="button" id="p1rotRight" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Aim right" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p1rotright)"/>
                 </control>
 
             </panel>
 
             <panel id="Player2BotPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="50%" x="-1px" y="-1px" valign="bottom" align="right" height="80%">
                 <control name="button" id="p2Left" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move left" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p2left)"/>
                 </control>
                 <control name="button" id="p2Right" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move right" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p2right)"/>
                 </control>
                 <control name="button" id="p2Up" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="move up" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p2left)"/>
                 </control>
                 <control name="button" id="p2Down" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Move down" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p2right)"/>
                 </control>
                 <control name="button" id="p2Dash" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Dash" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p2dash)"/>
                 </control>
                 <control name="button" id="p2Shoot" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Shoot" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p2shoot)"/>
                 </control>
                 <control name="button" id="p2rotLeft" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Aim left" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p2rotleft)"/>
                 </control>
                 <control name="button" id="p2rotRight" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Aim right" align="center" height="10.0%">
-                    <interact onClick="setKey()"/>
+                    <interact onClick="setKey(p2rotright)"/>
                 </control>
             </panel>
         </layer>
