@@ -20,7 +20,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 import jME3.utils.KeyMappings;
 
 /**
- * Created by David on 2016-04-18.
+ * Initializes the graphical world
  */
 public class WorldView extends SimpleApplication implements ScreenController{
     private World world;
@@ -32,7 +32,6 @@ public class WorldView extends SimpleApplication implements ScreenController{
     private CameraNode camNode;
     private StageView stageView;
     private TerrainView terrainView;
-    private CameraView cameraView;
     private BulletView bulletView;
     private PowerUpView powerUpView;
     private PlayerView player1View;
@@ -62,10 +61,6 @@ public class WorldView extends SimpleApplication implements ScreenController{
         initLights();
         initBullets();
         initPowerUps();
-
-        //for developing purposes only, remove before release to the waiting masses
-        setDisplayStatView(true);
-        setDisplayFps(true);
     }
 
     private void initPowerUps() {
@@ -89,6 +84,8 @@ public class WorldView extends SimpleApplication implements ScreenController{
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
         niftyView.setNiftyDisplay(niftyDisplay);
         niftyView.setWorldView(this);
+        setDisplayStatView(false);
+        setDisplayFps(false);
     }
 
     private void initPlayers(){
@@ -120,7 +117,9 @@ public class WorldView extends SimpleApplication implements ScreenController{
     }
 
     private void initCamera(){
-        cameraView = new CameraView(this);
+        camNode.setLocalTranslation(jME3.utils.Utils.vecMathToJMEVector3f(world.getCameraData().getStaticPosition()));
+        camNode.lookAt(jME3.utils.Utils.vecMathToJMEVector3f(world.getCameraData().getStaticLookAt()),Vector3f.UNIT_Z);
+        flyCam.setEnabled(false);
     }
 
     private void initNodes(){

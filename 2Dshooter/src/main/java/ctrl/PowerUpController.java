@@ -3,18 +3,14 @@ package ctrl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import core.*;
 import view.PowerUpView;
 import view.WorldView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
- * Created by Hannes on 04/05/2016.
+ * Controls the power ups
  */
 public class PowerUpController extends RigidBodyControl {
 
@@ -53,7 +49,7 @@ public class PowerUpController extends RigidBodyControl {
                 powerUpMesh.scale(1.5f);
 
             }
-            new CollisionController(worldView,powerUpMesh,powerUp, powerUpView.getPowerLight());
+            new PowerUpCollisionController(worldView,powerUpMesh,powerUp, powerUpView.getPowerLight());
             powerUpView.incActivePowerUps();
             powerUpView.setPlaced();
         }

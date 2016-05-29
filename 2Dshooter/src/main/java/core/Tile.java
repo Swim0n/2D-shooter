@@ -1,7 +1,7 @@
 package core;
 
 /**
- * Created by Lukas on 2016-05-18.
+ * Represents a tile on the terrain grid
  */
 public class Tile {
 
@@ -56,8 +56,5 @@ public class Tile {
     }
     public void setfScore(double gScore){
         this.gScore = gScore;
-    }
-    public int getID(){
-        return this.tileID;
     }
 }

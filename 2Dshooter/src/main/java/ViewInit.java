@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * Created by David on 2016-05-25.
+ * Initializes graphics
  */
 
 public class ViewInit {

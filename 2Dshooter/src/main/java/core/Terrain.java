@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by David on 2016-04-15.
+ * Contains the terrain grid and the logic for generating it
  */
 public class Terrain {
     private final static Random randomGenerator = new Random();
@@ -66,6 +66,7 @@ public class Terrain {
         return grid;
     }
 
+    //takes an x and a y coordinate and finds the tile that overlaps that position on the grid
     public Tile getTileByCoords(int x, int y){
         for(int i=0; i<this.height; i++){
             for(int n=0; n<this.width; n++){
@@ -77,6 +78,9 @@ public class Terrain {
         return null;
     }
 
+    //returns the available neighbors of a tile.
+    //Dismisses a neighbor if outside the grid, blocked, or behind two tiles meeting at the corners
+    //(so that it does not attempt to walk through a crack between two tiles).
     public ArrayList getTileNeighbors(Tile tile){
 
         ArrayList neighbors = new ArrayList();

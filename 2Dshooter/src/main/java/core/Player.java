@@ -5,10 +5,9 @@ import javax.vecmath.Vector3f;
 import java.awt.event.ActionEvent;
 
 /**
- * Created by David on 2016-04-15.
+ *  Data representation of a Player
  */
 public class Player {
-
     private float health;
     private float speed;
     private float bulletSpeed;
@@ -26,7 +25,6 @@ public class Player {
     private float gunRotationSpeed;
     private Vector3f position;
     private Vector3f direction = new Vector3f(0,0,0);
-
     public boolean left,right,up,down,gunLeft,gunRight,dashing;
     private float radius;
     private float height;
@@ -55,7 +53,7 @@ public class Player {
         this.shotMeterRegenRate = 15f;
         this.shotThreshold = 8f;
         this.overloadDuration = 2700;
-        this.gunRotationSpeed = 140f;
+        this.gunRotationSpeed = 200f;
     }
 
     public void setHealth(float health){
@@ -210,7 +208,6 @@ public class Player {
     }
     public Vector3f getPosition() {return position;}
     public void setPosition(Vector3f position) {this.position = position;}
-
     public boolean getNeedsReset() {
         return needsReset;
     }

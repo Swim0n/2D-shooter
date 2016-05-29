@@ -4,18 +4,18 @@ package core;
 import javax.vecmath.Vector3f;
 
 /**
- * Created by David on 2016-05-18.
+ * Contains logic for the dynamic camera
  */
 public class CameraModel {
     private boolean dynamicCamEnabled;
     private Vector3f position = new Vector3f();
     private Vector3f lookAt = new Vector3f();
-    private final Vector3f staticPosition= new Vector3f(0f,-70f,-40f);
-    private final Vector3f staticLookAt = new Vector3f(0f,1f,0f);
+    private final Vector3f staticPosition= new Vector3f(0f,-58f,-35f);
+    private final Vector3f staticLookAt = new Vector3f(0f,0f,-3f);
     private float height;
-    private float minZoom = 70f;
-    private float maxZoom = 35f;
-    private float zOffset = 40f;
+    private float minZoom = 58f;
+    private float maxZoom = 25f;
+    private float zOffset = 34f;
     public CameraModel(boolean dynamicCamEnabled){
         this.dynamicCamEnabled = dynamicCamEnabled;
 

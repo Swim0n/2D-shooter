@@ -13,7 +13,7 @@ import jME3.utils.Utils;
 import java.util.UUID;
 
 /**
- * Created by Simon on 2016-04-26.
+ * Control for a human controlled player
  */
 public class HumanPlayerController extends PlayerController implements ActionListener {
     private final World world;

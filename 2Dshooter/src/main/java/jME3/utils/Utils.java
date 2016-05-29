@@ -10,7 +10,7 @@ import com.jme3.scene.shape.Box;
 import javax.vecmath.Vector3f;
 
 /**
- * Created by David on 2016-04-19.
+ * Generic jMonkeyEngine3 utils
  */
 public final class Utils {
 

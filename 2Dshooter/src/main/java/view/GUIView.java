@@ -18,7 +18,7 @@ import jME3.utils.KeyMappings;
 import jME3.utils.ReadKeys;
 
 /**
- * Created by Lukas on 2016-05-07.
+ * Initializes and views the GUI
  */
 public class GUIView implements ScreenController {
 

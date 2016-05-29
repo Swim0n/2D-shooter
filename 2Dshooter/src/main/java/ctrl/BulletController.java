@@ -10,7 +10,7 @@ import view.PlayerView;
 import view.WorldView;
 
 /**
- * Created by David on 2016-04-19.
+ * Controls the bullets and checks for collisions with the stage/players
  */
 public class BulletController extends RigidBodyControl{
     private final Player player;
@@ -77,12 +77,12 @@ public class BulletController extends RigidBodyControl{
             worldView.getBulletAppState().getPhysicsSpace().remove(spatial);
             worldView.getRootNode().removeLight(light);
             if(playerCheck) {
-                takeDamage();
+                dealDamage();
             }
         }
     }
 
-    public void takeDamage(){
+    public void dealDamage(){
         otherPlayer.takeDamage(damage);
         otherPlayerView.setHealthBar(otherPlayer.getHealth());
         otherPlayerView.emitSparks();
