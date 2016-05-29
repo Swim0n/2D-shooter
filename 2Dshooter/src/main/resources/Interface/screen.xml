@@ -21,6 +21,9 @@
                 <control name="button" id="ToggleAiButton" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle AI" align="center" height="20.0%">
                     <interact onClick="toggleAI()"/>
                 </control>
+                <control name="button" id="ExitGame" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="20.0%">
+                    <interact onClick="quit()"/>
+                </control>
             </panel>
             <panel id="startMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%">
                 <text id="AiSettingText" font="Interface/Arial.fnt" color="#ffff" text= "2 Player Mode" align="center" valign="bottom" />
@@ -65,6 +68,9 @@
             <panel id="pauseMenuMiddlePanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="center" align="center" height="34%">
                 <control name="button" id="ResumeButton" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Resume Game" align="center" height="20.0%">
                     <interact onClick="closeMenu()"/>
+                </control>
+                <control name="button" id="ExitGame" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="20.0%">
+                    <interact onClick="quit()"/>
                 </control>
             </panel>
             <panel id="pauseMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%"/>

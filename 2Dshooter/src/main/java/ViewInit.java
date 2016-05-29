@@ -22,7 +22,7 @@ public class ViewInit {
 
         //appAssets in gameView is null since simpleInitApp hasn't been called yet, thus the wait
         while (!gameView.isInitialized()){
-            Thread.currentThread().sleep(1000);
+            Thread.currentThread().sleep(100);
         }
     }
 
