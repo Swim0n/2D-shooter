@@ -1,17 +1,7 @@
 package core;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
-import org.lwjgl.Sys;
-import utils.ApplicationAssets;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
-import java.util.Set;
-
-import static com.jme3.shader.VarType.Int;
 
 /**
  * Created by Lukas on 2016-05-18.
@@ -23,13 +13,9 @@ public class PathFinder {
     private Tile[][] tiles;
     private ArrayList closedSet = new ArrayList();
     private ArrayList openSet = new ArrayList();
-    private ApplicationAssets applicationAssets;
-    private AssetManager assetManager;
 
 
-    public PathFinder(Environment environment, ApplicationAssets applicationAssets, AssetManager assetManager) {
-        this.applicationAssets = applicationAssets;
-        this.assetManager = assetManager;
+    public PathFinder(Environment environment) {
         this.environment = environment;
         this.tiles = environment.getTiles();
     }

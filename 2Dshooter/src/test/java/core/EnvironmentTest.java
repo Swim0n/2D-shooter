@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class EnvironmentTest {
     @Test
     public void testTerrainPlacement() throws Exception {
-        Environment environment = new Environment();
+        Environment environment = new Environment(0,0);
         List <Vector3f> vectorList = new ArrayList<>();
         List <Boolean > booleanList = new ArrayList<>();
         Vector3f vector = new Vector3f();
@@ -24,7 +24,7 @@ public class EnvironmentTest {
         environment.setPositions(10,10,1,1);
         /** 98 since two tiles are occupied since start by players */
         for (int i=0;i<98;i++){
-            vector.set(environment.getRandomPos());
+            vector.set(environment.getRandomPos(false));
             for (Vector3f vector1 : vectorList){
                 if (vector.equals(vector1)){
                     booleanList.add(false);

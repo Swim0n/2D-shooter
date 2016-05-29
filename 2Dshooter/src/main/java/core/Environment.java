@@ -1,13 +1,6 @@
 package core;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
-import com.jme3.scene.shape.Box;
-import org.lwjgl.Sys;
-import utils.ApplicationAssets;
 
 import javax.vecmath.Vector3f;
 import java.awt.*;
@@ -28,13 +21,10 @@ public class Environment {
     private int width;
     private int tileHeight;
     private int tileWidth;
-    private AssetManager assetManager;
-    private ApplicationAssets applicationAssets;
 
-    public Environment(int rocks, int trees, AssetManager am){
+    public Environment(int rocks, int trees){
         this.rocksAmount = rocks;
         this.treesAmount = trees;
-        this.assetManager = am;
     }
 
     public Vector3f getRandomPos(Boolean blockTile){
@@ -243,10 +233,6 @@ public class Environment {
             }
         }
         return neighbors;
-    }
-
-    public void setApplicationAssets(ApplicationAssets as){
-        this.applicationAssets = as;
     }
 
     public int getRocksAmount() {

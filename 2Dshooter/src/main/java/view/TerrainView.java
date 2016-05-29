@@ -15,9 +15,6 @@ import java.util.ArrayList;
  * Initializes randomly generated terrain
  */
 public class TerrainView {
-    private AssetManager assetManager;
-    private ApplicationAssets applicationAssets;
-    private Node terrainNode;
 
     private float groundX;
     private float groundZ;
@@ -30,18 +27,17 @@ public class TerrainView {
     private BulletAppState bulletAppState;
     private AssetManager assetManager;
 
-    public TerrainView(ApplicationAssets appAssets, WorldView worldView, float tileWidth, float tileHeight) {
+    public TerrainView(WorldView worldView, float tileWidth, float tileHeight) {
         this.assetManager = worldView.getAssetManager();
         this.terrainNode = worldView.getTerrainNode();
         this.world = worldView.getWorld();
         this.bulletAppState = worldView.getBulletAppState();
         this.terrainGrid = new ArrayList<>();
         world.getTerrain().setPositions(world.getWidth(), world.getHeight(), tileWidth, tileHeight);
-        this.groundX = appAssets.getGameView().getGroundSize().getWidth();
-        this.groundZ = appAssets.getGameView().getGroundSize().getHeight();
+        this.groundX = worldView.getWorld().getWidth();
+        this.groundZ = worldView.getWorld().getHeight();
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        this.applicationAssets = appAssets;
         world.getTerrain().setPositions(groundX, groundZ, tileWidth, tileHeight);
         createTerrain();
     }
