@@ -9,7 +9,7 @@ import view.BulletView;
 import view.GUIView;
 import view.PlayerView;
 import view.WorldView;
-import utils.Utils;
+import jME3.utils.Utils;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -93,7 +93,7 @@ public abstract class PlayerController extends BetterCharacterControl {
             player.setStandard();
         }else{
             player.setHealth(100);
-            warp(utils.Utils.vecMathToJMEVector3f(worldView.getWorld().getTerrain().getRandomPos()));
+            warp(Utils.vecMathToJMEVector3f(worldView.getWorld().getTerrain().getRandomPos()));
         }
 
         playerView.setHealthBar(100);

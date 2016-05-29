@@ -1,4 +1,4 @@
-package utils;
+package jME3.utils;
 
 import com.jme3.input.controls.KeyTrigger;
 

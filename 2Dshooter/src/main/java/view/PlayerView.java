@@ -18,7 +18,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.control.LightControl;
 import com.jme3.scene.shape.Quad;
-import utils.Utils;
+import jME3.utils.Utils;
 
 /**
  * Spawns a player with associated stat bars

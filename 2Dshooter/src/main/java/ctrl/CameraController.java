@@ -13,7 +13,7 @@ import com.jme3.scene.control.Control;
 import core.CameraModel;
 import core.Player;
 import view.WorldView;
-import utils.Utils;
+import jME3.utils.Utils;
 
 import java.io.IOException;
 

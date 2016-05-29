@@ -6,8 +6,8 @@ import com.jme3.math.Vector3f;
 import core.Player;
 import view.PlayerView;
 import view.WorldView;
-import utils.KeyMappings;
-import utils.Utils;
+import jME3.utils.KeyMappings;
+import jME3.utils.Utils;
 
 import java.util.UUID;
 
@@ -27,10 +27,10 @@ public class HumanPlayerController extends PlayerController implements ActionLis
         this.inputManager = worldView.getInputManager();
         this.keys = keys;
         this.mapNames = new String[8];
-        setupKeys();
+        initKeys();
     }
 
-    private void setupKeys() {
+    private void initKeys() {
         //generating random strings as names for the mappings, allowing for multiple instances of this controller
         for(int i = 0; i < mapNames.length; i++){
             mapNames[i] = UUID.randomUUID().toString();
@@ -46,6 +46,12 @@ public class HumanPlayerController extends PlayerController implements ActionLis
         for(int i = 0; i < mapNames.length; i++){
             inputManager.addListener(this, mapNames[i]);
         }
+    }
+
+    public void setKeyMappings(KeyMappings keys){
+        this.keys = keys;
+        inputManager.clearMappings();
+        initKeys();
     }
 
     @Override
