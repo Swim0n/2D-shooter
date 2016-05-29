@@ -5,7 +5,7 @@ package core;
  */
 public class WeaponPowerUp extends PowerUp {
 
-    public WeaponPowerUp(Environment terrain){
+    public WeaponPowerUp(Terrain terrain){
         super(terrain);
     }
 

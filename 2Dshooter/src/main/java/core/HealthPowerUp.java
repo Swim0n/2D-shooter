@@ -6,7 +6,7 @@ package core;
  */
 public class HealthPowerUp extends PowerUp {
 
-    public HealthPowerUp(Environment terrain){
+    public HealthPowerUp(Terrain terrain){
         super(terrain);
     }
 

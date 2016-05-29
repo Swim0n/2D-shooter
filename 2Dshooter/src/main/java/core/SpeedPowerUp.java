@@ -5,7 +5,7 @@ package core;
  */
 public class SpeedPowerUp extends PowerUp {
 
-    public SpeedPowerUp(Environment terrain){
+    public SpeedPowerUp(Terrain terrain){
         super(terrain);
     }
 
