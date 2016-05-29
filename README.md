@@ -2,11 +2,11 @@
 
 ##A fast paced alien shooter game loaded with action.
 
-##-Supports---------------------------------------------------------------------------------------------------------------
+##Supports
 1 Player mode with AI
 Local 2 Player mode (on the same computer)
 
-##-Controls---------------------------------------------------------------------------------------------------------------
+##Controls
 
 ###Player 1
 
@@ -24,7 +24,7 @@ Shoot - "NP_5"
 Rotating head left - "NP_4"
 Rotating head right - "NP_6"
 
-##-Game modes-------------------------------------------------------------------------------------------------------------
+##Game modes
 
 ###Match point mode:
 Each player spawns in opposite corners of the map.
@@ -37,7 +37,7 @@ Players have their HP reset on death but all other stats remain.
 Only the killed player respawn on death.
 Players respawn at a random position on the map on death.
 
-##-Power ups--------------------------------------------------------------------------------------------------------------
+##Power ups
 
 ###Health power up:
 Increases the players health by 12 hp on pick up.
