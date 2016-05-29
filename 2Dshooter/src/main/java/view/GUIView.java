@@ -83,6 +83,11 @@ public class GUIView implements ScreenController {
 
     }
 
+    public void setControllers(){
+        nifty.fromXml("Interface/screen.xml", "controllerSetup", this);
+        nifty.gotoScreen("controllerSetup");
+
+    }
     //called when back button is clicked when in the menu
     public void closeMenu(){
         nifty.removeScreen("pause");
