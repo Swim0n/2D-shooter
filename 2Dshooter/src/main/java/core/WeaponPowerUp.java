@@ -1,8 +1,5 @@
 package core;
 
-/**
- * Created by Simon on 2016-05-21.
- */
 public class WeaponPowerUp extends PowerUp {
 
     public WeaponPowerUp(Terrain terrain){

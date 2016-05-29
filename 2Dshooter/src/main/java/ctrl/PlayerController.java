@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Created by Simon on 2016-05-11.
+ * A generic controller for a Player
  */
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;

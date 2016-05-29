@@ -5,10 +5,9 @@ import javax.vecmath.Vector3f;
 import java.awt.event.ActionEvent;
 
 /**
- * Created by David on 2016-04-15.
+ *  Data representation of a Player
  */
 public class Player {
-
     private float health;
     private float speed;
     private float bulletSpeed;
@@ -209,7 +208,6 @@ public class Player {
     }
     public Vector3f getPosition() {return position;}
     public void setPosition(Vector3f position) {this.position = position;}
-
     public boolean getNeedsReset() {
         return needsReset;
     }

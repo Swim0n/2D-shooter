@@ -7,7 +7,7 @@ import view.WorldView;
 import jME3.utils.KeyMappings;
 
 /**
- * Created by David on 2016-05-25.
+ * Initializes all the controllers
  */
 
 public class ControlInit {

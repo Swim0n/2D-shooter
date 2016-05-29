@@ -1,8 +1,5 @@
 package core;
 
-/**
- * Created by Hannes on 10/05/2016.
- */
 public class SpeedPowerUp extends PowerUp {
 
     public SpeedPowerUp(Terrain terrain){

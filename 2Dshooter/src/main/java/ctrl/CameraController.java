@@ -18,7 +18,7 @@ import jME3.utils.Utils;
 import java.io.IOException;
 
 /**
- * Created by David on 2016-05-18.
+ * Updates the dynamic camera position and angle
  */
 public class CameraController extends CameraControl implements ActionListener {
 

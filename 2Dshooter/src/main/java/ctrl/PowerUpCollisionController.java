@@ -12,9 +12,9 @@ import view.PowerUpView;
 import view.WorldView;
 
 /**
- * Created by David on 2016-05-28.
+ * Checks if power ups are picked up by players
  */
-public class CollisionController extends RigidBodyControl {
+public class PowerUpCollisionController extends RigidBodyControl {
     private final WorldView worldView;
     private final Spatial target;
     private PointLight light;
@@ -22,7 +22,7 @@ public class CollisionController extends RigidBodyControl {
     private final PowerUpView powerUpView;
     private boolean hasCollided;
 
-    public CollisionController(WorldView worldView, Spatial target, PowerUp powerUp, PointLight light){
+    public PowerUpCollisionController(WorldView worldView, Spatial target, PowerUp powerUp, PointLight light){
         this.worldView = worldView;
         this.powerUp = powerUp;
         this.powerUpView = worldView.getPowerUpView();

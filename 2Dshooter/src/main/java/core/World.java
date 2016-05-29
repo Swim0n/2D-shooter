@@ -2,7 +2,7 @@ package core;
 
 
 /**
- * Created by David on 2016-04-15.
+ * Contains the data and logic of the game world
  */
 public class World {
 

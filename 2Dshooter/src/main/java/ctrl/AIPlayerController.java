@@ -1,9 +1,8 @@
 package ctrl;
 
-import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.*;
-import core.PathFinder;
+import core.AI;
 import core.Tile;
 import core.World;
 
@@ -13,7 +12,7 @@ import core.Player;
 import view.WorldView;
 
 /**
- * Created by Simon on 2016-05-10.
+ * Control for an AI controlled player
  */
 public class AIPlayerController extends PlayerController {
 
@@ -23,7 +22,7 @@ public class AIPlayerController extends PlayerController {
 
 
     private int stepCount = 0;
-    private PathFinder pathFinder;
+    private AI AI;
     private ArrayList path;
     private World world;
 
@@ -31,10 +30,9 @@ public class AIPlayerController extends PlayerController {
     public AIPlayerController(PlayerView view, Player player, WorldView worldView){
         super(view, player, worldView);
         this.world = worldView.getWorld();
-        this.pathFinder = new PathFinder(world.getTerrain());
+        this.AI = new AI(world.getTerrain());
         this.worldView = worldView;
         this.niftyView = worldView.getNiftyView();
-
     }
 
     @Override
@@ -111,7 +109,7 @@ public class AIPlayerController extends PlayerController {
 
     public void resetPath(){
         stepCount = 0;
-        path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(),(int) spatial.getWorldTranslation().getZ(),
+        path = AI.findPath((int) spatial.getWorldTranslation().getX(),(int) spatial.getWorldTranslation().getZ(),
                 (int) worldView.getPlayer1Node().getWorldTranslation().getX(),(int)worldView.getPlayer1Node().getWorldTranslation().getZ());
     }
     public boolean updateTookStep(Vector3f directionToNextTile){

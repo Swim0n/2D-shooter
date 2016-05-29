@@ -4,7 +4,7 @@ package core;
 import javax.vecmath.Vector3f;
 
 /**
- * Created by David on 2016-05-18.
+ * Contains logic for the dynamic camera
  */
 public class CameraModel {
     private boolean dynamicCamEnabled;

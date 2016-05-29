@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by David on 2016-04-15.
+ * Contains the terrain grid and the logic for generating it
  */
 public class Terrain {
     private final static Random randomGenerator = new Random();

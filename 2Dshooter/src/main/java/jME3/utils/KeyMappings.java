@@ -3,7 +3,7 @@ package jME3.utils;
 import com.jme3.input.controls.KeyTrigger;
 
 /**
- * Created by Simon on 2016-05-16.
+ * Contains a set of mappings usable by the controllers
  */
 public class KeyMappings {
     private KeyTrigger left;

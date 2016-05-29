@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by Lukas on 2016-05-18.
+ * Contains the logic of the AI
  */
 
 
-public class PathFinder {
+public class AI {
     private Terrain terrain;
     private ArrayList closedSet = new ArrayList();
     private ArrayList openSet = new ArrayList();
 
 
-    public PathFinder(Terrain terrain) {
+    public AI(Terrain terrain) {
         this.terrain = terrain;
     }
 

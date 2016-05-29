@@ -3,7 +3,7 @@ package core;
 import javax.vecmath.Vector3f;
 
 /**
- * Created by Hannes on 10/05/2016.
+ * Represents a generic power up
  */
 public abstract class PowerUp {
     private final Terrain terrain;
