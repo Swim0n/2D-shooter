@@ -144,7 +144,7 @@ public class PlayerView {
 
         PointLight headLight = new PointLight();
         headLight.setColor(bodyColor.mult(5));
-        headLight.setRadius(9f);
+        headLight.setRadius(11f);
         rootNode.addLight(headLight);
         LightControl lightControl = new LightControl(headLight);
         playerHead.addControl(lightControl);

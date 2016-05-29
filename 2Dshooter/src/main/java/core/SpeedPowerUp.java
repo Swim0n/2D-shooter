@@ -11,7 +11,7 @@ public class SpeedPowerUp extends PowerUp {
 
     @Override
     public void setEffect(Player player) {
-        player.setSpeed(player.getSpeed()+3);
+        player.setSpeed(player.getSpeed()+2);
     }
 
 }

@@ -12,7 +12,7 @@ public class HealthPowerUp extends PowerUp {
 
     @Override
     public void setEffect(Player player) {
-        player.setHealth(player.getHealth()+20);
+        player.setHealth(player.getHealth()+12);
     }
 
 }
