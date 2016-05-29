@@ -2,10 +2,10 @@ package ctrl;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.*;
-import gameView.GameView;
-import gameView.PlayerView;
+import view.PlayerView;
 import java.util.ArrayList;
 import core.Player;
+import view.WorldView;
 
 /**
  * Created by Simon on 2016-05-10.
@@ -16,7 +16,7 @@ public class AIPlayerController extends PlayerController {
     private long lastShotTime = 0;
     private ArrayList currentPath = new ArrayList();
     private boolean paused = true;
-    private GameView gameView;
+    private WorldView worldView;
 
 
     private int stepCount = 0;
@@ -24,10 +24,10 @@ public class AIPlayerController extends PlayerController {
     private ArrayList path;
 
 
-    public AIPlayerController(PlayerView view, Player player, GameView gameView){
-        super(view, player,gameView);
-        this.gameView = gameView;
-        this.niftyView = gameView.getNiftyView();
+    public AIPlayerController(PlayerView view, Player player, WorldView worldView){
+        super(view, player, worldView);
+        this.worldView = worldView;
+        this.niftyView = worldView.getNiftyView();
 
     }
 
@@ -38,7 +38,7 @@ public class AIPlayerController extends PlayerController {
         }
         super.update(tpf);
 
-        Vector3f directionToPlayer = gameView.getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
+        Vector3f directionToPlayer = worldView.getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
 
         //logic for always rotating the gun to face the player
         if(!playerView.getGunRotation().getRotationColumn(2).equals(directionToPlayer.normalize())){
@@ -57,7 +57,7 @@ public class AIPlayerController extends PlayerController {
         Ray ray = new Ray(spatial.getWorldTranslation(),directionToPlayer.normalize());
         ray.setLimit(directionToPlayer.length());
         CollisionResults results = new CollisionResults();
-        gameView.getTerrainNode().collideWith(ray, results);
+        worldView.getTerrainNode().collideWith(ray, results);
         if(results.size() == 0 && System.currentTimeMillis() - lastShotTime > bulletCooldown) {
             shootBullet();
             lastShotTime = System.currentTimeMillis();

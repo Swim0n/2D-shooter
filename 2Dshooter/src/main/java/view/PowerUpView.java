@@ -1,4 +1,4 @@
-package gameView;
+package view;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -14,8 +14,8 @@ import core.PowerUp;
 public class PowerUpView {
     private final AssetManager assetManager;
 
-    public PowerUpView(GameView gameView){
-        this.assetManager = gameView.getAssetManager();
+    public PowerUpView(WorldView worldView){
+        this.assetManager = worldView.getAssetManager();
     }
 
     public Geometry createPowerUp(Node targetNode, PowerUp powerUp, ColorRGBA colorRGBA){

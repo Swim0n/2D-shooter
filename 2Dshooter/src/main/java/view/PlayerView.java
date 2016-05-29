@@ -1,4 +1,4 @@
-package gameView;
+package view;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioNode;
@@ -51,15 +51,15 @@ public class PlayerView {
     private String bodyMaterialPath;
     private AssetManager assetManager;
 
-    public PlayerView(GameView gameView, Node playerNode, String headMaterialPath, String bodyMaterialPath, ColorRGBA bodyColor, ColorRGBA emitColor, Vector3f startPos){
-        this.assetManager = gameView.getAssetManager();
+    public PlayerView(WorldView worldView, Node playerNode, String headMaterialPath, String bodyMaterialPath, ColorRGBA bodyColor, ColorRGBA emitColor, Vector3f startPos){
+        this.assetManager = worldView.getAssetManager();
         this.playerNode = playerNode;
         this.startPos = startPos;
         this.headMaterialPath = headMaterialPath;
         this.bodyMaterialPath = bodyMaterialPath;
         this.bodyColor = bodyColor;
         this.emitColor = emitColor;
-        this.rootNode = gameView.getRootNode();
+        this.rootNode = worldView.getRootNode();
         createPlayer();
         createHealthBar();
         createDashBar();

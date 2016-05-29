@@ -3,11 +3,10 @@
 
 
 
-package gameView;
+package view;
 
 import com.jme3.niftygui.NiftyJmeDisplay;
 import core.Player;
-import ctrl.PlayerController;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
@@ -23,11 +22,24 @@ public class GUIView implements ScreenController {
     private Player player2;
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
-    private GameView gameView;
+    private WorldView worldView;
     private Element niftyElement;
 
     public GUIView(){
     }
+
+    public void setPlayer1(Player p1){
+        this.player1 = p1;
+    }
+
+    public void setPlayer2(Player p2){
+        this.player2 = p2;
+    }
+    public void setNiftyDisplay(NiftyJmeDisplay nd){
+        this.niftyDisplay = nd;
+        this.nifty = nd.getNifty();
+    }
+
     //updates the status bar at top of java
     public void updateText(){
         if(player1==null||player2==null){
@@ -50,8 +62,8 @@ public class GUIView implements ScreenController {
     public void startGame(){
         nifty.fromXml("Interface/screen.xml", "gamegui", this);
         nifty.gotoScreen("gamegui");
-        this.gameView.setPaused(false);
-        this.gameView.setInitialized();
+        this.worldView.setPaused(false);
+        this.worldView.setInitialized();
     }
 
     // called when menu button is clicked
@@ -59,8 +71,8 @@ public class GUIView implements ScreenController {
         nifty.removeScreen("start");
         nifty.fromXml("Interface/screen.xml", "pause", this);
         nifty.gotoScreen("pause");
-        if(!gameView.isPaused()) {
-            this.gameView.setPaused(true);
+        if(!worldView.getPaused()) {
+            this.worldView.setPaused(true);
         }
     }
 
@@ -69,16 +81,16 @@ public class GUIView implements ScreenController {
         nifty.removeScreen("pause");
         nifty.fromXml("Interface/screen.xml", "gamegui", this);
         nifty.gotoScreen("gamegui");
-        if(gameView.isPaused()) {
-            this.gameView.setPaused(false);
+        if(worldView.isPaused()) {
+            this.worldView.setPaused(false);
         }
     }
 
     public void toggleAI(){
         Element niftyElement = nifty.getCurrentScreen().findElementById("AiSettingText");
-        gameView.setAI(!gameView.getAI());
+        worldView.setAI(!worldView.getAI());
 
-        if(gameView.getAI()){
+        if(worldView.getAI()){
             niftyElement.getRenderer(TextRenderer.class).setText("1 Player with AI");
         }else{
             niftyElement.getRenderer(TextRenderer.class).setText("2 Player Mode");
@@ -87,9 +99,9 @@ public class GUIView implements ScreenController {
 
     public void toggleCam(){
         Element niftyElement = nifty.getCurrentScreen().findElementById("CamSettingText");
-        gameView.getWorld().getCameraData().setDynamicCameraEnabled(!gameView.getWorld().getCameraData().getDynamicCameraEnabled());
+        worldView.getWorld().getCameraData().setDynamicCameraEnabled(!worldView.getWorld().getCameraData().getDynamicCameraEnabled());
 
-        if(gameView.getWorld().getCameraData().getDynamicCameraEnabled()){
+        if(worldView.getWorld().getCameraData().getDynamicCameraEnabled()){
             niftyElement.getRenderer(TextRenderer.class).setText(
                     "Moving Camera Mode");
         }else{niftyElement.getRenderer(TextRenderer.class).setText(
@@ -106,11 +118,11 @@ public class GUIView implements ScreenController {
     }
     public void bind(Nifty nifty, Screen screen) {
     }
-    public void setGameView(GameView gameView) {
-        this.gameView = gameView;
-        this.player1 = gameView.getWorld().getPlayer1();
-        this.player2 = gameView.getWorld().getPlayer2();
-        this.niftyDisplay = gameView.getNiftyDisplay();
+    public void setWorldView(WorldView worldView) {
+        this.worldView = worldView;
+        this.player1 = worldView.getWorld().getPlayer1();
+        this.player2 = worldView.getWorld().getPlayer2();
+        this.niftyDisplay = worldView.getNiftyDisplay();
         this.nifty = niftyDisplay.getNifty();
     }
 }

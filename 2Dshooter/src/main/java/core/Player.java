@@ -52,10 +52,9 @@ public class Player {
         this.dashMeterRegenRate = 7f;
         this.dashThreshold = 40f;
         this.shotMeterPercent = 100f;
-        this.shotMeterRegenRate = 7f;
-        this.shotThreshold = 5f;
+        this.shotMeterRegenRate = 15f;
+        this.shotThreshold = 8f;
         this.overloadDuration = 2700;
-
         this.gunRotationSpeed = 140f;
     }
 

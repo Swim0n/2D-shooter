@@ -6,7 +6,7 @@
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <!-- start screen                            -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
-    <screen id="start" controller="gameView.GUIView">
+    <screen id="start" controller="view.GUIView">
         <layer id="layer" childLayout="center">
             <panel id="startMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="top" align="center" height="33%">
                 <text id="WelcomeText" font="Interface/Arial.fnt" color="#ffff" text= "Voxel Galaxy: Arena" align="center" valign="bottom" />
@@ -36,7 +36,7 @@
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <!-- game gui (hp bar etc)                   -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
-    <screen id="gamegui" controller="gameView.GUIView">
+    <screen id="gamegui" controller="view.GUIView">
         <layer id="layer" childLayout="center">
             <panel id="panel" height="6%" width="100%" align="right" valign="top"  childLayout="vertical"  visibleToMouse="true">
                 <panel id="GUIPanelTop" height="50%" width="100%" align="right" valign="top"  childLayout="center"  visibleToMouse="true">
@@ -60,7 +60,7 @@
     <!-- pause screen(menu)                      -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
 
-    <screen id="pause" controller="gameView.GUIView">
+    <screen id="pause" controller="view.GUIView">
         <layer id="layer" childLayout="center">
             <panel id="pauseMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="top" align="center" height="33%"/>
                 <text id="WelcomeText" font="Interface/Arial.fnt" color="#ffff" text= "Voxel Galaxy: Arena" align="center" valign="bottom" />
