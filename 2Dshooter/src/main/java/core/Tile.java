@@ -26,22 +26,18 @@ public class Tile {
     public void setBlocked(boolean blocked){
         this.blocked = blocked;
     }
-
     public boolean getBlocked(){
         return this.blocked;
     }
     public int getX(){
         return this.x;
     }
-
     public int getY(){
         return this.y;
     }
     public Tile getCameFrom(){
         return this.cameFrom;
     }
-
-
     public double getGScore(){
         return this.gScore;
     }

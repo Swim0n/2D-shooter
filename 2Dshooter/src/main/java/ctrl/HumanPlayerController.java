@@ -22,7 +22,6 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     String[] mapNames;
     private long lastOverload = 0;
 
-
     public HumanPlayerController(PlayerView view, Player player, WorldView worldView, KeyMappings keys){
         super(view,player, worldView);
         this.world = worldView.getWorld();
@@ -108,7 +107,5 @@ public class HumanPlayerController extends PlayerController implements ActionLis
             }
         }
     }
-
-
 }
 

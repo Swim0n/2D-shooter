@@ -10,5 +10,4 @@ public class HealthPowerUp extends PowerUp {
     public void setEffect(Player player) {
         player.setHealth(player.getHealth()+12);
     }
-
 }

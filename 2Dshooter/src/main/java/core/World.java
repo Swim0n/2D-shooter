@@ -5,9 +5,6 @@ package core;
  * Contains the data and logic of the game world
  */
 public class World {
-
-
-
     private final Player player1;
     private final Player player2;
     private final Terrain terrain;
@@ -42,11 +39,9 @@ public class World {
     public void setShutDown() {
         shutDown = true;
     }
-
     public boolean isShutDown() {
         return shutDown;
     }
-
     public float getHeight(){
         return this.height;
     }
@@ -71,11 +66,9 @@ public class World {
     public void setDeathMatch(boolean deathMatch) {
         this.deathMatch = deathMatch;
     }
-
     public boolean isPaused() {
         return paused;
     }
-
     public void setPaused(boolean paused) {
         this.paused = paused;
     }

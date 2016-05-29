@@ -23,7 +23,6 @@ public abstract class PowerUp {
     }
 
     public abstract void setEffect(Player player);
-
     public float getX(){
         return this.x;
     }
