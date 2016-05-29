@@ -21,7 +21,6 @@ import java.io.IOException;
  * Updates the dynamic camera position and angle
  */
 public class CameraController extends CameraControl implements ActionListener {
-
     private final CameraModel cameraData;
     private final Player player2;
     private final Player player1;

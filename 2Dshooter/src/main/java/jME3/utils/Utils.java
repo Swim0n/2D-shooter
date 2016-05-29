@@ -13,8 +13,6 @@ import javax.vecmath.Vector3f;
  * Generic jMonkeyEngine3 utils
  */
 public final class Utils {
-
-
     public static Geometry getBox(float xDim, float yDim, float zDim){
         Box box = new Box(xDim,yDim,zDim);
         Geometry geometry = new Geometry("Box", box);
@@ -36,5 +34,4 @@ public final class Utils {
     public static com.jme3.math.Vector3f vecMathToJMEVector3f(Vector3f vector3f){
         return new com.jme3.math.Vector3f(vector3f.x,vector3f.y,vector3f.z);
     }
-
 }

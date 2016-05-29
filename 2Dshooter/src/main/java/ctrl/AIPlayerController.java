@@ -118,7 +118,4 @@ public class AIPlayerController extends PlayerController {
         }
         return false;
     }
-
-
-
 }
