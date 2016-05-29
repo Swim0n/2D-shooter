@@ -4,7 +4,7 @@
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         ViewInit viewInit = new ViewInit();
-        if(viewInit.getGameView().getWorld().isShutDown()){return;}
+        if(viewInit.getWorldView().getWorld().isShutDown()){return;}
         new ControlInit(viewInit);
     }
 }
