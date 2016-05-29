@@ -1,14 +1,16 @@
+---
 #Voxel Galaxy: Arena
 
 ##A fast paced alien shooter game loaded with action.
-
+---
 ##Supports
+***
 1 Player mode with AI
 
 Local 2 Player mode (on the same computer)
-
+***
 ##Controls
-
+***
 ###Player 1
 
 -Movement - "WASD"
@@ -17,6 +19,7 @@ Local 2 Player mode (on the same computer)
 -Rotating head left - "H"
 -Rotating head right - "K"
 
+
 ###Player 2
 
 -Movement - "Arrow keys"
@@ -24,12 +27,11 @@ Local 2 Player mode (on the same computer)
 -Shoot - "NP_5"
 -Rotating head left - "NP_4"
 -Rotating head right - "NP_6"
-
+***
 ##Game modes
-
+***
 ###Match point mode:
 Each player spawns in opposite corners of the map.
-
 Players have their stats reset on a kill/death and the surviving player gets one point.
 
 Players respawn at their original spawn position.
@@ -42,9 +44,9 @@ Players have their HP reset on death but all other stats remain.
 Only the killed player respawn on death.
 
 Players respawn at a random position on the map on death.
-
+***
 ##Power ups
-
+***
 ###Health power up:
 Increases the players health by 12 hp on pick up.
 
