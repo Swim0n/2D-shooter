@@ -28,6 +28,7 @@ public class PowerUpTest {
         assertTrue(beforeHp+20==afterHp);
 
 
+
     }
 
     @Test
@@ -41,19 +42,20 @@ public class PowerUpTest {
         powerUp.setEffect(player);
         float afterSpeed = player.getSpeed();
         assertTrue(afterSpeed>beforeSpeed);
+
     }
 
     @Test
-    public void testCorrectDamageIncrement(){
+    public void testCorrectDamageGiven(){
         Player player = new Player();
         player.setDamage(10);
-        float firstDmg = player.getDamage();
+        float beforeDmg = player.getDamage();
         Environment environment = new Environment(1,1);
         environment.setPositions(5,5,1,1);
         WeaponPowerUp powerUp = new WeaponPowerUp(environment);
         powerUp.setEffect(player);
         float afterDmg = player.getDamage();
-        assertTrue(firstDmg<afterDmg);
+        assertTrue(beforeDmg<afterDmg);
     }
 
 

@@ -33,5 +33,6 @@ public class EnvironmentTest {
         }
         /** if the method generated a non unique position, the list would be bigger than 0 */
         assertTrue(booleanList.size()==0);
+
     }
 }
