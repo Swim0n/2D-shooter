@@ -20,6 +20,7 @@ public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
     private final WorldView worldView;
     private final BulletView bulletView;
+    private final boolean isPlayer1;
     protected float speed;
     protected Player player;
     protected GUIView niftyView;
@@ -33,6 +34,9 @@ public abstract class PlayerController extends BetterCharacterControl {
         this.playerView = playerView;
         this.speed = this.player.getSpeed();
         this.spatial = playerView.getPlayerNode();
+        if(this.player.equals(worldView.getWorld().getPlayer1())){
+            isPlayer1 = true;
+        }else {isPlayer1 = false;}
         warp(new Vector3f(playerView.getStartPos()));
     }
 
@@ -50,17 +54,22 @@ public abstract class PlayerController extends BetterCharacterControl {
 
         speed = player.getSpeed();
 
-
         if(player.getNeedsReset()){
             this.resetPlayer();
             player.setNeedsResetFalse();
-
-            System.out.println("P1 wins: "+ worldView.getWorld().getPlayer1().getWins()+
-                    "\nP2 wins: "+ worldView.getWorld().getPlayer2().getWins());
         }
 
+        //on death match only reset the dead player, else reset both and their stats
         if(player.getHealth()==0){
-            worldView.getWorld().setGameOver();
+            if(!worldView.isDeathMatch()){
+                worldView.getWorld().setGameOver();
+                return;
+            }else if(isPlayer1){
+                worldView.getWorld().getPlayer2().incWins();
+            }else{
+                worldView.getWorld().getPlayer1().incWins();
+            }
+            resetPlayer();
         }
 
         playerView.rotateGun(player.getGunRotation()*tpf);
@@ -79,9 +88,15 @@ public abstract class PlayerController extends BetterCharacterControl {
     }
 
     public void resetPlayer(){
-        warp(new Vector3f(playerView.getStartPos()));
+        if(!worldView.isDeathMatch()) {
+            warp(new Vector3f(playerView.getStartPos()));
+            player.setStandard();
+        }else{
+            player.setHealth(100);
+            warp(utils.Utils.vecMathToJMEVector3f(worldView.getWorld().getTerrain().getRandomPos()));
+        }
+
         playerView.setHealthBar(100);
-        player.setStandard();
         niftyView.updateText();
     }
 

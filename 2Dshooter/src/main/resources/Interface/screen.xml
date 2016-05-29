@@ -15,19 +15,23 @@
                 <control name="button" id="StartButton" childLayout="center" visibleToMouse="true" width="50.0%" focusable="true" valign="top" label="Start" align="center" height="20.0%">
                     <interact onClick="startGame();"/>
                 </control>
-                <control name="button" id="ToggleCameraButton" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Toggle Camera" align="center" height="20.0%">
+                <control name="button" id="ToggleCameraButton" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Toggle Camera" align="center" height="15.0%">
                     <interact onClick="toggleCam()"/>
                 </control>
-                <control name="button" id="ToggleAiButton" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle AI" align="center" height="20.0%">
+                <control name="button" id="ToggleAiButton" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle AI" align="center" height="15.0%">
                     <interact onClick="toggleAI()"/>
                 </control>
-                <control name="button" id="ExitGame" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="20.0%">
+                <control name="button" id="ToggleDeathMatch" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle Death Match" align="center" height="15.0%">
+                    <interact onClick="toggleDeathMatch()"/>
+                </control>
+                <control name="button" id="ExitGame" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Exit Game" align="bottom" height="15.0%">
                     <interact onClick="quit()"/>
                 </control>
             </panel>
             <panel id="startMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%">
-                <text id="AiSettingText" font="Interface/Arial.fnt" color="#ffff" text= "2 Player Mode" align="center" valign="bottom" />
                 <text id="CamSettingText" font="Interface/Arial.fnt" color="#ffff" text= "Moving camera mode" align="center" valign="bottom" />
+                <text id="AiSettingText" font="Interface/Arial.fnt" color="#ffff" text= "2 Player Mode" align="center" valign="bottom" />
+                <text id="DMSettingText" font="Interface/Arial.fnt" color="#ffff" text= "Match Point Mode" align="center" valign="bottom" />
             </panel>
 
         </layer>

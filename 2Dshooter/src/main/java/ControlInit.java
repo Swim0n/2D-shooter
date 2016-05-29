@@ -50,7 +50,7 @@ public class ControlInit {
         PlayerController player2ControlSave = new HumanPlayerController(worldView.getPlayer2View(), world.getPlayer2(), worldView, player2Mappings);
 
         PlayerController player2Control;
-        if(worldView.getAI()){
+        if(worldView.isAI()){
             player2Control = player2AIControl;
         } else {
             player2Control = player2ControlSave;

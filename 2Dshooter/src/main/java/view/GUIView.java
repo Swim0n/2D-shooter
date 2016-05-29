@@ -51,11 +51,17 @@ public class GUIView implements ScreenController {
                     "P1 HP: " + Float.toString(player1.getHealth()) + "    " + "P2 HP: " + Float.toString(player2.getHealth())
         );
 
-        niftyElement = nifty.getCurrentScreen().findElementById("WinsText");
-        niftyElement.getRenderer(TextRenderer.class).setText(
-                "P1 Wins: "+ Integer.toString(player1.getWins())+ "    "+"P2 Wins: " + Integer.toString(player2.getWins())
-        );
-
+        if(worldView.isDeathMatch()){
+            niftyElement = nifty.getCurrentScreen().findElementById("WinsText");
+            niftyElement.getRenderer(TextRenderer.class).setText(
+                    "P1 Kills: "+ Integer.toString(player1.getWins())+ "    "+"P2 Kills: " + Integer.toString(player2.getWins())
+            );
+        }else {
+            niftyElement = nifty.getCurrentScreen().findElementById("WinsText");
+            niftyElement.getRenderer(TextRenderer.class).setText(
+                    "P1 Wins: " + Integer.toString(player1.getWins()) + "    " + "P2 Wins: " + Integer.toString(player2.getWins())
+            );
+        }
     }
 
     //called when startgame button is clicked
@@ -86,11 +92,21 @@ public class GUIView implements ScreenController {
         }
     }
 
+    public void toggleDeathMatch(){
+        Element niftyElement = nifty.getCurrentScreen().findElementById("DMSettingText");
+        worldView.setDeathMatch(!worldView.isDeathMatch());
+
+        if(worldView.isDeathMatch()){
+            niftyElement.getRenderer(TextRenderer.class).setText("Death Match Mode");
+        }else{
+            niftyElement.getRenderer(TextRenderer.class).setText("Match Point Mode");
+        }
+    }
     public void toggleAI(){
         Element niftyElement = nifty.getCurrentScreen().findElementById("AiSettingText");
-        worldView.setAI(!worldView.getAI());
+        worldView.setAI(!worldView.isAI());
 
-        if(worldView.getAI()){
+        if(worldView.isAI()){
             niftyElement.getRenderer(TextRenderer.class).setText("1 Player with AI");
         }else{
             niftyElement.getRenderer(TextRenderer.class).setText("2 Player Mode");

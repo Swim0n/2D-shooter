@@ -41,6 +41,7 @@ public class WorldView extends SimpleApplication implements ScreenController{
     private BulletAppState bulletAppState;
     private boolean ai = false;
     private boolean paused = true;
+    private boolean deathMatch = true;
     //all views initialized, set by startButton in nifty start menu
     private boolean initialized;
 
@@ -175,7 +176,7 @@ public class WorldView extends SimpleApplication implements ScreenController{
     public void setAI(boolean state){
         this.ai = state;
     }
-    public boolean getAI(){
+    public boolean isAI(){
         return this.ai;
     }
     public Node getBulletNode(){
@@ -207,5 +208,13 @@ public class WorldView extends SimpleApplication implements ScreenController{
     }
     public NiftyJmeDisplay getNiftyDisplay(){
         return this.niftyDisplay;
+    }
+
+    public boolean isDeathMatch() {
+        return deathMatch;
+    }
+
+    public void setDeathMatch(boolean deathMatch) {
+        this.deathMatch = deathMatch;
     }
 }
