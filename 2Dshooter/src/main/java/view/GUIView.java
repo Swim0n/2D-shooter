@@ -25,7 +25,6 @@ public class GUIView implements ScreenController {
     private WorldView worldView;
     private Element niftyElement;
 
-
     public GUIView(){
     }
 
@@ -49,17 +48,17 @@ public class GUIView implements ScreenController {
         if(player1==null||player2==null){
             return;
         }
-        // find old text
-        niftyElement = nifty.getCurrentScreen().findElementById("text");
+        niftyElement = nifty.getCurrentScreen().findElementById("HPText");
 
-        // swap old with new text
-        String p1hp = Float.toString(player1.getHealth());
-        String p2hp = Float.toString(player2.getHealth());
+        niftyElement.getRenderer(TextRenderer.class).setText(
+                    "P1 HP: " + Float.toString(player1.getHealth()) + "    " + "P2 HP: " + Float.toString(player2.getHealth())
+        );
 
-        if(niftyElement!=null) {
-            niftyElement.getRenderer(TextRenderer.class).setText(
-                    "P1 HP: " + p1hp + "    " + "P2 HP: " + p2hp);
-        }
+        niftyElement = nifty.getCurrentScreen().findElementById("WinsText");
+        niftyElement.getRenderer(TextRenderer.class).setText(
+                "P1 Wins: "+ Integer.toString(player1.getWins())+ "    "+"P2 Wins: " + Integer.toString(player2.getWins())
+        );
+
     }
 
     //called when startgame button is clicked
@@ -82,40 +81,35 @@ public class GUIView implements ScreenController {
 
     //called when back button is clicked when in the menu
     public void closeMenu(){
-        nifty.fromXml("Interface/screen.xml", "start", this);
-        nifty.gotoScreen("start");
-        if(!worldView.getPaused()) {
-            this.worldView.setPaused(true);
+        nifty.removeScreen("pause");
+        nifty.fromXml("Interface/screen.xml", "gamegui", this);
+        nifty.gotoScreen("gamegui");
+        if(worldView.isPaused()) {
+            this.worldView.setPaused(false);
         }
     }
 
-    //turns the ai variable on/off when called, is working but no text change in menu
     public void toggleAI(){
-        Element niftyElement = nifty.getCurrentScreen().findElementById("aitext");
+        Element niftyElement = nifty.getCurrentScreen().findElementById("AiSettingText");
         worldView.setAI(!worldView.getAI());
-        System.out.println("AI Enabled: "+ worldView.getAI());
-        /*
+
         if(worldView.getAI()){
-            niftyElement.getRenderer(TextRenderer.class).setText(
-                    "AI: ON");
-        }else{niftyElement.getRenderer(TextRenderer.class).setText(
-                "AI: OFF");
-        }*/
+            niftyElement.getRenderer(TextRenderer.class).setText("1 Player with AI");
+        }else{
+            niftyElement.getRenderer(TextRenderer.class).setText("2 Player Mode");
+        }
     }
-    //turns the ai variable on/off when called, !!!not working!!!
 
     public void toggleCam(){
-        worldView.getWorld().getCameraData().setDynamicCameraEnabled(!worldView.getWorld().getCameraData().getDynamicCameraEnabled());
+        Element niftyElement = nifty.getCurrentScreen().findElementById("CamSettingText");
+        worldView.getWorld().getCameraData().setDynamicCameraEnabled(!gameView.getWorld().getCameraData().getDynamicCameraEnabled());
 
-        System.out.println("Dynamic Camera Enabled: "+ worldView.getWorld().getCameraData().getDynamicCameraEnabled());
-
-        /*
         if(worldView.getWorld().getCameraData().getDynamicCameraEnabled()){
             niftyElement.getRenderer(TextRenderer.class).setText(
-                    "Dynamic Camera: ON");
+                    "Moving Camera Mode");
         }else{niftyElement.getRenderer(TextRenderer.class).setText(
-                "Dynamic Camera: OFF");
-        }*/
+                "Static Camera Mode");
+        }
     }
 
     public void onStartScreen() {
@@ -123,6 +117,13 @@ public class GUIView implements ScreenController {
     public void onEndScreen() {
     }
     public void bind(Nifty nifty, Screen screen) {
+    }
+    public void setWorldView(WorldView worldView) {
+        this.worldView = worldView;
+        this.player1 = worldView.getWorld().getPlayer1();
+        this.player2 = worldView.getWorld().getPlayer2();
+        this.niftyDisplay = worldView.getNiftyDisplay();
+        this.nifty = niftyDisplay.getNifty();
     }
 }
 
