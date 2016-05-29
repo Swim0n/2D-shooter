@@ -27,10 +27,8 @@ public class ControlInit {
         initiatePlayerControls();
         initiatePowerUpControls();
         initiateGUI();
-
-        if(world.getCameraData().getDynamicCameraEnabled()){
-            initiateCameraControls();
-        }
+        initiateCameraControls();
+        world.setInGame(true);
    }
 
     private void initiateGUI() {

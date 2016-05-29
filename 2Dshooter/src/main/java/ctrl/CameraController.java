@@ -26,6 +26,8 @@ public class CameraController extends CameraControl implements ActionListener {
     private final Player player2;
     private final Player player1;
     private final CameraNode cameraNode;
+    private final Vector3f staticLookAt;
+    private final Vector3f staticPosition;
     private Vector3f position;
     private Vector3f lookAt;
 
@@ -34,14 +36,19 @@ public class CameraController extends CameraControl implements ActionListener {
         this.player1 = worldView.getWorld().getPlayer1();
         this.player2 = worldView.getWorld().getPlayer2();
         this.cameraNode = worldView.getCameraNode();
+        this.staticLookAt = Utils.vecMathToJMEVector3f(cameraData.getStaticLookAt());
+        this.staticPosition = Utils.vecMathToJMEVector3f(cameraData.getStaticPosition());
+
         cameraNode.addControl(this);
     }
 
     public void update(float tpf) {
-        if(player1.getPosition()==null||player2.getPosition()==null){
+        if(player1.getPosition()==null||player2.getPosition()==null){return;}
+        if(!cameraData.getDynamicCameraEnabled()){
+            cameraNode.setLocalTranslation(staticPosition);
+            cameraNode.lookAt(staticLookAt, Vector3f.UNIT_Z);
             return;
         }
-
         updatePosition();
         updateLookAt();
         cameraNode.setLocalTranslation(position);

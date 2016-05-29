@@ -93,8 +93,12 @@ public class GUIView implements ScreenController {
     }
 
     public void toggleDeathMatch(){
-        Element niftyElement = nifty.getCurrentScreen().findElementById("DMSettingText");
+        niftyElement = nifty.getCurrentScreen().findElementById("DMSettingText");
         worldView.setDeathMatch(!worldView.isDeathMatch());
+
+        if(worldView.getWorld().isInGame()){
+            worldView.getWorld().setGameOver();
+        }
 
         if(worldView.isDeathMatch()){
             niftyElement.getRenderer(TextRenderer.class).setText("Death Match Mode");
@@ -103,7 +107,7 @@ public class GUIView implements ScreenController {
         }
     }
     public void toggleAI(){
-        Element niftyElement = nifty.getCurrentScreen().findElementById("AiSettingText");
+        niftyElement = nifty.getCurrentScreen().findElementById("AiSettingText");
         worldView.setAI(!worldView.isAI());
 
         if(worldView.isAI()){
@@ -114,7 +118,7 @@ public class GUIView implements ScreenController {
     }
 
     public void toggleCam(){
-        Element niftyElement = nifty.getCurrentScreen().findElementById("CamSettingText");
+        niftyElement = nifty.getCurrentScreen().findElementById("CamSettingText");
         worldView.getWorld().getCameraData().setDynamicCameraEnabled(!worldView.getWorld().getCameraData().getDynamicCameraEnabled());
 
         if(worldView.getWorld().getCameraData().getDynamicCameraEnabled()){

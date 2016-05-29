@@ -14,6 +14,7 @@ public class World {
     private boolean shutDown;
     private float height;
     private float width;
+    private boolean inGame;
 
     public World(int rocks, int trees, boolean dynamicCamEnabled){
         this.player1 = new Player();
@@ -49,4 +50,11 @@ public class World {
     }
 
 
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
+    }
 }
