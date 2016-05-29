@@ -11,7 +11,7 @@ Local 2 Player mode (on the same computer)
 ***
 ###Controls
 
-###P#layer 1
+####Player 1
 
 -Movement - "WASD"
 
