@@ -21,7 +21,7 @@ public class CollisionController extends RigidBodyControl {
     private final PowerUpView powerUpView;
     private boolean hasCollided;
 
-    public CollisionController(WorldView worldView, Geometry target, PowerUp powerUp, PowerUpController powerUpController){
+    public CollisionController(WorldView worldView, Spatial target, PowerUp powerUp, PowerUpController powerUpController){
         this.worldView = worldView;
         this.powerUp = powerUp;
         this.powerUpView = worldView.getPowerUpView();
