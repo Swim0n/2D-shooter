@@ -9,42 +9,26 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import core.World;
 import utils.Utils;
-
 import java.util.ArrayList;
 
 /**
- * Created by Simon on 2016-05-03.
+ * Initializes a randomly generated terrain
  */
 public class TerrainView {
-    private AssetManager assetManager;
-    private Node terrainNode;
-
-    private float groundX;
-    private float groundZ;
-    private float tileWidth;
-    private float tileHeight;
-
     private World world;
-
-    private BulletAppState bulletAppState;
-
+    private Node terrainNode;
     private ArrayList<Spatial> terrainGrid;
-
+    private BulletAppState bulletAppState;
+    private AssetManager assetManager;
 
     public TerrainView(GameView gameView, float tileWidth, float tileHeight) {
         this.assetManager = gameView.getAssetManager();
         this.terrainNode = gameView.getTerrainNode();
         this.world = gameView.getWorld();
-        this.groundX = world.getWidth();
-        this.groundZ = world.getHeight();
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
-
         this.bulletAppState = gameView.getBulletAppState();
-        this.terrainGrid = new ArrayList<Spatial>();
-        world.getTerrain().setPositions(groundX, groundZ, tileWidth, tileHeight);
+        this.terrainGrid = new ArrayList<>();
+        world.getTerrain().setPositions(world.getWidth(), world.getHeight(), tileWidth, tileHeight);
         createTerrain();
-        applyPhysics();
     }
 
     private void createTerrain(){
@@ -70,9 +54,6 @@ public class TerrainView {
             tree.move(1,0,0);
             terrainNode.attachChild(tree);
         }
-    }
-
-    private void applyPhysics(){
         for (int i = 0; i < terrainGrid.size(); i++){
             RigidBodyControl terrainPhy = new RigidBodyControl(0);
             terrainGrid.get(i).addControl(terrainPhy);

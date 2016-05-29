@@ -9,24 +9,26 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.BillboardControl;
+import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import core.World;
 
 /**
  * Initializes the platform and the background space picture
  */
-public class GroundView {
+public class StageView {
     private Node stageNode;
     private AssetManager assetManager;
     private BulletAppState bulletAppState;
     private World world;
 
-    public GroundView(GameView gameView){
+    public StageView(GameView gameView){
         this.stageNode = gameView.getStageNode();
         this.assetManager = gameView.getAssetManager();
         this.bulletAppState = gameView.getBulletAppState();
         this.world = gameView.getWorld();
         createGround();
+        createWalls();
         createBackground();
     }
     private void createGround(){
@@ -39,6 +41,28 @@ public class GroundView {
         groundGeom.addControl(groundPhy);
         bulletAppState.getPhysicsSpace().add(groundPhy);
         stageNode.attachChild(groundGeom);
+    }
+
+    private void createWalls(){
+        Box verticalWallShape = new Box(0.5f,3f,27f);
+        Box horizontalWallShape = new Box(36f, 3f,0.5f);
+        Material wallMaterial = assetManager.loadMaterial("Materials/block2mat.j3m");
+        Geometry[] walls = new Geometry[4];
+        walls[0] = new Geometry("westWall", verticalWallShape);
+        walls[1] = new Geometry("eastWall", verticalWallShape);
+        walls[2] = new Geometry("northWall", horizontalWallShape);
+        walls[3] = new Geometry("southWall", horizontalWallShape);
+        walls[0].setLocalTranslation(-world.getWidth()/2-1,-2f,0);
+        walls[1].setLocalTranslation(world.getWidth()/2+1,-2f,0);
+        walls[2].setLocalTranslation(0,-2f,world.getHeight()/2);
+        walls[3].setLocalTranslation(0,-2f,-world.getHeight()/2);
+        for(int i = 0; i < walls.length; i++){
+            walls[i].setMaterial(wallMaterial);
+            RigidBodyControl wallPhy = new RigidBodyControl(0);
+            walls[i].addControl(wallPhy);
+            bulletAppState.getPhysicsSpace().add(wallPhy);
+            stageNode.attachChild(walls[i]);
+        }
     }
 
     private void createBackground(){

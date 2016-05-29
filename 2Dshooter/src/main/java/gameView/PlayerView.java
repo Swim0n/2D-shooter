@@ -21,7 +21,7 @@ import com.jme3.scene.shape.Quad;
 import utils.Utils;
 
 /**
- * Created by Simon on 2016-04-26.
+ * Spawns a player with associated stat bars
  */
 public class PlayerView {
     private Node playerNode;

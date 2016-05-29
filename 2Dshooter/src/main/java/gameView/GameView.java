@@ -10,9 +10,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.CameraNode;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Quad;
 import com.jme3.shadow.PointLightShadowRenderer;
 import core.World;
 import de.lessvoid.nifty.Nifty;
@@ -26,8 +24,7 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private BulletAppState bulletAppState;
 
-    private WallsView wallsView;
-    private GroundView groundView;
+    private StageView groundView;
     private PlayerView player1View;
     private PlayerView player2View;
     private TerrainView terrainView;
@@ -84,9 +81,8 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     private void initStage(){
         //creating a "ground floor" for levels
-        groundView = new GroundView(this);
-        //adding walls for the surface
-        wallsView = new WallsView(this);
+        groundView = new StageView(this);
+
         terrainView = new TerrainView(this, 4, 4);
     }
 

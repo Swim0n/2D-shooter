@@ -8,14 +8,10 @@ import com.jme3.scene.CameraNode;
  * Created by David on 2016-05-18.
  */
 public class CameraView {
-
-    private final GameView gameView;
     private final FlyByCamera flyCam;
     private final CameraNode camNode;
 
-
     public CameraView (GameView gameView){
-        this.gameView = gameView;
         this.flyCam = gameView.getFlyByCamera();
         this.camNode = gameView.getCameraNode();
         initiateFixedCamera();
