@@ -50,7 +50,7 @@ public class PowerUpController extends RigidBodyControl {
                 new CollisionController(worldView,powerUpGeom,powerUp,this);
             }
             if(placeOrder==2) {
-                powerUpGeom = powerUpView.createPowerUp(targetNode, powerUp = new WeaponPowerUp((worldView.getWorld().getTerrain())), ColorRGBA.Blue);
+                powerUpGeom = powerUpView.createPowerUp(targetNode, powerUp = new WeaponPowerUp((worldView.getWorld().getTerrain())), ColorRGBA.Black);
                 new CollisionController(worldView,powerUpGeom,powerUp,this);
             }
             if(placeOrder==3) {
