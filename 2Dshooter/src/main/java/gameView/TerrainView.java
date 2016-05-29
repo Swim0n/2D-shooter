@@ -22,6 +22,7 @@ import java.util.ArrayList;
  */
 public class TerrainView {
     private AssetManager assetManager;
+    private ApplicationAssets applicationAssets;
     private Node terrainNode;
 
     private float groundX;
@@ -38,6 +39,7 @@ public class TerrainView {
 
     public TerrainView(ApplicationAssets appAssets, float tileWidth, float tileHeight) {
         this.assetManager = appAssets.getAssetManager();
+        this.applicationAssets = appAssets;
         this.terrainNode = appAssets.getTerrainNode();
         this.groundX = appAssets.getGameView().getGroundSize().getWidth();
         this.groundZ = appAssets.getGameView().getGroundSize().getHeight();
@@ -53,7 +55,8 @@ public class TerrainView {
 
     private void createTerrain(){
         for (int i = 0; i < world.getTerrain().getRocksAmount(); i++){
-            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
+            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos(true));
+            world.getTerrain().getTileByCoords((int) position.getX(), (int) position.getZ()).setBlocked(true);
             Spatial rock = assetManager.loadModel("Models/block.mesh.xml");
             rock.setMaterial(assetManager.loadMaterial("Materials/block1mat.j3m"));
             terrainGrid.add(rock);
@@ -62,9 +65,11 @@ public class TerrainView {
             rock.scale(2);
             rock.move(-4,0,0);
             terrainNode.attachChild(rock);
+
         }
         for (int i = 0; i < world.getTerrain().getTreesAmount(); i++){
-            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
+            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos(true));
+            world.getTerrain().getTileByCoords((int) position.getX(), (int) position.getZ()).setBlocked(true);
             Spatial tree = assetManager.loadModel("Models/block.mesh.xml");
             tree.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
             terrainGrid.add(tree);

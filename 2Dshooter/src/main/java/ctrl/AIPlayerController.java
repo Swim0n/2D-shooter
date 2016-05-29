@@ -1,7 +1,11 @@
 package ctrl;
 
+import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.*;
+import com.sun.xml.internal.ws.dump.LoggingDumpTube;
+import core.PathFinder;
+import core.Tile;
 import core.World;
 import gameView.GUIView;
 import gameView.PlayerView;
@@ -11,6 +15,8 @@ import java.util.ArrayList;
 import core.Player;
 import gameView.GUIView;
 import gameView.PlayerView;
+import utils.ApplicationAssets;
+import utils.Utils;
 
 /**
  * Created by Simon on 2016-05-10.
@@ -21,27 +27,37 @@ public class AIPlayerController extends PlayerController {
     private long lastShotTime = 0;
     private ArrayList currentPath = new ArrayList();
     private boolean paused = true;
+    private ApplicationAssets applicationAssets;
 
 
     private int stepCount = 0;
     private int stepPause = 0;
+    private PathFinder pathFinder;
     private ArrayList path;
+    private World world;
 
 
-    public AIPlayerController(PlayerView view, Player player, GUIView niftyView){
+    public AIPlayerController(PlayerView view, Player player, GUIView niftyView, ApplicationAssets aa, AssetManager assetManager){
         super(view, player, niftyView);
+        this.world = aa.getWorld();
+        this.applicationAssets = aa;
+        this.pathFinder = new PathFinder(world.getTerrain(), aa, assetManager);
 
     }
 
     @Override
     public void update(float tpf){
-        if(paused){
+        if(super.paused){
             return;
         }
         super.update(tpf);
-
         Vector3f directionToPlayer = playerView.getGameView().getPlayer1Node().getWorldTranslation().subtract(spatial.getWorldTranslation());
 
+        if (playerData.getHealth()<=0){
+            this.stepCount = 0;
+            path = null;
+            setWalkDirection(new Vector3f(0f, -2f, 0f));
+        }
         //logic for always rotating the gun to face the player
         if(!playerView.getGunRotation().getRotationColumn(2).equals(directionToPlayer.normalize())){
             Quaternion halfPi = new Quaternion();
@@ -65,8 +81,32 @@ public class AIPlayerController extends PlayerController {
             lastShotTime = System.currentTimeMillis();
         }
 
+        if(path != null){
+        if(stepCount < path.size() ){
+            Vector3f directionNextTile = (new Vector3f((float) ((((Tile) path.get(stepCount)).getX())), -2f, (float) (((Tile) path.get(stepCount)).getY()))).subtract(spatial.getWorldTranslation());
+            setWalkDirection(directionNextTile.normalize().mult(speed));
+
+            if (updateTookStep(directionNextTile)) {
+                if (stepCount <= path.size()) {
+                    stepCount++;
+                } else {
+                    stepCount = 0;
+                }
+            }
+        }else {
+
+            stepCount = 0;
+            path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(), (int) spatial.getWorldTranslation().getZ(), (int) playerView.getGameView().getPlayer1Node().getWorldTranslation().getX(), (int) playerView.getGameView().getPlayer1Node().getWorldTranslation().getZ());
+
+        }
+        }else{
+            stepCount = 0;
+            path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(),(int) spatial.getWorldTranslation().getZ(),(int) playerView.getGameView().getPlayer1Node().getWorldTranslation().getX(),(int)playerView.getGameView().getPlayer1Node().getWorldTranslation().getZ());
+        }
 
 
+
+        /**
         //logic for moving towards player
         if(results.size() == 0) {
             if(directionToPlayer.length() < 15f){
@@ -76,13 +116,17 @@ public class AIPlayerController extends PlayerController {
             }
         } else {
             setWalkDirection(new Vector3f(0f,0f,0f));
-        }
-    }
-    public void pause(){
-        this.paused = true;
+        }**/
     }
 
-    public void unpause(){
-        this.paused = false;
+
+    public boolean updateTookStep(Vector3f directionToNextTile){
+        if(directionToNextTile.length() < 0.5f){
+            return true;
+        }
+        return false;
     }
+
+
+
 }

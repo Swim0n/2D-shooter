@@ -79,12 +79,13 @@ public class GameView extends SimpleApplication implements ScreenController{
         initiateNodes();
         initiatePhysics();
 
-        world = new World(40, 30, false);
+        world = new World(20, 20, false, assetManager);
         appAssets = new ApplicationAssets(this, world, assetManager, inputManager, bulletAppState, stageNode, terrainNode);
+        world.getTerrain().setApplicationAssets(appAssets);
 
+        initiateStage();
         initiateCamera();
         initiateGUI();
-        initiateStage();
         initiatePlayers();
 
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,0,0));
@@ -155,7 +156,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     private void initiatePlayers(){
         player1Control = new HumanPlayerController(player1View,world.getPlayer1(), niftyView, appAssets, new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
                 KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0));
-        player2AIControl = new AIPlayerController(player2View,world.getPlayer2(), niftyView);
+        player2AIControl = new AIPlayerController(player2View,world.getPlayer2(), niftyView, appAssets, assetManager);
         player2ControlSave = new HumanPlayerController(player2View,world.getPlayer2(), niftyView, appAssets, new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
                 KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE));
         if(this.ai == true){
