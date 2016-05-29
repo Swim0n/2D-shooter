@@ -35,11 +35,10 @@ public class CameraModelTest {
         Vector3f vector2 = new Vector3f();
 
         vector1.set(cameraModel.getLookAt(new Vector3f(5,0,10), new Vector3f(0,0,0)));
-        System.out.println(vector1);
         vector2.set(cameraModel.getLookAt(new Vector3f(0,0,0), new Vector3f(5,0,10)));
-        System.out.println(vector2);
 
-        /** method with the 2 same vectors should give same vector */
+
+        /** method with the 2 same vectors (in different order) should give same vector length */
         assertTrue(vector1.length()==vector2.length());
     }
 
@@ -47,11 +46,9 @@ public class CameraModelTest {
     public void testCameraHeight() throws Exception {
         CameraModel cameraModel = new CameraModel(true);
         float height1 = cameraModel.getCamHeight(new Vector3f(10,0,20), new Vector3f(0,0,0));
-        System.out.println(height1);
         float height2 = cameraModel.getCamHeight(new Vector3f(0,0,0), new Vector3f(10,0,20));
-        System.out.println(height2);
         float height3 = cameraModel.getCamHeight(new Vector3f(0,0,0), new Vector3f(1,0,1));
-        System.out.println(height3);
+
 
         /** same vectors in different order should give same result */
         assertTrue(height1==height2);

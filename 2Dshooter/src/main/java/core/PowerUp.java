@@ -6,18 +6,18 @@ import javax.vecmath.Vector3f;
  * Created by Hannes on 10/05/2016.
  */
 public abstract class PowerUp {
-    private final Environment terrain;
+    private final Terrain terrain;
     protected Vector3f position;
     protected float x;
     protected float z;
 
-    public PowerUp(Environment terrain){
+    public PowerUp(Terrain terrain){
         this.terrain = terrain;
         setPosition();
     }
 
     public void setPosition() {
-        position = terrain.getRandomPos();
+        position = terrain.getRandomPos(false);
         this.x = position.x;
         this.z= position.z;
     }
