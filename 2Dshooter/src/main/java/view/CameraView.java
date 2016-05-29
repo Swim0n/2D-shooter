@@ -21,8 +21,8 @@ public class CameraView {
         flyCam.setEnabled(false);
     }
     private void initiateFixedCamera(){
-        camNode.setLocalTranslation(utils.Utils.vecMathToJMEVector3f(cameraData.getStaticPosition()));
-        camNode.lookAt(utils.Utils.vecMathToJMEVector3f(cameraData.getStaticLookAt()),Vector3f.UNIT_Z);
+        camNode.setLocalTranslation(jME3.utils.Utils.vecMathToJMEVector3f(cameraData.getStaticPosition()));
+        camNode.lookAt(jME3.utils.Utils.vecMathToJMEVector3f(cameraData.getStaticLookAt()),Vector3f.UNIT_Z);
     }
 
 }
