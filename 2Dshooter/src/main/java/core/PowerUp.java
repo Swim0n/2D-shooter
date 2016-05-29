@@ -1,25 +1,23 @@
 package core;
 
-import utils.ApplicationAssets;
-
 import javax.vecmath.Vector3f;
 
 /**
- * Created by Hannes on 10/05/2016.
+ * Represents a generic power up
  */
 public abstract class PowerUp {
-    protected ApplicationAssets applicationAssets;
+    private final Terrain terrain;
     protected Vector3f position;
     protected float x;
     protected float z;
 
-    public PowerUp(ApplicationAssets applicationAssets){
-        this.applicationAssets = applicationAssets;
+    public PowerUp(Terrain terrain){
+        this.terrain = terrain;
         setPosition();
     }
 
     public void setPosition() {
-        position = applicationAssets.getWorld().getTerrain().getRandomPos();
+        position = terrain.getRandomPos(false);
         this.x = position.x;
         this.z= position.z;
     }

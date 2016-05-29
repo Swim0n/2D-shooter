@@ -1,89 +1,126 @@
 package ctrl;
 
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import core.Player;
-import gameView.BulletView;
-import gameView.GUIView;
-import gameView.PlayerView;
+import view.BulletView;
+import view.GUIView;
+import view.PlayerView;
+import view.WorldView;
+import jME3.utils.Utils;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
- * Created by Simon on 2016-05-11.
+ * A generic controller for a Player
  */
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
-    protected final BulletView bulletView;
+    private final WorldView worldView;
+    private final BulletView bulletView;
+    private final boolean isPlayer1;
     protected float speed;
-    protected Player playerData;
+    protected Player player;
     protected GUIView niftyView;
-    protected boolean paused = true;
 
-    public PlayerController(PlayerView playerView, Player player, GUIView niftyView){
+    public PlayerController(PlayerView playerView, Player player, WorldView worldView){
         super(player.getRadius(), player.getHeight(), player.getMass());
-        this.playerData = player;
+        this.worldView = worldView;
+        this.niftyView = worldView.getNiftyView();
+        this.bulletView = worldView.getBulletView();
+        this.player = player;
         this.playerView = playerView;
-        this.bulletView = new BulletView(playerView);
-        this.speed = playerData.getSpeed();
-        this.niftyView = niftyView;
+        this.speed = this.player.getSpeed();
+        this.spatial = playerView.getPlayerNode();
+        if(this.player.equals(worldView.getWorld().getPlayer1())){
+            isPlayer1 = true;
+        }else {isPlayer1 = false;}
+        warp(new Vector3f(playerView.getStartPos()));
     }
 
     @Override
     public void update(float tpf){
-        if(this.paused){
+        super.update(tpf);
+        if(worldView.getWorld().isPaused()){
             setWalkDirection(new Vector3f(0,0,0));
+            player.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
+            this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
             return;
         }
-        super.update(tpf);
-        playerView.getGameView().updateGUI();
-        speed = playerData.getSpeed();
-        if (playerData.getHealth()<=0){
 
-            if(playerView.getGameView().getPlayer1Control().getPlayerData().getHealth()==0){
-                playerView.getGameView().getPlayer2Control().getPlayerData().incWins();
-            }else playerView.getGameView().getPlayer1Control().getPlayerData().incWins();
+        worldView.updateGUI();
 
-            playerView.getGameView().getPlayer1Control().resetPlayer();
-            playerView.getGameView().getPlayer2Control().resetPlayer();
-            System.out.println("P1 wins: "+ playerView.getGameView().getPlayer1Control().getPlayerData().getWins()+
-                    "\nP2 wins: "+ playerView.getGameView().getPlayer2Control().getPlayerData().getWins());
+        speed = player.getSpeed();
+
+        if(player.getNeedsReset()){
+            this.resetPlayer();
+            player.setNeedsResetFalse();
         }
-        warp(new Vector3f(location.getX(),-2f, location.getZ()));
-    }
 
-    public void takeDamage(float damage){
-        playerData.setHealth(playerData.getHealth() - damage);
-        playerView.setHealthBar(playerData.getHealth());
-        playerView.emitSparks();
-        playerView.playPlayerHitSound();
-        niftyView.updateText();
+        //on death match only reset the dead player, else reset both and their stats
+        if(player.getHealth()==0){
+            if(!worldView.getWorld().isDeathMatch()){
+                worldView.getWorld().setGameOver();
+                return;
+            }else if(isPlayer1){
+                worldView.getWorld().getPlayer2().incWins();
+            }else{
+                worldView.getWorld().getPlayer1().incWins();
+            }
+            resetPlayer();
+        }
+
+        playerView.rotateGun(player.getGunRotation()*tpf);
+        player.setDashMeter(player.getDashMeterPercent()+tpf* player.getDashMeterRegenRate());
+        playerView.setDashBar(player.getDashMeterPercent());
+        if(!player.isOverloaded()){
+            player.setShotMeter(player.getShotMeterPercent()+tpf* player.getShotMeterRegenRate());
+            playerView.setShotBarColor(ColorRGBA.Yellow);
+        } else {
+            playerView.setShotBarColor(ColorRGBA.Red);
+        }
+        playerView.setShotBar((player.getShotMeterPercent()));
+
+
+        this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
     }
 
     public void resetPlayer(){
-        this.warp(new Vector3f(playerView.getStartPos()));
-        this.playerView.setHealthBar(100);
-        this.playerData.setStandard();
-        this.niftyView.updateText();
+        if(!worldView.getWorld().isDeathMatch()) {
+            warp(new Vector3f(playerView.getStartPos()));
+            player.setStandard();
+        }else{
+            player.setHealth(100);
+            warp(Utils.vecMathToJMEVector3f(worldView.getWorld().getTerrain().getRandomPos(false)));
+        }
+
+        playerView.setHealthBar(100);
+        niftyView.updateText();
     }
 
-    public PlayerView getPlayerView(){
-        return this.playerView;
-    }
-
-    //creates a new bullet specific to the player who fired it
-    public void shootBullet(){
-        bulletView.createBullet();
+    protected void shootBullet(){
+        Geometry bullet = bulletView.getNewBullet(playerView);
+        new BulletController(playerView, player, bullet, worldView, bulletView.getBulletLight());
+        player.setShotMeter(player.getShotMeterPercent()- player.getShotThreshold());
         playerView.playShotSound();
     }
 
-    public Player getPlayerData(){
-        return this.playerData;
+    protected void dash(){
+        player.dashing = true;
+        playerView.playDashSound();
+        player.setDashMeter(player.getDashMeterPercent()- player.getDashThreshold());
+        dashTimer(player.getDashMillis());
     }
 
-    public void pause(){
-        this.paused = true;
-    }
-
-    public void unpause(){
-        this.paused = false;
+    private void dashTimer(int millis){
+        Timer timer = new Timer(millis, new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                player.dashing = false;
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 }

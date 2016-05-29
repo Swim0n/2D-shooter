@@ -1,77 +1,57 @@
 package ctrl;
 
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.collision.CollisionResults;
-import core.PowerUp;
-
-import gameView.PowerupView;
-import utils.ApplicationAssets;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import core.*;
+import view.PowerUpView;
+import view.WorldView;
 
 /**
- * Created by Hannes on 04/05/2016.
+ * Controls the power ups
  */
 public class PowerUpController extends RigidBodyControl {
 
-    private PowerupView powerUpView;
-    private PowerUp powerUp;
-    private ApplicationAssets applicationAssets;
-    private boolean hasCollided = false;
+    private final WorldView worldView;
+    private final Node targetNode;
+    private final int nrOfPowerUpTypes = 3;
+    private int placeOrder = 1;
+    private PowerUpView powerUpView;
 
-    /** initialize a PowerUpController to create and init a power up*/
-    public PowerUpController(PowerUp powerUp, ApplicationAssets applicationAssets, PowerupView powerupView){
-        this.applicationAssets = applicationAssets;
-        this.powerUpView = powerupView;
-        this.powerUp = powerUp;
+    /** initialize a PowerUpController to create and inits power ups*/
+    public PowerUpController(Node targetNode, WorldView worldView){
+        this.worldView = worldView;
+        this.targetNode = targetNode;
+        this.powerUpView = worldView.getPowerUpView();
+
+        targetNode.addControl(this);
     }
-
-    /** Check for collision, if it happens, give player the correct power up */
-    private void collisionCheck(){
-        CollisionResults results = new CollisionResults();
-        powerUpView.getGameView().getPlayer2Node().collideWith(spatial.getWorldBound(), results);
-        if (results.size() > 0){
-            if (hasCollided==false){
-                //add power up effect to player 2
-                powerUp.setEffect(applicationAssets.getWorld().getPlayer2());
-                applicationAssets.getGameView().getPlayer2Control().getPlayerView().setHealthBar(applicationAssets.getWorld().getPlayer2().getHealth());
-                applicationAssets.getGameView().getPlayer2Control().getPlayerView().playPowerUpSound();
-                spatial.removeFromParent();
-                results.clear();
-                hasCollided=true;
-                if (powerUpView.getPowerUpList().size()>0){
-                    powerUpView.getPowerUpList().remove(0);
-                }
-
-
-            }
-
-        }
-        powerUpView.getGameView().getPlayer1Node().collideWith(spatial.getWorldBound(), results);
-        if (results.size()>0){
-            if (hasCollided==false){
-                //add power up effect to player 1
-                powerUp.setEffect(applicationAssets.getWorld().getPlayer1());
-                applicationAssets.getGameView().getPlayer1Control().getPlayerView().setHealthBar(applicationAssets.getWorld().getPlayer1().getHealth());
-                applicationAssets.getGameView().getPlayer2Control().getPlayerView().playPowerUpSound();
-                spatial.removeFromParent();
-                results.clear();
-                hasCollided=true;
-                if (powerUpView.getPowerUpList().size()>0){
-                    powerUpView.getPowerUpList().remove(0);
-                }
-
-            }
-
-        }
-    }
-
-
-
-
-
 
     public void update(float tpf){
-        super.update(tpf);
-        collisionCheck();
+        placeOrder = FastMath.nextRandomInt(1,nrOfPowerUpTypes);
+        Spatial powerUpMesh;
+        PowerUp powerUp;
+        if(powerUpView.isReadyToPlace()){
+            if(placeOrder==1) {
+                powerUpMesh = powerUpView.createPowerUp(targetNode, powerUp = new HealthPowerUp(worldView.getWorld().getTerrain()), "Models/plus.mesh.xml", "Materials/plusmat.j3m", ColorRGBA.Red);
+                powerUpMesh.scale(1.4f);
 
+            }
+            else if(placeOrder==2) {
+                powerUpMesh = powerUpView.createPowerUp(targetNode, powerUp = new WeaponPowerUp((worldView.getWorld().getTerrain())), "Models/cube.mesh.xml", "Materials/cubemat.j3m", ColorRGBA.White);
+                powerUpMesh.scale(0.6f);
+
+            }
+            else {
+                powerUpMesh = powerUpView.createPowerUp(targetNode, powerUp = new SpeedPowerUp(worldView.getWorld().getTerrain()), "Models/flash.mesh.xml", "Materials/flashmat.j3m", ColorRGBA.Yellow);
+                powerUpMesh.scale(1.5f);
+
+            }
+            new PowerUpCollisionController(worldView,powerUpMesh,powerUp, powerUpView.getPowerLight());
+            powerUpView.incActivePowerUps();
+            powerUpView.setPlaced();
+        }
     }
 }
