@@ -17,7 +17,7 @@ public abstract class PowerUp {
     }
 
     public void setPosition() {
-        position = terrain.getRandomPos();
+        position = terrain.getRandomPos(false);
         this.x = position.x;
         this.z= position.z;
     }

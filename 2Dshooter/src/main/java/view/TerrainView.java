@@ -15,26 +15,42 @@ import java.util.ArrayList;
  * Initializes randomly generated terrain
  */
 public class TerrainView {
+    private AssetManager assetManager;
+    private ApplicationAssets applicationAssets;
+    private Node terrainNode;
+
+    private float groundX;
+    private float groundZ;
+    private float tileWidth;
+    private float tileHeight;
+
     private World world;
     private Node terrainNode;
     private ArrayList<Spatial> terrainGrid;
     private BulletAppState bulletAppState;
     private AssetManager assetManager;
 
-    public TerrainView(WorldView worldView, float tileWidth, float tileHeight) {
+    public TerrainView(ApplicationAssets appAssets, WorldView worldView, float tileWidth, float tileHeight) {
         this.assetManager = worldView.getAssetManager();
         this.terrainNode = worldView.getTerrainNode();
         this.world = worldView.getWorld();
         this.bulletAppState = worldView.getBulletAppState();
         this.terrainGrid = new ArrayList<>();
         world.getTerrain().setPositions(world.getWidth(), world.getHeight(), tileWidth, tileHeight);
+        this.groundX = appAssets.getGameView().getGroundSize().getWidth();
+        this.groundZ = appAssets.getGameView().getGroundSize().getHeight();
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
+        this.applicationAssets = appAssets;
+        world.getTerrain().setPositions(groundX, groundZ, tileWidth, tileHeight);
         createTerrain();
     }
 
     private void createTerrain(){
         for (int i = 0; i < world.getTerrain().getRocksAmount(); i++){
-            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
-            Spatial rock = assetManager.loadModel("Models/block1.mesh.xml");
+            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos(true));
+            world.getTerrain().getTileByCoords((int) position.getX(), (int) position.getZ()).setBlocked(true);
+            Spatial rock = assetManager.loadModel("Models/block2.mesh.xml");
             rock.setMaterial(assetManager.loadMaterial("Materials/block1mat.j3m"));
             terrainGrid.add(rock);
             rock.setLocalTranslation(position.getX(),-2, position.getZ());
@@ -42,9 +58,11 @@ public class TerrainView {
             rock.scale(2);
             rock.move(1,0,0);
             terrainNode.attachChild(rock);
+
         }
         for (int i = 0; i < world.getTerrain().getTreesAmount(); i++){
-            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos());
+            Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos(true));
+            world.getTerrain().getTileByCoords((int) position.getX(), (int) position.getZ()).setBlocked(true);
             Spatial tree = assetManager.loadModel("Models/block2.mesh.xml");
             tree.setMaterial(assetManager.loadMaterial("Materials/block2mat.j3m"));
             terrainGrid.add(tree);

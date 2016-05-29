@@ -1,5 +1,8 @@
 package core;
 
+import com.jme3.asset.AssetManager;
+import utils.ApplicationAssets;
+
 /**
  * Created by David on 2016-04-15.
  */
@@ -20,10 +23,10 @@ public class World {
     private boolean shutDown;
 
 
-    public World(int rocks, int trees, boolean dynamicCamEnabled){
+    public World(int rocks, int trees, boolean dynamicCamEnabled, AssetManager assetManager){
         this.player1 = new Player();
         this.player2 = new Player();
-        this.terrain = new Environment(rocks, trees);
+        this.terrain = new Environment(rocks, trees, assetManager);
         this.cameraData = new CameraModel(dynamicCamEnabled);
         this.width = 71f;
         this.height = 53f;
