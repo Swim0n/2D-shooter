@@ -141,12 +141,14 @@ public class WorldView extends SimpleApplication implements ScreenController{
     public void destroy() {
         super.destroy();
         world.setShutDown();
+        powerUpView.stopTimer();
     }
     //called on window close
     @Override
     public void requestClose(boolean esc) {
         super.requestClose(esc);
         world.setShutDown();
+        powerUpView.stopTimer();
     }
 
     public PlayerView getPlayer1View() {
@@ -217,4 +219,6 @@ public class WorldView extends SimpleApplication implements ScreenController{
     public void setDeathMatch(boolean deathMatch) {
         this.deathMatch = deathMatch;
     }
+
+
 }

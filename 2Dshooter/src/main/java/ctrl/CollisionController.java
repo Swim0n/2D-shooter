@@ -7,6 +7,7 @@ import com.jme3.scene.Spatial;
 import core.Player;
 import core.PowerUp;
 import view.PlayerView;
+import view.PowerUpView;
 import view.WorldView;
 
 /**
@@ -17,11 +18,13 @@ public class CollisionController extends RigidBodyControl {
     private final Spatial target;
     private final PowerUpController powerUpController;
     private final PowerUp powerUp;
+    private final PowerUpView powerUpView;
     private boolean hasCollided;
 
     public CollisionController(WorldView worldView, Geometry target, PowerUp powerUp, PowerUpController powerUpController){
         this.worldView = worldView;
         this.powerUp = powerUp;
+        this.powerUpView = worldView.getPowerUpView();
         this.powerUpController = powerUpController;
         this.target = target;
         target.addControl(this);
@@ -47,7 +50,7 @@ public class CollisionController extends RigidBodyControl {
                 playerView.playPowerUpSound();
                 target.removeFromParent();
                 results.clear();
-                powerUpController.decActivePowerUps();
+                powerUpView.decActivePowerUps();
                 hasCollided = true;
             }
         }

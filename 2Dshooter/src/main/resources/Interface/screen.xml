@@ -77,7 +77,7 @@
                     <interact onClick="quit()"/>
                 </control>
             </panel>
-            <panel id="pauseMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%"/>
+            <panel id="pauseMenuBottomPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%"/>
 
 
         </layer>
