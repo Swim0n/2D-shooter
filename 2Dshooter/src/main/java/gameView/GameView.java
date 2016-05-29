@@ -96,7 +96,6 @@ public class GameView extends SimpleApplication implements ScreenController{
         nifty.fromXml("Interface/screen.xml", "start", this);
         guiViewPort.addProcessor(niftyDisplay);
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
-        niftyView.setNiftyDisplay(niftyDisplay);
         niftyView.setGameView(this);
     }
 
@@ -191,9 +190,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void updateGUI(){
         niftyView.updateText();
     }
-    public boolean getPaused(){
-        return this.paused;
-    }
+
     public void setAI(boolean state){
         this.ai = state;
     }
@@ -233,5 +230,9 @@ public class GameView extends SimpleApplication implements ScreenController{
 
     public PowerUpView getPowerUpView() {
         return powerUpView;
+    }
+
+    public NiftyJmeDisplay getNiftyDisplay() {
+        return niftyDisplay;
     }
 }

@@ -26,41 +26,24 @@ public class GUIView implements ScreenController {
     private GameView gameView;
     private Element niftyElement;
 
-
     public GUIView(){
     }
-
-    public void setPlayer1(Player p1){
-        this.player1 = p1;
-    }
-
-    public void setPlayer2(Player p2){
-        this.player2 = p2;
-    }
-    public void setNiftyDisplay(NiftyJmeDisplay nd){
-        this.niftyDisplay = nd;
-        this.nifty = nd.getNifty();
-    }
-    public void setGameView(GameView gv){
-        this.gameView = gv;
-    }
-
     //updates the status bar at top of java
     public void updateText(){
         if(player1==null||player2==null){
             return;
         }
-        // find old text
-        niftyElement = nifty.getCurrentScreen().findElementById("text");
+        niftyElement = nifty.getCurrentScreen().findElementById("HPText");
 
-        // swap old with new text
-        String p1hp = Float.toString(player1.getHealth());
-        String p2hp = Float.toString(player2.getHealth());
+        niftyElement.getRenderer(TextRenderer.class).setText(
+                    "P1 HP: " + Float.toString(player1.getHealth()) + "    " + "P2 HP: " + Float.toString(player2.getHealth())
+        );
 
-        if(niftyElement!=null) {
-            niftyElement.getRenderer(TextRenderer.class).setText(
-                    "P1 HP: " + p1hp + "    " + "P2 HP: " + p2hp);
-        }
+        niftyElement = nifty.getCurrentScreen().findElementById("WinsText");
+        niftyElement.getRenderer(TextRenderer.class).setText(
+                "P1 Wins: "+ Integer.toString(player1.getWins())+ "    "+"P2 Wins: " + Integer.toString(player2.getWins())
+        );
+
     }
 
     //called when startgame button is clicked
@@ -76,47 +59,42 @@ public class GUIView implements ScreenController {
         nifty.removeScreen("start");
         nifty.fromXml("Interface/screen.xml", "pause", this);
         nifty.gotoScreen("pause");
-        if(!gameView.getPaused()) {
+        if(!gameView.isPaused()) {
             this.gameView.setPaused(true);
         }
     }
 
     //called when back button is clicked when in the menu
     public void closeMenu(){
-        nifty.fromXml("Interface/screen.xml", "start", this);
-        nifty.gotoScreen("start");
-        if(!gameView.getPaused()) {
-            this.gameView.setPaused(true);
+        nifty.removeScreen("pause");
+        nifty.fromXml("Interface/screen.xml", "gamegui", this);
+        nifty.gotoScreen("gamegui");
+        if(gameView.isPaused()) {
+            this.gameView.setPaused(false);
         }
     }
 
-    //turns the ai variable on/off when called, is working but no text change in menu
     public void toggleAI(){
-        Element niftyElement = nifty.getCurrentScreen().findElementById("aitext");
+        Element niftyElement = nifty.getCurrentScreen().findElementById("AiSettingText");
         gameView.setAI(!gameView.getAI());
-        System.out.println("AI Enabled: "+gameView.getAI());
-        /*
+
         if(gameView.getAI()){
-            niftyElement.getRenderer(TextRenderer.class).setText(
-                    "AI: ON");
-        }else{niftyElement.getRenderer(TextRenderer.class).setText(
-                "AI: OFF");
-        }*/
+            niftyElement.getRenderer(TextRenderer.class).setText("1 Player with AI");
+        }else{
+            niftyElement.getRenderer(TextRenderer.class).setText("2 Player Mode");
+        }
     }
-    //turns the ai variable on/off when called, !!!not working!!!
 
     public void toggleCam(){
+        Element niftyElement = nifty.getCurrentScreen().findElementById("CamSettingText");
         gameView.getWorld().getCameraData().setDynamicCameraEnabled(!gameView.getWorld().getCameraData().getDynamicCameraEnabled());
 
-        System.out.println("Dynamic Camera Enabled: "+gameView.getWorld().getCameraData().getDynamicCameraEnabled());
-
-        /*
         if(gameView.getWorld().getCameraData().getDynamicCameraEnabled()){
             niftyElement.getRenderer(TextRenderer.class).setText(
-                    "Dynamic Camera: ON");
+                    "Moving Camera Mode");
         }else{niftyElement.getRenderer(TextRenderer.class).setText(
-                "Dynamic Camera: OFF");
-        }*/
+                "Static Camera Mode");
+        }
     }
 
     public void onStartScreen() {
@@ -124,6 +102,13 @@ public class GUIView implements ScreenController {
     public void onEndScreen() {
     }
     public void bind(Nifty nifty, Screen screen) {
+    }
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+        this.player1 = gameView.getWorld().getPlayer1();
+        this.player2 = gameView.getWorld().getPlayer2();
+        this.niftyDisplay = gameView.getNiftyDisplay();
+        this.nifty = niftyDisplay.getNifty();
     }
 }
 

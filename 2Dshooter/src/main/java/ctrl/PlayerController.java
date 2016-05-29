@@ -46,12 +46,7 @@ public abstract class PlayerController extends BetterCharacterControl {
     @Override
     public void update(float tpf){
         super.update(tpf);
-        if(gameView.isPaused()){
-            setWalkDirection(new Vector3f(0,0,0));
-            player.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
-            this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
-            return;
-        }
+
 
         gameView.updateGUI();
 

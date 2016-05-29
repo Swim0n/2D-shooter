@@ -15,6 +15,7 @@ import java.util.UUID;
  * Created by Simon on 2016-04-26.
  */
 public class HumanPlayerController extends PlayerController implements ActionListener {
+    private final GameView gameView;
     private InputManager inputManager;
     private KeyMappings keys;
     String[] mapNames;
@@ -23,6 +24,7 @@ public class HumanPlayerController extends PlayerController implements ActionLis
 
     public HumanPlayerController(PlayerView view, Player player, GameView gameView, KeyMappings keys){
         super(view,player, gameView);
+        this.gameView = gameView;
         this.niftyView = gameView.getNiftyView();
         this.inputManager = gameView.getInputManager();
         this.keys = keys;
@@ -50,6 +52,10 @@ public class HumanPlayerController extends PlayerController implements ActionLis
 
     @Override
     public void update(float tpf) {
+        if(gameView.isPaused()){
+            setWalkDirection(Vector3f.ZERO);
+            return;
+        }
         super.update(tpf);
 
         Vector3f newDirection = Utils.vecMathToJMEVector3f(player.getWalkingDirection());
@@ -58,7 +64,6 @@ public class HumanPlayerController extends PlayerController implements ActionLis
         if(!newDirection.equals(Vector3f.ZERO)){
             playerView.getBodyNode().lookAt(playerView.getPlayerNode().getLocalTranslation().add(newDirection), Vector3f.UNIT_Y);
         }
-
         setWalkDirection(newDirection);
 
     }

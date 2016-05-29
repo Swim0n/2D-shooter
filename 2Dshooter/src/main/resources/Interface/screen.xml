@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
 
@@ -8,19 +8,25 @@
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <screen id="start" controller="gameView.GUIView">
         <layer id="layer" childLayout="center">
-            <panel id="panel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="68%">
-                <control name="button" id="StartButton" childLayout="center" visibleToMouse="true" width="50.0%" focusable="true" valign="top" label="Start" align="center" height="10.0%">
+            <panel id="startMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="top" align="center" height="33%">
+                <text id="WelcomeText" font="Interface/Arial.fnt" color="#ffff" text= "Voxel Galaxy: Arena" align="center" valign="bottom" />
+            </panel>
+            <panel id="startMenuMiddlePanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="center" align="center" height="34%">
+                <control name="button" id="StartButton" childLayout="center" visibleToMouse="true" width="50.0%" focusable="true" valign="top" label="Start" align="center" height="20.0%">
                     <interact onClick="startGame();"/>
                 </control>
-                <control name="button" id="ToggleCameraCloned(23)" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Toggle Camera" align="center" height="10.0%">
+                <control name="button" id="ToggleCameraButton" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Toggle Camera" align="center" height="20.0%">
                     <interact onClick="toggleCam()"/>
-
                 </control>
-                <control name="button" id="ToggleAiButtonCloned(25)" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle AI" align="center" height="10.0%">
+                <control name="button" id="ToggleAiButton" visibleToMouse="true" width="50.0%" focusable="true" valign="bottom" style="nifty-button" label="Toggle AI" align="center" height="20.0%">
                     <interact onClick="toggleAI()"/>
                 </control>
             </panel>
-            <panel id="panelCloned(32)" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="top" align="center" height="32%"/>
+            <panel id="startMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%">
+                <text id="AiSettingText" font="Interface/Arial.fnt" color="#ffff" text= "2 Player Mode" align="center" valign="bottom" />
+                <text id="CamSettingText" font="Interface/Arial.fnt" color="#ffff" text= "Moving camera mode" align="center" valign="bottom" />
+            </panel>
+
         </layer>
     </screen>
 
@@ -29,14 +35,21 @@
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <screen id="gamegui" controller="gameView.GUIView">
         <layer id="layer" childLayout="center">
-            <panel id="panel" height="10%" width="100%" align="right" valign="top" backgroundColor="#d3d3" childLayout="center" visibleToMouse="true">
-                <interact onClick="quit()"/>
-                <text id="text" font="Interface/Arial.fnt" color="#000f" text= "P1HP: 100    P2HP: 100" align="center" valign="bottom" />
-                <control name="button" label="Menu" id="MenuButton" align="right" valign="top"
-                         visibleToMouse="true"  focusable="false" >
+            <panel id="panel" height="6%" width="100%" align="right" valign="top"  childLayout="vertical"  visibleToMouse="true">
+                <panel id="GUIPanelTop" height="50%" width="100%" align="right" valign="top"  childLayout="center"  visibleToMouse="true">
+                    <interact onClick="quit()"/>
+                    <text id="WinsText" font="Interface/Arial.fnt" color="#ffff" text= "" align="center" valign="bottom" />
+                    <control name="button" label="Menu" id="MenuButton" align="right" valign="top"
+                             visibleToMouse="true"  focusable="false" >
                     <interact onClick="gameMenu()"/>
-                </control>
+                    </control>
+                </panel>
+                <panel id="GUIPanelBottom" height="50%" width="100%" align="right" valign="top"  childLayout="center"  visibleToMouse="true">
+                    <interact onClick="quit()"/>
+                    <text id="HPText" font="Interface/Arial.fnt" color="#ffff" text= "" align="center" valign="bottom" />
+                </panel>
             </panel>
+
         </layer>
     </screen>
 
@@ -46,22 +59,17 @@
 
     <screen id="pause" controller="gameView.GUIView">
         <layer id="layer" childLayout="center">
-            <panel id="panel" height="100%" width="100%" align="center" valign="center" backgroundColor="#d3d3" childLayout="center" visibleToMouse="true">
-                <interact onClick="quit()"/>
-                <control name="button" label="Back" id="BackButton" align="center" valign="bottom"
-                         visibleToMouse="true" focusable="false">
+            <panel id="pauseMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="top" align="center" height="33%"/>
+                <text id="WelcomeText" font="Interface/Arial.fnt" color="#ffff" text= "Voxel Galaxy: Arena" align="center" valign="bottom" />
+
+            <panel id="pauseMenuMiddlePanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="center" align="center" height="34%">
+                <control name="button" id="ResumeButton" visibleToMouse="true" width="50.0%" focusable="true" valign="center" label="Resume Game" align="center" height="20.0%">
                     <interact onClick="closeMenu()"/>
                 </control>
-                <text id="aitext" font="Interface/Arial.fnt" color="#000f" text= "AI: ON" valign="top" />
-                <control name="button" label="Toggle AI" id="ToggleAiButton" align="center" valign="center"
-                         visibleToMouse="true" focusable="true">
-                    <interact onClick="toggleAI()"/>
-                </control>
-                <control name="button" label="Toggle Camera" id="ToggleCamera" align="center" valign="center"
-                         visibleToMouse="true" focusable="true">
-                    <interact onClick="toggleCam()"/>
-                </control>
             </panel>
+            <panel id="pauseMenuTopPanel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="33%"/>
+
+
         </layer>
     </screen>
 </nifty>

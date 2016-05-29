@@ -26,17 +26,12 @@ public class ControlInit {
         this.bulletAppState = gameView.getBulletAppState();
         initiatePlayerControls();
         initiatePowerUpControls();
-        initiateGUI();
 
         if(world.getCameraData().getDynamicCameraEnabled()){
             initiateCameraControls();
         }
    }
 
-    private void initiateGUI() {
-        gameView.getNiftyView().setPlayer1(gameView.getWorld().getPlayer1());
-        gameView.getNiftyView().setPlayer2(gameView.getWorld().getPlayer2());
-    }
 
     private void initiateCameraControls() {
         new CameraController(gameView);

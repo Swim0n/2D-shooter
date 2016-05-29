@@ -74,7 +74,7 @@ public class PowerUpController extends RigidBodyControl {
             if (world.isShutDown()){
                 timer.cancel();
             }
-            if (gameView.getPaused()) {
+            if (gameView.isPaused()) {
                 return;
             } else {
                 if (activePowerUps < maxActivePowerUps) {
