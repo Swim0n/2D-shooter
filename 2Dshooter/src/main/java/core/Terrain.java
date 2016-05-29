@@ -1,16 +1,16 @@
 package core;
 
-import com.jme3.asset.AssetManager;
+
 
 import javax.vecmath.Vector3f;
-import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by David on 2016-04-15.
  */
-public class Environment {
+public class Terrain {
     private final static Random randomGenerator = new Random();
     private Boolean[][] occupiedTerrain;
     private Tile[][] grid;
@@ -20,7 +20,7 @@ public class Environment {
     private int height;
     private int width;
 
-    public Environment(int rocks, int trees){
+    public Terrain(int rocks, int trees){
         this.rocksAmount = rocks;
         this.treesAmount = trees;
     }

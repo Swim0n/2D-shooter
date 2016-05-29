@@ -9,15 +9,15 @@ import java.util.Collections;
 
 
 public class PathFinder {
-    private Environment environment;
+    private Terrain terrain;
     private Tile[][] tiles;
     private ArrayList closedSet = new ArrayList();
     private ArrayList openSet = new ArrayList();
 
 
-    public PathFinder(Environment environment) {
-        this.environment = environment;
-        this.tiles = environment.getTiles();
+    public PathFinder(Terrain terrain) {
+        this.terrain = terrain;
+        this.tiles = terrain.getTiles();
     }
 
 
@@ -29,15 +29,15 @@ public class PathFinder {
         Tile endTile;
 
         if(startY > 20){
-            startTile = environment.getTileByCoords(startX, startY - 4);
+            startTile = terrain.getTileByCoords(startX, startY - 4);
         }else{
-            startTile = environment.getTileByCoords(startX, startY);
+            startTile = terrain.getTileByCoords(startX, startY);
         }
 
         if(endY > 20){
-            endTile = environment.getTileByCoords(endX, endY - 4);
+            endTile = terrain.getTileByCoords(endX, endY - 4);
         }else{
-            endTile = environment.getTileByCoords(endX, endY);
+            endTile = terrain.getTileByCoords(endX, endY);
         }
 
         this.openSet.add(startTile);
@@ -57,7 +57,7 @@ public class PathFinder {
 
 
             //for each neighbor (1 tile has 8 neighbors)
-            ArrayList neighbors = environment.getTileNeighbors(current);
+            ArrayList neighbors = terrain.getTileNeighbors(current);
 
 
 
@@ -114,11 +114,11 @@ public class PathFinder {
     }
 
     public void clearTiles(){
-        for (int i = 0; i < environment.getTiles().length; i++) {
-            for (int j = 0; j < environment.getTiles()[0].length; j++) {
-                environment.getTiles()[i][j].setCameFrom(null);
-                environment.getTiles()[i][j].setgScore(99999);
-                environment.getTiles()[i][j].setfScore(99999);
+        for (int i = 0; i < terrain.getTiles().length; i++) {
+            for (int j = 0; j < terrain.getTiles()[0].length; j++) {
+                terrain.getTiles()[i][j].setCameFrom(null);
+                terrain.getTiles()[i][j].setgScore(99999);
+                terrain.getTiles()[i][j].setfScore(99999);
 
                 this.openSet.clear();
                 this.closedSet.clear();
