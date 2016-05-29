@@ -7,6 +7,7 @@ package view;
 
 import com.jme3.niftygui.NiftyJmeDisplay;
 import core.Player;
+import core.World;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
@@ -24,6 +25,7 @@ public class GUIView implements ScreenController {
     private Nifty nifty;
     private WorldView worldView;
     private Element niftyElement;
+    private World world;
 
     public GUIView(){
     }
@@ -51,7 +53,7 @@ public class GUIView implements ScreenController {
                     "P1 HP: " + Float.toString(player1.getHealth()) + "    " + "P2 HP: " + Float.toString(player2.getHealth())
         );
 
-        if(worldView.getWorld().isDeathMatch()){
+        if(world.isDeathMatch()){
             niftyElement = nifty.getCurrentScreen().findElementById("WinsText");
             niftyElement.getRenderer(TextRenderer.class).setText(
                     "P1 Kills: "+ Integer.toString(player1.getWins())+ "    "+"P2 Kills: " + Integer.toString(player2.getWins())
@@ -68,8 +70,8 @@ public class GUIView implements ScreenController {
     public void startGame(){
         nifty.fromXml("Interface/screen.xml", "gamegui", this);
         nifty.gotoScreen("gamegui");
-        this.worldView.setPaused(false);
-        this.worldView.setInitialized();
+        world.setPaused(false);
+        worldView.setInitialized();
     }
 
     // called when menu button is clicked
@@ -77,9 +79,8 @@ public class GUIView implements ScreenController {
         nifty.removeScreen("start");
         nifty.fromXml("Interface/screen.xml", "pause", this);
         nifty.gotoScreen("pause");
-        if(!worldView.getPaused()) {
-            this.worldView.setPaused(true);
-        }
+        world.setPaused(true);
+
     }
 
     //called when back button is clicked when in the menu
@@ -87,20 +88,18 @@ public class GUIView implements ScreenController {
         nifty.removeScreen("pause");
         nifty.fromXml("Interface/screen.xml", "gamegui", this);
         nifty.gotoScreen("gamegui");
-        if(worldView.isPaused()) {
-            this.worldView.setPaused(false);
-        }
+        world.setPaused(false);
     }
 
     public void toggleDeathMatch(){
         niftyElement = nifty.getCurrentScreen().findElementById("DMSettingText");
-        worldView.getWorld().setDeathMatch(!worldView.getWorld().isDeathMatch());
+        world.setDeathMatch(!world.isDeathMatch());
 
-        if(worldView.getWorld().isInGame()){
-            worldView.getWorld().setGameOver();
+        if(world.isInGame()){
+            world.setGameOver();
         }
 
-        if(worldView.getWorld().isDeathMatch()){
+        if(world.isDeathMatch()){
             niftyElement.getRenderer(TextRenderer.class).setText("Death Match Mode");
         }else{
             niftyElement.getRenderer(TextRenderer.class).setText("Match Point Mode");
@@ -108,9 +107,9 @@ public class GUIView implements ScreenController {
     }
     public void toggleAI(){
         niftyElement = nifty.getCurrentScreen().findElementById("AiSettingText");
-        worldView.getWorld().setAI(!worldView.getWorld().isAI());
+        world.setAI(!world.isAI());
 
-        if(worldView.getWorld().isAI()){
+        if(world.isAI()){
             niftyElement.getRenderer(TextRenderer.class).setText("1 Player with AI");
         }else{
             niftyElement.getRenderer(TextRenderer.class).setText("2 Player Mode");
@@ -119,9 +118,9 @@ public class GUIView implements ScreenController {
 
     public void toggleCam(){
         niftyElement = nifty.getCurrentScreen().findElementById("CamSettingText");
-        worldView.getWorld().getCameraData().setDynamicCameraEnabled(!worldView.getWorld().getCameraData().getDynamicCameraEnabled());
+        world.getCameraData().setDynamicCameraEnabled(!world.getCameraData().getDynamicCameraEnabled());
 
-        if(worldView.getWorld().getCameraData().getDynamicCameraEnabled()){
+        if(world.getCameraData().getDynamicCameraEnabled()){
             niftyElement.getRenderer(TextRenderer.class).setText(
                     "Moving Camera Mode");
         }else{niftyElement.getRenderer(TextRenderer.class).setText(
@@ -144,6 +143,7 @@ public class GUIView implements ScreenController {
         this.player2 = worldView.getWorld().getPlayer2();
         this.niftyDisplay = worldView.getNiftyDisplay();
         this.nifty = niftyDisplay.getNifty();
+        this.world = worldView.getWorld();
     }
 }
 

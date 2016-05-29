@@ -50,7 +50,7 @@ public class BulletController extends RigidBodyControl{
     }
 
     public void update(float tpf){
-        if(worldView.getPaused()){
+        if(worldView.getWorld().isPaused()){
             spatial.removeFromParent();
             worldView.getBulletAppState().getPhysicsSpace().remove(spatial);
             return;

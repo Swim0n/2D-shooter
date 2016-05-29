@@ -70,4 +70,12 @@ public class World {
     public void setDeathMatch(boolean deathMatch) {
         this.deathMatch = deathMatch;
     }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
 }

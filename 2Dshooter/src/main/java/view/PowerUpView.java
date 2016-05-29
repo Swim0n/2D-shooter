@@ -52,7 +52,7 @@ public class PowerUpView {
     private TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            if (worldView.getPaused()) {
+            if (worldView.getWorld().isPaused()) {
                 return;
             } else {
 

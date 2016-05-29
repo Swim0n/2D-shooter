@@ -4,6 +4,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector3f;
 import core.Player;
+import core.World;
 import view.PlayerView;
 import view.WorldView;
 import jME3.utils.KeyMappings;
@@ -15,6 +16,7 @@ import java.util.UUID;
  * Created by Simon on 2016-04-26.
  */
 public class HumanPlayerController extends PlayerController implements ActionListener {
+    private final World world;
     private InputManager inputManager;
     private KeyMappings keys;
     String[] mapNames;
@@ -23,6 +25,7 @@ public class HumanPlayerController extends PlayerController implements ActionLis
 
     public HumanPlayerController(PlayerView view, Player player, WorldView worldView, KeyMappings keys){
         super(view,player, worldView);
+        this.world = worldView.getWorld();
         this.niftyView = worldView.getNiftyView();
         this.inputManager = worldView.getInputManager();
         this.keys = keys;
@@ -57,6 +60,9 @@ public class HumanPlayerController extends PlayerController implements ActionLis
     @Override
     public void update(float tpf) {
         super.update(tpf);
+        if(world.isPaused()){
+            setWalkDirection(Vector3f.ZERO);
+            return;}
 
         Vector3f newDirection = Utils.vecMathToJMEVector3f(player.getWalkingDirection());
         player.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));

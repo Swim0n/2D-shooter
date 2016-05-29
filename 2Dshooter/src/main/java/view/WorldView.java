@@ -161,17 +161,9 @@ public class WorldView extends SimpleApplication implements ScreenController{
     public boolean isInitialized() {
         return initialized;
     }
-    public void setPaused(boolean paused) {
-        this.paused = paused;
-    }
-    public boolean isPaused() {
-        return paused;
-    }
+
     public void updateGUI(){
         niftyView.updateText();
-    }
-    public boolean getPaused(){
-        return this.paused;
     }
 
     public Node getBulletNode(){
