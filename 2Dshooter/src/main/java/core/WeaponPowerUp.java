@@ -11,6 +11,6 @@ public class WeaponPowerUp extends PowerUp {
 
     @Override
     public void setEffect(Player player) {
-        player.setDamage(player.getDamage()+3);
+        player.setDamage(player.getDamage()+2);
     }
 }

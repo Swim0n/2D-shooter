@@ -95,7 +95,7 @@ public class WorldView extends SimpleApplication implements ScreenController{
         PointLight lamp_light = new PointLight();
         lamp_light.setColor(ColorRGBA.White.mult(2));
         lamp_light.setRadius(150f);
-        lamp_light.setPosition(new Vector3f(0,-20,0));
+        lamp_light.setPosition(new Vector3f(0,-10,0));
         rootNode.addLight(lamp_light);
         final int SHADOWMAP_SIZE=1024;
         PointLightShadowRenderer dlsr = new PointLightShadowRenderer(assetManager, SHADOWMAP_SIZE);
