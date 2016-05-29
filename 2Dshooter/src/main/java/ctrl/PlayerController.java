@@ -5,10 +5,10 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import core.Player;
-import gameView.BulletView;
-import gameView.GUIView;
-import gameView.GameView;
-import gameView.PlayerView;
+import view.BulletView;
+import view.GUIView;
+import view.PlayerView;
+import view.WorldView;
 import utils.Utils;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,17 +18,17 @@ import java.awt.event.ActionEvent;
  */
 public abstract class PlayerController extends BetterCharacterControl {
     protected final PlayerView playerView;
-    private final GameView gameView;
+    private final WorldView worldView;
     private final BulletView bulletView;
     protected float speed;
     protected Player player;
     protected GUIView niftyView;
 
-    public PlayerController(PlayerView playerView, Player player, GameView gameView){
+    public PlayerController(PlayerView playerView, Player player, WorldView worldView){
         super(player.getRadius(), player.getHeight(), player.getMass());
-        this.gameView = gameView;
-        this.niftyView = gameView.getNiftyView();
-        this.bulletView = gameView.getBulletView();
+        this.worldView = worldView;
+        this.niftyView = worldView.getNiftyView();
+        this.bulletView = worldView.getBulletView();
         this.player = player;
         this.playerView = playerView;
         this.speed = this.player.getSpeed();
@@ -39,14 +39,14 @@ public abstract class PlayerController extends BetterCharacterControl {
     @Override
     public void update(float tpf){
         super.update(tpf);
-        if(gameView.isPaused()){
+        if(worldView.isPaused()){
             setWalkDirection(new Vector3f(0,0,0));
             player.setPosition(Utils.jMEToVecMathVector3f(playerView.getPosition()));
             this.warp(new Vector3f(location.getX(),-2f, location.getZ()));
             return;
         }
 
-        gameView.updateGUI();
+        worldView.updateGUI();
 
         speed = player.getSpeed();
 
@@ -55,12 +55,12 @@ public abstract class PlayerController extends BetterCharacterControl {
             this.resetPlayer();
             player.setNeedsResetFalse();
 
-            System.out.println("P1 wins: "+ gameView.getWorld().getPlayer1().getWins()+
-                    "\nP2 wins: "+ gameView.getWorld().getPlayer2().getWins());
+            System.out.println("P1 wins: "+ worldView.getWorld().getPlayer1().getWins()+
+                    "\nP2 wins: "+ worldView.getWorld().getPlayer2().getWins());
         }
 
         if(player.getHealth()==0){
-            gameView.getWorld().setGameOver();
+            worldView.getWorld().setGameOver();
         }
 
         playerView.rotateGun(player.getGunRotation()*tpf);
@@ -87,7 +87,7 @@ public abstract class PlayerController extends BetterCharacterControl {
 
     protected void shootBullet(){
         Geometry bullet = bulletView.getNewBullet(playerView);
-        new BulletController(playerView, player, bullet, gameView, bulletView.getBulletLight());
+        new BulletController(playerView, player, bullet, worldView, bulletView.getBulletLight());
         player.setShotMeter(player.getShotMeterPercent()- player.getShotThreshold());
         playerView.playShotSound();
     }

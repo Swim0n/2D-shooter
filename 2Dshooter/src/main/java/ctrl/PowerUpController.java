@@ -1,20 +1,14 @@
 package ctrl;
 
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.export.JmeExporter;
-import com.jme3.export.JmeImporter;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.control.Control;
 import core.*;
-import gameView.GameView;
-import gameView.PowerUpView;
-import java.io.IOException;
+import view.PowerUpView;
+import view.WorldView;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,7 +17,7 @@ import java.util.TimerTask;
  */
 public class PowerUpController extends RigidBodyControl {
 
-    private final GameView gameView;
+    private final WorldView worldView;
     private final World world;
     private static Timer timer = new Timer();
     private final Node targetNode;
@@ -36,11 +30,11 @@ public class PowerUpController extends RigidBodyControl {
     private PowerUpView powerUpView;
 
     /** initialize a PowerUpController to create and inits power ups*/
-    public PowerUpController(Node targetNode, GameView gameView){
-        this.gameView = gameView;
-        this.world = gameView.getWorld();
+    public PowerUpController(Node targetNode, WorldView worldView){
+        this.worldView = worldView;
+        this.world = worldView.getWorld();
         this.targetNode = targetNode;
-        this.powerUpView = gameView.getPowerUpView();
+        this.powerUpView = worldView.getPowerUpView();
         startTimer();
         setReadyToPlace(true);
         targetNode.addControl(this);
@@ -52,16 +46,16 @@ public class PowerUpController extends RigidBodyControl {
         PowerUp powerUp;
         if(readyToPlace){
             if(placeOrder==1) {
-                powerUpGeom = powerUpView.createPowerUp(targetNode, powerUp = new HealthPowerUp(gameView.getWorld().getTerrain()), ColorRGBA.Red);
-                new CollisionController(gameView,powerUpGeom,powerUp,this);
+                powerUpGeom = powerUpView.createPowerUp(targetNode, powerUp = new HealthPowerUp(worldView.getWorld().getTerrain()), ColorRGBA.Red);
+                new CollisionController(worldView,powerUpGeom,powerUp,this);
             }
             if(placeOrder==2) {
-                powerUpGeom = powerUpView.createPowerUp(targetNode, powerUp = new WeaponPowerUp((gameView.getWorld().getTerrain())), ColorRGBA.Blue);
-                new CollisionController(gameView,powerUpGeom,powerUp,this);
+                powerUpGeom = powerUpView.createPowerUp(targetNode, powerUp = new WeaponPowerUp((worldView.getWorld().getTerrain())), ColorRGBA.Blue);
+                new CollisionController(worldView,powerUpGeom,powerUp,this);
             }
             if(placeOrder==3) {
-                powerUpGeom = powerUpView.createPowerUp(targetNode, powerUp = new SpeedPowerUp(gameView.getWorld().getTerrain()), ColorRGBA.Blue);
-                new CollisionController(gameView,powerUpGeom,powerUp,this);
+                powerUpGeom = powerUpView.createPowerUp(targetNode, powerUp = new SpeedPowerUp(worldView.getWorld().getTerrain()), ColorRGBA.Blue);
+                new CollisionController(worldView,powerUpGeom,powerUp,this);
             }
             incActivePowerUps();
             readyToPlace = false;
@@ -74,7 +68,7 @@ public class PowerUpController extends RigidBodyControl {
             if (world.isShutDown()){
                 timer.cancel();
             }
-            if (gameView.getPaused()) {
+            if (worldView.getPaused()) {
                 return;
             } else {
                 if (activePowerUps < maxActivePowerUps) {
@@ -93,18 +87,8 @@ public class PowerUpController extends RigidBodyControl {
     public void decActivePowerUps() {
         this.activePowerUps-=1;
     }
-
     public void setReadyToPlace(boolean readyToPlace) {
         this.readyToPlace = readyToPlace;
     }
-    @Override
-    public void write(JmeExporter jmeExporter) throws IOException {}
-    @Override
-    public void read(JmeImporter jmeImporter) throws IOException {}
-    @Override
-    public Control cloneForSpatial(Spatial spatial) {return null;}
-    @Override
-    public void setSpatial(Spatial spatial) {}
-    @Override
-    public void render(RenderManager renderManager, ViewPort viewPort) {}
+
 }

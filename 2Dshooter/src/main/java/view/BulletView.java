@@ -1,4 +1,4 @@
-package gameView;
+package view;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.light.PointLight;
@@ -13,15 +13,15 @@ import com.jme3.scene.shape.Box;
  */
 public class BulletView {
     private Box bulletShape;
-    private GameView gameView;
+    private WorldView worldView;
     private Node bulletNode;
     private PointLight bulletLight;
     private AssetManager assetManager;
 
-    public BulletView(GameView gameView){
-        this.gameView = gameView;
-        this.assetManager = gameView.getAssetManager();
-        this.bulletNode = gameView.getBulletNode();
+    public BulletView(WorldView worldView){
+        this.worldView = worldView;
+        this.assetManager = worldView.getAssetManager();
+        this.bulletNode = worldView.getBulletNode();
     }
 
     public Geometry getNewBullet(PlayerView playerView) {
@@ -35,7 +35,7 @@ public class BulletView {
         bulletLight = new PointLight();
         bulletLight.setColor(playerView.getBodyColor().mult(5));
         bulletLight.setRadius(3.5f);
-        gameView.getRootNode().addLight(bulletLight);
+        worldView.getRootNode().addLight(bulletLight);
         bullet.addControl(new LightControl(bulletLight));
         return bullet;
     }

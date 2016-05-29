@@ -1,4 +1,4 @@
-package gameView;
+package view;
 
 import com.jme3.app.SimpleApplication;
 
@@ -20,34 +20,27 @@ import de.lessvoid.nifty.screen.ScreenController;
 /**
  * Created by David on 2016-04-18.
  */
-public class GameView extends SimpleApplication implements ScreenController{
-
-    private BulletAppState bulletAppState;
-
-    private StageView groundView;
-    private PlayerView player1View;
-    private PlayerView player2View;
+public class WorldView extends SimpleApplication implements ScreenController{
+    private World world;
+    private Node bulletNode;
+    private Node stageNode;
+    private Node terrainNode;
+    private Node player1Node;
+    private Node player2Node;
+    private CameraNode camNode;
+    private StageView stageView;
     private TerrainView terrainView;
     private CameraView cameraView;
     private BulletView bulletView;
     private PowerUpView powerUpView;
-
-    private Node bulletNode;
-    private Node stageNode;
-    private CameraNode camNode;
-    private Node terrainNode;
-    private Node player1Node;
-    private Node player2Node;
-
-    private World world;
-
+    private PlayerView player1View;
+    private PlayerView player2View;
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
     private GUIView niftyView;
-
+    private BulletAppState bulletAppState;
     private boolean ai = false;
     private boolean paused = true;
-
     //all views initialized, set by startButton in nifty start menu
     private boolean initialized;
 
@@ -55,10 +48,8 @@ public class GameView extends SimpleApplication implements ScreenController{
         initNodes();
         initPhysics();
         initCamera();
-
         //creates the model of the game
         world = new World(20, 20, false);
-
         initGUI();
         initStage();
         initPlayers();
@@ -80,9 +71,7 @@ public class GameView extends SimpleApplication implements ScreenController{
     }
 
     private void initStage(){
-        //creating a "ground floor" for levels
-        groundView = new StageView(this);
-
+        stageView = new StageView(this);
         terrainView = new TerrainView(this, 4, 4);
     }
 
@@ -93,7 +82,7 @@ public class GameView extends SimpleApplication implements ScreenController{
         guiViewPort.addProcessor(niftyDisplay);
         niftyView = (GUIView) nifty.getCurrentScreen().getScreenController();
         niftyView.setNiftyDisplay(niftyDisplay);
-        niftyView.setGameView(this);
+        niftyView.setWorldView(this);
     }
 
     private void initPlayers(){
@@ -109,13 +98,10 @@ public class GameView extends SimpleApplication implements ScreenController{
         lamp_light.setRadius(150f);
         lamp_light.setPosition(new Vector3f(0,-20,0));
         rootNode.addLight(lamp_light);
-
-
         final int SHADOWMAP_SIZE=1024;
         PointLightShadowRenderer dlsr = new PointLightShadowRenderer(assetManager, SHADOWMAP_SIZE);
         dlsr.setLight(lamp_light);
         viewPort.addProcessor(dlsr);
-
         AmbientLight al = new AmbientLight();
         al.setColor(ColorRGBA.Magenta.mult(0.4f));
         rootNode.addLight(al);
@@ -165,15 +151,12 @@ public class GameView extends SimpleApplication implements ScreenController{
     public PlayerView getPlayer1View() {
         return player1View;
     }
-
     public GUIView getNiftyView() {
         return niftyView;
     }
-
     public PlayerView getPlayer2View() {
         return player2View;
     }
-
     public boolean isInitialized() {
         return initialized;
     }
@@ -183,7 +166,6 @@ public class GameView extends SimpleApplication implements ScreenController{
     public boolean isPaused() {
         return paused;
     }
-
     public void updateGUI(){
         niftyView.updateText();
     }
@@ -213,16 +195,13 @@ public class GameView extends SimpleApplication implements ScreenController{
     public void onStartScreen(){}
     public void bind(Nifty nifty, Screen screen){}
     public CameraNode getCameraNode() {return camNode;}
-
     public World getWorld() {
         return world;
     }
     public void setInitialized() {
         initialized = true;
     }
-
     public BulletView getBulletView() {return bulletView;}
-
     public PowerUpView getPowerUpView() {
         return powerUpView;
     }

@@ -1,4 +1,4 @@
-package gameView;
+package view;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
@@ -22,11 +22,11 @@ public class StageView {
     private BulletAppState bulletAppState;
     private World world;
 
-    public StageView(GameView gameView){
-        this.stageNode = gameView.getStageNode();
-        this.assetManager = gameView.getAssetManager();
-        this.bulletAppState = gameView.getBulletAppState();
-        this.world = gameView.getWorld();
+    public StageView(WorldView worldView){
+        this.stageNode = worldView.getStageNode();
+        this.assetManager = worldView.getAssetManager();
+        this.bulletAppState = worldView.getBulletAppState();
+        this.world = worldView.getWorld();
         createGround();
         createWalls();
         createBackground();

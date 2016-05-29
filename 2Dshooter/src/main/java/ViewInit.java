@@ -1,12 +1,12 @@
 import com.jme3.system.AppSettings;
-import gameView.GameView;
+import view.WorldView;
 
 /**
  * Created by David on 2016-05-25.
  */
 
 public class ViewInit {
-    private final GameView gameView;
+    private final WorldView worldView;
 
     public ViewInit() throws InterruptedException {
 
@@ -15,18 +15,18 @@ public class ViewInit {
         settings.setTitle("Voxel Galaxy: Arena");
         settings.setVSync(true);
 
-        this.gameView = new GameView();
+        this.worldView = new WorldView();
 
-        this.gameView.setSettings(settings);
-        this.gameView.start();
+        this.worldView.setSettings(settings);
+        this.worldView.start();
 
-        //appAssets in gameView is null since simpleInitApp hasn't been called yet, thus the wait
-        while (!gameView.isInitialized()){
+        //appAssets in worldView is null since simpleInitApp hasn't been called yet, thus the wait
+        while (!worldView.isInitialized()){
             Thread.currentThread().sleep(1000);
         }
     }
 
-    public GameView getGameView(){
-        return gameView;
+    public WorldView getWorldView(){
+        return worldView;
     }
 }

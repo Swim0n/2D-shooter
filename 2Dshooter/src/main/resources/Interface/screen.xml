@@ -6,7 +6,7 @@
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <!-- start screen                            -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
-    <screen id="start" controller="gameView.GUIView">
+    <screen id="start" controller="view.GUIView">
         <layer id="layer" childLayout="center">
             <panel id="panel" childLayout="vertical" childClip="false" backgroundColor="#d3d3" visibleToMouse="true" width="100%" x="-1px" y="-1px" valign="bottom" align="center" height="68%">
                 <control name="button" id="StartButton" childLayout="center" visibleToMouse="true" width="50.0%" focusable="true" valign="top" label="Start" align="center" height="10.0%">
@@ -27,7 +27,7 @@
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <!-- game gui (hp bar etc)                   -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
-    <screen id="gamegui" controller="gameView.GUIView">
+    <screen id="gamegui" controller="view.GUIView">
         <layer id="layer" childLayout="center">
             <panel id="panel" height="10%" width="100%" align="right" valign="top" backgroundColor="#d3d3" childLayout="center" visibleToMouse="true">
                 <interact onClick="quit()"/>
@@ -44,7 +44,7 @@
     <!-- pause screen(menu)                      -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
 
-    <screen id="pause" controller="gameView.GUIView">
+    <screen id="pause" controller="view.GUIView">
         <layer id="layer" childLayout="center">
             <panel id="panel" height="100%" width="100%" align="center" valign="center" backgroundColor="#d3d3" childLayout="center" visibleToMouse="true">
                 <interact onClick="quit()"/>

@@ -1,4 +1,4 @@
-package gameView;
+package view;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
@@ -12,7 +12,7 @@ import utils.Utils;
 import java.util.ArrayList;
 
 /**
- * Initializes a randomly generated terrain
+ * Initializes randomly generated terrain
  */
 public class TerrainView {
     private World world;
@@ -21,11 +21,11 @@ public class TerrainView {
     private BulletAppState bulletAppState;
     private AssetManager assetManager;
 
-    public TerrainView(GameView gameView, float tileWidth, float tileHeight) {
-        this.assetManager = gameView.getAssetManager();
-        this.terrainNode = gameView.getTerrainNode();
-        this.world = gameView.getWorld();
-        this.bulletAppState = gameView.getBulletAppState();
+    public TerrainView(WorldView worldView, float tileWidth, float tileHeight) {
+        this.assetManager = worldView.getAssetManager();
+        this.terrainNode = worldView.getTerrainNode();
+        this.world = worldView.getWorld();
+        this.bulletAppState = worldView.getBulletAppState();
         this.terrainGrid = new ArrayList<>();
         world.getTerrain().setPositions(world.getWidth(), world.getHeight(), tileWidth, tileHeight);
         createTerrain();
