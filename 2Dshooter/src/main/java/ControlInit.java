@@ -15,10 +15,7 @@ public class ControlInit {
     private World world;
     private BulletAppState bulletAppState;
 
-    private KeyMappings player1Mappings = new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
-            KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE);
-    private KeyMappings player2Mappings = new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
-            KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0);
+
 
     public ControlInit(ViewInit viewInit){
         this.worldView = viewInit.getWorldView();
@@ -41,11 +38,14 @@ public class ControlInit {
     }
 
     private void initiatePlayerControls(){
-        PlayerController player1Control = new HumanPlayerController(worldView.getPlayer1View(), world.getPlayer1(), worldView, player1Mappings);
+        PlayerController player1Control = new HumanPlayerController(worldView.getPlayer1View(),
+                world.getPlayer1(), worldView, worldView.getPlayer1Mappings());
 
-        AIPlayerController player2AIControl = new AIPlayerController(worldView.getPlayer2View(), world.getPlayer2(), worldView);
+        AIPlayerController player2AIControl = new AIPlayerController(worldView.getPlayer2View(),
+                world.getPlayer2(), worldView);
 
-        PlayerController player2ControlSave = new HumanPlayerController(worldView.getPlayer2View(), world.getPlayer2(), worldView, player2Mappings);
+        PlayerController player2ControlSave = new HumanPlayerController(worldView.getPlayer2View(),
+                world.getPlayer2(), worldView, worldView.getPlayer2Mappings());
 
         PlayerController player2Control;
         if(worldView.getWorld().isAI()){

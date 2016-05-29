@@ -3,6 +3,7 @@ package view;
 import com.jme3.app.SimpleApplication;
 
 import com.jme3.bullet.BulletAppState;
+import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
@@ -16,6 +17,7 @@ import core.World;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import jME3.utils.KeyMappings;
 
 /**
  * Initializes the graphical world
@@ -38,6 +40,11 @@ public class WorldView extends SimpleApplication implements ScreenController{
     private Nifty nifty;
     private GUIView niftyView;
     private BulletAppState bulletAppState;
+
+    private KeyMappings player1Mappings = new KeyMappings(KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_W,
+            KeyInput.KEY_S, KeyInput.KEY_J, KeyInput.KEY_H, KeyInput.KEY_K, KeyInput.KEY_SPACE);
+    private KeyMappings player2Mappings = new KeyMappings(KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP,
+            KeyInput.KEY_DOWN, KeyInput.KEY_NUMPAD5, KeyInput.KEY_NUMPAD4, KeyInput.KEY_NUMPAD6, KeyInput.KEY_NUMPAD0);
 
     //all views initialized, set by startButton in nifty start menu
     private boolean initialized;
@@ -196,6 +203,9 @@ public class WorldView extends SimpleApplication implements ScreenController{
         return this.niftyDisplay;
     }
 
-
-
+    //to be used in controller remapping by user but not fully implemented at the moment
+    public KeyMappings getPlayer1Mappings() {return player1Mappings;}
+    public void setPlayer1Mappings(KeyMappings player1Mappings) {this.player1Mappings = player1Mappings;}
+    public KeyMappings getPlayer2Mappings() {return player2Mappings;}
+    public void setPlayer2Mappings(KeyMappings player2Mappings) {this.player2Mappings = player2Mappings;}
 }
