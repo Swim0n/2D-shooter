@@ -71,9 +71,12 @@ public class AIPlayerController extends PlayerController {
             lastShotTime = System.currentTimeMillis();
         }
 
+        //if a path exists, set walkdirection toward next tile in path until the next tile has been reached. Repeat until at the last tile of path.
         if(path != null){
         if(stepCount < path.size() ){
-            Vector3f directionNextTile = (new Vector3f((float) ((((Tile) path.get(stepCount)).getX())), -2f, (float) (((Tile) path.get(stepCount)).getY()))).subtract(spatial.getWorldTranslation());
+            Vector3f directionNextTile = (new Vector3f((float) ((((Tile) path.get(stepCount)).getX())), -2f,
+                    (float) (((Tile) path.get(stepCount)).getY()))).subtract(spatial.getWorldTranslation());
+            
             setWalkDirection(directionNextTile.normalize().mult(speed));
 
             if (updateTookStep(directionNextTile)) {
@@ -86,12 +89,14 @@ public class AIPlayerController extends PlayerController {
         }else {
 
             stepCount = 0;
-            path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(), (int) spatial.getWorldTranslation().getZ(), (int) worldView.getPlayer1Node().getWorldTranslation().getX(), (int) worldView.getPlayer1Node().getWorldTranslation().getZ());
+            path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(), (int) spatial.getWorldTranslation().getZ(),
+                    (int) worldView.getPlayer1Node().getWorldTranslation().getX(), (int) worldView.getPlayer1Node().getWorldTranslation().getZ());
 
         }
         }else{
             stepCount = 0;
-            path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(),(int) spatial.getWorldTranslation().getZ(),(int) worldView.getPlayer1Node().getWorldTranslation().getX(),(int)worldView.getPlayer1Node().getWorldTranslation().getZ());
+            path = pathFinder.findPath((int) spatial.getWorldTranslation().getX(),(int) spatial.getWorldTranslation().getZ(),
+                    (int) worldView.getPlayer1Node().getWorldTranslation().getX(),(int)worldView.getPlayer1Node().getWorldTranslation().getZ());
         }
     }
 
