@@ -66,8 +66,8 @@ public class PlayerTest {
     public void testGunRotation(){
         Player player = new Player();
         player.gunLeft=true;
-        /** -140f is a static value set in the setStandard() method */
-        assertTrue(player.getGunRotation()==-140f);
+        /** -200f is a static value set in the setStandard() method */
+        assertTrue(player.getGunRotation()==-200f);
     }
 
 }
