@@ -35,7 +35,7 @@ public class TerrainView {
         for (int i = 0; i < world.getTerrain().getRocksAmount(); i++){
             Vector3f position = Utils.vecMathToJMEVector3f(world.getTerrain().getRandomPos(true));
             world.getTerrain().getTileByCoords((int) position.getX(), (int) position.getZ()).setBlocked(true);
-            Spatial block1 = assetManager.loadModel("Models/block2.mesh.xml");
+            Spatial block1 = assetManager.loadModel("Models/block1.mesh.xml");
             block1.setMaterial(assetManager.loadMaterial("Materials/block1mat.j3m"));
             terrainGrid.add(block1);
             block1.setLocalTranslation(position.getX(),-2, position.getZ());
